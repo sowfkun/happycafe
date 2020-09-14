@@ -18,28 +18,3 @@ jobs:
           name: Run Unit Tests
           command: |
             npm test
-
-  deploy:
-    executor:
-      name: node/default
-    steps:
-      - add_ssh_keys:
-          fingerprints:
-            - "c0:e6:e6:74:ac:0e:ad:1e:9e:cf:b9:78:63:ff:96:1e"
-      - run: ssh-keyscan 13.67.61.14 >> ~/.ssh/known_hosts
-      - run:
-          name: Deploy over SSH
-          command: ssh sowfkun@13.67.61.14 "cd /home/sowfkun/lapcity/webproject; git fetch; 
-          git commit -m 'update code when master change'; git merge; docker restart node;";
-
-          
-workflows:
-  test-ci:
-    jobs:
-      - build
-      - deploy:
-          requires:
-            - build
-          filters:
-            branches:
-              only: master
