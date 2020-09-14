@@ -9,7 +9,7 @@ describe("Home", () => {
 
   it("return status code 200", (done) => {
     supertest(app)
-      .get("")
+      .get("/")
       .expect(200, done);
   });
 });
