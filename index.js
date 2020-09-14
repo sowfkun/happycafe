@@ -14,7 +14,7 @@ app.set('view engine', 'ejs');
 app.set('views', './views');
 
 
-app.use("", (req,res) => {
+app.use("/", (req,res) => {
     res.send("Web app Front end")
 });
 
