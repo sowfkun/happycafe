@@ -20,6 +20,9 @@ app.use("", (req,res) => {
 
 
 const port = process.env.PORT || 3001;
-app.listen(port, () => {
+
+var server = app.listen(port, () => {
     console.log(`Server started on port ${port}`);
 });
+
+module.exports = server;
