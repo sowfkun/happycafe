@@ -2,6 +2,11 @@ var express = require("express");
 var app = express();
 require('dotenv').config();
 
+//import router
+const homeRouter= require('./routers/home_router')
+
+
+
 // body parser
 const bodyParser =require('body-parser')    
 app.use(bodyParser.json());
@@ -14,9 +19,7 @@ app.set('view engine', 'ejs');
 app.set('views', './views');
 
 
-app.use("/", (req,res) => {
-    res.send("Web app Front end")
-});
+app.use('', homeRouter);
 
 
 const port = process.env.PORT || 3001;
