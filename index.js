@@ -4,7 +4,7 @@ require('dotenv').config();
 
 //import router
 const homeRouter= require('./routers/home_router')
-
+const drinkRouter= require('./routers/drink_router')
 
 
 // body parser
@@ -19,7 +19,8 @@ app.set('view engine', 'ejs');
 app.set('views', './views');
 
 
-app.use('', homeRouter);
+app.use('/', homeRouter);
+app.use('/drink', drinkRouter);
 
 
 const port = process.env.PORT || 3001;

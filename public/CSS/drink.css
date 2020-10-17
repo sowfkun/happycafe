@@ -1,0 +1,245 @@
+@charset "utf-8";
+
+html, body{
+    height: 100%;
+}
+
+/*background*/
+#background{
+    background-color: #ececec;
+    height: 100%;
+}
+
+/*navigation bar*/
+#module_nav{
+    width: 100%;
+    height: 50px;
+}
+
+/*main part*/
+#body{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    padding-top: 75px;
+}
+
+/*k*/
+/*k*/
+/*k*/
+/*k*/
+/*display drink*/
+#display_drink{
+    height: 100%;
+    padding: 15px 0px 15px 0;
+    font-family: main_font;
+}
+
+/*tên danh mục*/
+#display_drink h2{
+    font-size: 30px;
+    margin: 0 0 25px 0;
+    color: #ed9652;
+}
+/*list thức uống*/
+#display_drink ul{
+    max-height: 100%;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto ;
+    grid-gap: 15px;
+}
+
+/*từng món*/
+#display_drink ul li{
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    height: fit-content;
+    background-color: white;
+}
+/*hình ảnh*/
+.img{
+    width: 30%;
+}
+.img img{
+    width: 100%;
+    height: auto;
+}
+
+/* thông tin món*/
+.drink_info{
+    margin-left: 25px;
+    display: flex;
+    flex-direction: column;
+}
+.drink_info h3{
+    margin: 0;
+    flex-grow: 1;
+}
+/*tên*/
+.drink_name{
+    font-weight: bold;
+}
+/*giá*/
+.drink_price{
+    color: #ed9652;
+}
+.drink_info button{
+    background-color: #ed9652;
+    color: white;
+    font-size: 18px;
+    height: 30px;
+    width: 100px;
+    line-height: 12px;
+}
+/**/
+/*Chỉnh sửa sản phẩm*/
+/*modal body*/
+.modal-body{
+    display: flex;
+    flex-direction: row;
+}
+/*upload ảnh*/
+.modal_img{
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    align-items: center;
+}
+#alter_input{
+    margin-top: 15px;
+    background: green;
+    color: white;
+    font-size: 16px;
+    border: none;
+}
+
+/*chỉnh sửa thông tin*/
+#info_edit{
+    margin-left: 15px;
+    width: 300px;
+}
+
+.input_row{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 15px;
+}
+.input_label{
+    width: 35%;
+    font-size: 18px;
+}
+.input{
+    width: 65%;
+}
+
+.input input{
+    width: 100%;
+    border: solid 2px #ed9652;
+}
+
+.size_input{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+}
+
+.size_input label{
+    width: 65px;
+    margin-top: 5px;
+}
+
+.size_input input[type=number]{
+    border: none;
+    border-bottom:solid 2px #ed9652 ;
+    color: #ed9652;
+    font-size: 18px;
+    text-align: center;
+    height: 20px;
+}
+.input select{
+    width: 50%;
+    height: 30px;
+    border: solid 2px #ed9652;
+}
+/**/
+/**/
+/*tạo sản phẩm*/
+#create{
+    height: 100%;
+    padding: 15px 15px 0 15px;
+    font-family: main_font;
+}
+#create_layout{
+    background-color: white;
+    height: 100%;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+}
+#create_layout h2{
+    color: #ed9652;
+    font-size: 30px;
+    margin: 0;
+}
+
+/*menu mới*/
+#new_menu button{
+    width: 50px;
+    height: 26px;
+    position: absolute;
+    right: 30px;
+    background-color: #ed9652;
+    color: white;
+    font-size: 16px;
+    border-radius: 0;
+    line-height: 16px;
+}
+/*hình ảnh*/
+
+.img_border{
+    width: 150px;
+    height: 150px;
+    border:solid 1px #ed9652;
+}
+
+#new_drink .modal_img{
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+#new_drink .modal_img input{
+    margin-right: 15px;
+    height: 30px;
+    width: 70px;
+}
+
+/*thông tin*/
+#drink_info{
+    margin: 0;
+    width: 100%;
+}
+
+/*error validate*/
+label.error{
+    color: tomato;
+    background-color: transparent;
+    width: 140px;
+}
+
+#btn_create{
+    width:50px; 
+    background-color:rgb(85, 85, 212);
+    font-size: 18px;
+    color: white;
+    font-weight: bold;
+}

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="CSS/home.css">
+    <title>Happy Cafe</title>
+</head>
+<body>
+    <div id="background" class="container-fluid" >
+        
+        <!--navigation module-->
+        <div class="row">
+            <div id="module_nav" >
+                <%-include('./modules/navigation')%>
+            </div>
+        </div>
+           
+        <!--menu module-->
+        <div class="row" id="body">
+            <!---->
+            <!--danh mục thứ uống-->
+            <div id="module_menu" class="col-lg-2">
+                <%-include('./modules/drink_menu')%>
+            </div> 
+            
+            <!---->
+            <!---->
+            <!---->
+            <!--hiển thị thức uống-->
+            <div id="display_drink" class="col-lg-6" >
+                <div class="one_menu" style="height: 90%;">
+                    <h2>Trà trái cây</h2>
+                    <ul>
+                        <li>
+                            <div class="img">
+                                <img src="upload/drink_image/img_demo.png">
+                            </div>
+
+                            <div class="drink_info">
+                                <h3 class="drink_name">Trà đào cam sả</h3>
+                                <h3 class="drink_price">45.000đ</h3>
+                                <button class="choose">Chọn</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="img">
+                                <img src="upload/drink_image/img_demo.png">
+                            </div>
+
+                            <div class="drink_info">
+                                <h3 class="drink_name">Trà đào cam sả</h3>
+                                <h3 class="drink_price">45.000đ</h3>
+                                <button class="choose">Chọn</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="img">
+                                <img src="upload/drink_image/img_demo.png">
+                            </div>
+
+                            <div class="drink_info">
+                                <h3 class="drink_name">Trà đào cam sả</h3>
+                                <h3 class="drink_price">45.000đ</h3>
+                                <button class="choose">Chọn</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="img">
+                                <img src="upload/drink_image/img_demo.png">
+                            </div>
+
+                            <div class="drink_info">
+                                <h3 class="drink_name">Trà đào cam sả</h3>
+                                <h3 class="drink_price">45.000đ</h3>
+                                <button class="choose">Chọn</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="img">
+                                <img src="upload/drink_image/img_demo.png">
+                            </div>
+
+                            <div class="drink_info">
+                                <h3 class="drink_name">Trà đào cam sả</h3>
+                                <h3 class="drink_price">45.000đ</h3>
+                                <button class="choose">Chọn</button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div> 
+            <!---->
+            <!---->
+            <!---->
+            <!--tính tiền-->
+            <div id="billing" class="col-lg-4">
+                <form id="bill_layout">
+                    <!--ngày tháng và nhân viên thu ngân-->
+                    <div id="top_field">
+                        <div id="date">
+                            <input type="date" name="date">
+                        </div>
+                        <div id="staff">
+                            <div class="staff_label">
+                                <label for="staff">Thu ngân:</label>
+                            </div>
+                            <div class="input">
+                                <input type="text" placeholder="Tên thu ngân" name="staff">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--thức uống được chọn-->
+                    <div id="middle_field">
+                        
+                        <ul id="list_drink">
+                            <li>
+                                <div id="number">
+                                    <i class="arrow left"></i>
+                                    <input id="num_input" type="number" min="1" name="number" value="1">
+                                    <i class="arrow right"></i>
+                                </div>
+
+                                <div id="drink">
+                                    <div id="chosen_drink_name">
+                                        <p>trà đào cam sả</p>
+                                    </div>
+                                    <div id="size">
+                                        <p id="small" class="price">nhỏ</p>
+                                        <p id="medium">vừa <span>+6.000đ</span></p>
+                                        <p id="large">lớn <span>+12.000đ</span></p>
+                                    </div>
+                                </div>
+                                <div id="chosen_drink_price">
+                                    <input type="hidden" name="price_input" id="price_input" value="">
+                                    <p>45.000đ</p>
+                                </div>
+                                <div id="drop_drink">
+                                    <img src="Resources/icon/close.png" height="20px">
+                                </div>
+                            </li>
+                            <li>
+                                <div id="number">
+                                    <i class="arrow left"></i>
+                                    <input id="num_input" type="number" min="1" name="number" value="1">
+                                    <i class="arrow right"></i>
+                                </div>
+
+                                <!--nhấn nút tăng giảm số lượng-->
+                                <div id="drink">
+                                    <div id="chosen_drink_name">
+                                        <p>trà đào cam sả</p>
+                                    </div>
+                                    <div id="size">
+                                        <p id="small" class="price">nhỏ</p>
+                                        <p id="medium">vừa <span>+6.000đ</span></p>
+                                        <p id="large">lớn <span>+12.000đ</span></p>
+                                    </div>
+                                    <!--script chọn size-->
+                                </div>
+                                <div id="chosen_drink_price">
+                                    <input type="hidden" name="price_input" id="price_input" value="">
+                                    <p>45.000đ</p>
+                                </div>
+                                <div id="drop_drink">
+                                    <img src="Resources/icon/close.png" height="20px">
+                                </div>
+                            </li>
+                         
+                            
+                        </ul>
+
+                            <!--script chọn size-->
+                        <script>
+                            $(document).ready(function(){
+                                $("#size p").on("click", function(){
+                                    $(this).addClass("price");
+                                    $(this).siblings().removeClass("price");
+                                });
+                            });
+                        </script>
+                                <!--nhấn nút tăng giảm số lượng-->
+                        <script>
+                            $(document).ready(function(){
+                                $(".arrow").on("click", function(){
+                                    var num = $(this).siblings("input#num_input").val();
+                                    if($(this).hasClass("right")){
+                                        num++;
+                                        $(this).siblings("input#num_input").val(num);
+                                    } else {
+                                        num--;
+                                        $(this).siblings("input#num_input").val(num);
+                                    }
+                                });
+                            });
+                        </script>
+
+                        <!--tên khách hàng, ghi chú-->
+                        <div id="customer" class="input_row">
+                            <div class="customer_label">
+                                <label for="customer">Tên khách:</label>
+                            </div>
+                            <div class="input">
+                                <input type="text" placeholder="Tên khách hàng" name="customer">
+                            </div>
+                        </div>
+                        <!--tên khách hàng, ghi chú-->
+
+                        <div id="note" class="input_row">
+                            <div class="note_label">
+                                <label for="customer">Ghi chú:</label>
+                            </div>
+                            <div class="input">
+                                <input type="text" placeholder="Ghi chú" name="note">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--tính tiền, mã khuyến mãi-->
+                    <div id="bottom_field">
+                        <div id="discount">
+                            <input type="text" name="discount" placeholder="Nhập mã khuyến mại">
+                        </div>
+
+                        <div id="payment">
+                            <div class="payment">
+                                <div class="payment_title">
+                                    <span>Tổng cộng:</span>
+                                </div>
+                                <div class="money">
+                                    <span>150.000 đ</span>
+                                </div>
+                            </div>
+                            <div class="payment">
+                                <div class="payment_title">
+                                    <span>Khách đưa:</span>
+                                </div>
+                                <div class="money">
+                                    <span>200.000 đ</span>
+                                </div>
+                            </div>
+                            <div class="payment">
+                                <div class="payment_title">
+                                    <span>Tiền thừa:</span>
+                                </div>
+                                <div class="money">
+                                    <span>50.000 đ</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="confirm">
+                        <button>Xác nhận</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
