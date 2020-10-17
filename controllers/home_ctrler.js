@@ -1,3 +1,3 @@
-module.exports.index = function(req, res) {
-    res.render("defaut");
+module.exports.home = function(req, res) {
+    res.render("home");
 }

@@ -1,0 +1,51 @@
+@charset "utf-8";
+
+@font-face {
+    font-family: 'navbar_font';
+    src: url('../../Resources/font/Noto_serif/NotoSerif-Regular.eot?#iefix') format('embedded-opentype'),  
+        url('../../Resources/font/Noto_serif/NotoSerif-Regular.woff') format('woff'), 
+        url('../../Resources/font/Noto_serif/NotoSerif-Regular.ttf')  format('truetype'), 
+        url('../../Resources/font/Noto_serif/NotoSerif-Regular.svg#Noto_serif/NotoSerif-Regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+  }
+/*father container */
+.navbar{
+    padding: 0;
+    height: 50px;
+    background-color: #252525;
+}
+
+/*child container*/
+#container{
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+/*logo image*/
+#container img{
+    margin-left: -45px;
+    height: 100%;
+}
+
+/*navigation ul*/
+.nav{
+    display: flex;
+    flex-direction: row;
+    font-size: 20px;
+    font-weight: bold;
+}
+.nav li{
+    padding: 0 8px 0 8px;
+}
+.nav li:hover{
+    background-color: rgb(116, 114, 114);
+}
+.nav a{
+    color: white;
+}
+.nav>li>a:focus, .nav>li>a:hover {
+    background-color: transparent !important;
+    color: white;
+}
