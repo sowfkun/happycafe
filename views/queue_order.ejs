@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="CSS/queue_order.css">
+    <title>Happy Cafe</title>
+</head>
+<body>
+    <div id="background" class="container-fluid" >
+        
+        <!--navigation module-->
+        <div class="row">
+            <div id="module_nav" >
+                <%-include('./modules/navigation')%>
+            </div>
+        </div>
+           
+        <!--menu module-->
+        <div class="row" id="body">
+            <div id="queue_zone" class="col-lg-8">
+                <div id="queue_layout">
+                    <div id="header">
+                            <input type="date" id="select_date">
+                            
+                            <select id="select_status" style="margin-left: 50px;">
+                                <option value="đang chờ">Đang chờ</option>
+                                <option value="hoàn tất">Hoàn tất</option>
+                            </select>
+                    </div>
+
+                    <script>
+                        document.getElementById('select_date').valueAsDate = new Date();
+                    </script>
+
+
+                    <div id="table_queue">
+                        <div id="table_header">
+                            <table>
+                                <tr>
+                                    <th style="width: 5%">Thứ tự</th>
+                                    <th style="width: 15%">Tên khách</th>
+                                    <th style="width: 15%">Thời gian</th>
+                                    <th style="width: 35%">Món</th>
+                                    <th style="width: 10%">Giảm giá</th>
+                                    <th style="width: 10%">Tổng tiền</th>
+                                    <th style="width: 10%">Tình trạng</th>
+                                </tr>
+                            </table>
+                        </div>
+                        <div id="table_body">
+                            <table>
+                                <% for(let i = 0; i< 5; i++){ %>
+                                    <tr class="row_queue" id="row_<%-i%>">
+                                        <td style="width: 5%"><%-i%></td>
+                                        <td style="width: 15%">A. Trường</td>
+                                        <td style="width: 15%">16:23</td>
+                                        <td style="width: 35%">
+                                            <p><span>1x</span> trà đào cam sả <span>(M)</span></p>
+                                        </td>
+                                        <td style="width: 10%">0</td>
+                                        <td style="width: 10%">45.000đ</td>
+                                        <td style="width: 10%">đang chờ</td>
+                                    </tr>
+                                    <script>
+                                        var index = parseInt('<%-i%>');
+                                        if(index == 0){
+                                            $("#row_0").css("background-color","#aedeec");
+                                            $("#row_0 span").css("color","#ed9652");
+                                        } else if(index % 2 == 0 ){
+                                            var id = "#row_" + index;
+                                            $(id).css("background-color","#ffeadb");
+                                        }
+                                    </script>
+                                <% } %>  
+                            </table>
+                        </div>
+                        
+                        <script>
+                            var height=  $("#table_body").height();
+                            if(height > 520){
+                                $("#table_header").css("padding-right","18px")
+                            }
+                        </script>
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="is_making_zone" class="col-lg-4">
+                <div id="is_making_layout">
+                    <h2>Đang pha chế</h2>
+
+                    <div id="info">
+                        <div class="info_row">
+                            <div class="key">
+                                <span>Tên khách hàng:</span>
+                            </div>
+                            <div class="value">
+                                <span>A. Trường</span>
+                            </div>
+                        </div>
+    
+                        <div class="info_row">
+                            <div class="key">
+                                <span>Ghi chú:</span>
+                            </div>
+                            <div class="value">
+                                <span>Trà sữa nhưng không bỏ sữa</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="drinks">
+                        <ul>
+                            <% for(let i = 0 ; i<4; i++){ %>
+                                <li>
+                                    <div class="drink">
+                                        <div class="name" style="width: 70%">
+                                            <span>1x &nbsp;</span> Trà đào cam sả
+                                        </div>
+                                        <div class="size" style="width:30%; text-align:right" >
+                                            Size <span>&nbsp; M</span>
+                                        </div>
+                                    </div>
+                                    <div class = "check">
+                                        <input type="checkbox" style="float: right;" onchange="checkdone()">
+                                    </div>
+                                </li>
+                            <% } %>  
+                        </ul>
+                    </div>
+
+                    <div style="width: fit-content; margin :auto; margin-top: 20px">
+                        <form action="">
+                            <input type="hidden">
+                            <button type="submit" class="btn btn-default" disabled id="submit">Hoàn tất</button>
+                        </form>
+                    </div>
+
+                    <script>
+                        function checkdone(){
+                            var element = document.getElementsByClassName("check");
+                            var flag = true;
+                            for(let i = 0; i< element.length; i++){
+                                var check = element[i].firstElementChild.checked;
+                                if(check == false){
+                                    flag = false;
+                                }
+                            }
+
+                            if(flag == true){
+                                $("#submit").removeAttr("disabled");
+                            } else(
+                                $("#submit").attr("disabled", true)
+                            )
+                        }
+                    </script>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
