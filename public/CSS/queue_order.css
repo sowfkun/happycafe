@@ -1,0 +1,204 @@
+@charset "utf-8";
+
+@font-face {
+    font-family: 'main_font';
+    src: url('../../Resources/font/Yanone/Yanone-Regular.eot?#iefix') format('embedded-opentype'),  
+        url('../../Resources/font/Yanone/Yanone-Regular.woff') format('woff'), 
+        url('../../Resources/font/Yanone/Yanone-Regular.ttf')  format('truetype'), 
+        url('../../Resources/font/Yanone/Yanone-Regular.svg#Yanone/Yanone-Regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'main_font_light';
+    src: url('../../Resources/font/Yanone/Yanone-Light.eot?#iefix') format('embedded-opentype'),  
+        url('../../Resources/font/Yanone/Yanone-Light.woff') format('woff'), 
+        url('../../Resources/font/Yanone/Yanone-Light.ttf')  format('truetype'), 
+        url('../../Resources/font/Yanone/Yanone-Light.svg#Yanone/Yanone-Light') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+html, body{
+    height: 100%;
+}
+
+/*background*/
+#background{
+    background-color: #ececec;
+    height: 100%;
+}
+
+/*navigation bar*/
+#module_nav{
+    width: 100%;
+    height: 50px;
+}
+
+/*main part*/
+#body{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    padding-top: 75px;
+    font-family: main_font;
+}
+
+/**/
+/**/
+/**/
+/**/
+/*Bảng danh sách đơn*/
+#queue_zone{
+    padding: 15px 0 0 15px;
+
+}
+
+#queue_layout{
+    background-color: white;
+}
+
+/*header*/
+#header{
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    background-color: #ececec;
+}
+
+#header input, select{
+    height: 30px;
+    width: 150px;
+    font-size: 18px;
+    border: solid 2px #ed9652;
+}
+
+/*bảng đơn hàng*/
+
+#table_queue{
+    border: solid 3px #ed9652;
+}
+#table_queue table{
+    width: 100%;
+}
+
+/*table header*/
+#table_header{
+    border-bottom: solid 3px #ed9652; 
+    height: 30px; 
+    font-size: 18px; 
+    font-weight:bold; 
+}
+#table_body{
+    overflow-y: auto;
+    max-height: 530px;
+}
+
+#table_queue th{
+    text-align: center;
+}
+#table_queue td{
+    text-align: center;
+    border: solid 1px #ed9652;
+    font-size: 18px;
+
+}
+#table_queue p{
+    margin: 10px 0 10px 0px
+}
+#table_queue span{
+    color: #ed9652;
+    font-weight: bold;
+}
+
+
+/**/
+/**/
+/**/
+/**/
+/*đơn đang pha chế*/
+
+#is_making_zone{
+    padding: 15px 15px 0 15px;
+
+}
+
+#is_making_layout{
+    height: 100%;
+    padding: 15px;
+    background-color: white;
+}
+
+#is_making_layout h2{
+    margin: 0;
+    color: #ed9652;
+}
+/*tên khách, ghi chú*/
+.info_row{
+    display: flex;
+    flex-direction: row;
+    margin: 15px 0 15px 0;
+}
+.key{
+    width: 30%;
+    font-size: 22px;
+    font-weight: bold;
+}
+.value{
+    width: 70%;
+    font-size: 20px;
+    font-weight: bold;
+    color: #ed9652;
+    text-decoration: underline;
+}
+
+/*món đang làm*/
+
+#drinks{
+    min-height: 250px;
+    max-height: 350px;
+    overflow: auto;
+    max-height: 350px;
+    border-top: solid 2px #ed9652;
+    border-bottom: solid 2px #ed9652;
+}
+#drinks ul {
+    margin: 0;
+    padding: 0 25px 0 25px;
+}
+
+#drinks ul li{
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 0 10px 0 10px; 
+    margin: 15px 0 20px 0;
+    box-shadow: 0 5px rgb(231, 225, 225);
+}
+.drink{
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+}
+
+.drink span{
+    color: #ed9652;
+}
+.check{
+    width: 20%;
+}
+.check input{
+    height: 20px;
+    width: 20px;
+}
+
+#submit{
+    background-color: #ed9652; 
+    font-size: 18px; 
+    color:white;
+    border: none;
+    padding: 5px 15px 5px 15px;
+}
