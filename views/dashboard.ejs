@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <link rel="stylesheet" type="text/css" href="CSS/dashboard.css">
+    <title>Happy Cafe</title>
+</head>
+<body>
+    <div id="background" class="container-fluid" >
+        
+        <!--navigation module-->
+        <div class="row">
+            <div id="module_nav" >
+                <%-include('./modules/navigation')%>
+            </div>
+        </div>
+           
+        <!--menu module-->
+        <div class="row" id="body">
+          <div id="overview" class="col-lg-2">
+              <div id="overview_layout">
+                <div id="money_overview">
+                    <div class="overview">
+                        <h2>18.000.000 đ</h2>
+                        <p>Doanh thu</p>
+                    </div>
+                    <div class="overview" style="margin: 15px 0 15px 0">
+                        <h2>18.000.000 đ</h2>
+                        <p>Chi tiêu</p>
+                    </div>
+                    <div class="overview">
+                        <h2>18.000.000 đ</h2>
+                        <p>Lợi nhuận</p>
+                    </div >
+                </div>
+                <div id="customer_visit" style="margin: 25px 0 25px 0;">
+                    <div class="overview">
+                        <h2>100 lượt</h2>
+                        <p>Tổng lượt khách</p>
+                    </div>
+                </div>
+                <div id="best_staff">
+                    <div class="overview">
+                        <h2>Ng.Đang.Trường</h2>
+                        <p>Best Staff</p>
+                    </div>
+                </div>
+              </div>
+          </div>
+
+          <div id="chart" class="col-lg-7">
+              <div class="chart_layout">
+                    <div class="money_chart_layout col-lg-12">
+                            <div class="select_index">
+                                <select id="money_index" onchange="loadchart()">
+                                    <option value="day">Ngày</option>
+                                    <option value="week">Tuần</option>
+                                    <option value="month">Tháng</option>
+                                </select>
+                            </div>
+
+                            <div class="chart" id="money_chart">
+
+                            </div>
+                    </div>
+
+                    <script type="text/javascript">
+                        loadchart();
+                        function loadchart(){
+                            google.charts.load('current', {'packages':['line']});
+                            google.charts.setOnLoadCallback(drawChart);
+                      
+                          function drawChart() {
+                      
+                            var data = new google.visualization.DataTable();
+
+                            var index = $("#money_index").val();
+
+                            data.addColumn('number', 'ngày');
+                            data.addColumn('number', 'Doanh thu');
+                            data.addColumn('number', 'Chi tiêu');
+                            data.addColumn('number', 'Lợi nhuận');
+
+                            if(index == "day"){
+                                var date = "ngày"; 
+                                data.addRows([
+                                  [1,  1,    0.3,   0.7],
+                                  [2,  1.5,  0.3,   1.2],
+                                  [3,  0.5,  0.3,   0.2],
+                                  [4,  2,    0.3,   1.7],
+                                  [5,  3,    0.6,   2.4],
+                                  [6,  0.7,  0.6,   0.1],
+                                  [7,  2.6,  0.3,   2.3]
+                                ]);
+                            } else if(index == "week"){
+                                var date = "Tuần"; 
+                                data.addRows([
+                                  [1,  1,    0.3,   0.7],
+                                  [2,  1.5,  0.3,   1.2],
+                                  [3,  0.5,  0.3,   0.2],
+                                  [4,  2,    0.3,   1.7],
+                                  [5,  3,    0.6,   2.4],
+                                  [6,  0.7,  0.6,   0.1],
+                                  [7,  2.6,  0.3,   2.3],
+                                  [8,  2.6,  0.3,   2.3]
+                                ]);
+                            } else{
+                                var date = "Tháng"; 
+                                data.addRows([
+                                  [1,  1,    0.3,   0.7],
+                                  [2,  1.5,  0.3,   1.2],
+                                  [3,  0.5,  0.3,   0.2],
+                                  [4,  2,    0.3,   1.7],
+                                  [5,  3,    0.6,   2.4],
+                                  [6,  0.7,  0.6,   0.1],
+                                  [7,  2.6,  0.3,   2.3],
+                                  [8,  2.6,  0.3,   2.3],
+                                  [9,  0.7,  0.6,   0.1],
+                                  [10,  2.6,  0.3,   2.3],
+                                  [11,  2.6,  0.3,   2.3],
+                                  [12,  2.6,  0.3,   2.3]
+                                ]);
+                            }
+                            
+                      
+                            var options = {
+                              chart: {
+                                title: 'Biểu đồ thu chi theo ' + date,
+                                subtitle: '(triệu VND)'
+                              }
+                            };
+                      
+                            var chart = new google.charts.Line(document.getElementById('money_chart'));
+                      
+                            chart.draw(data, google.charts.Line.convertOptions(options));
+                          }
+                        }
+                      </script>
+
+                    <div class="customer_chart_layout col-lg-12">
+                        <div class="select_index">
+                            <select id="customer_index" onchange="loadcustomerchart()">
+                                <option value="day">Ngày</option>
+                                <option value="week">Tuần</option>
+                                <option value="month">Tháng</option>
+                            </select>
+                        </div>
+                        <div class="chart">
+
+                        </div>
+                    </div>
+
+                    <script type="text/javascript">
+                        loadcustomerchart();
+                        function loadcustomerchart(){
+                            google.charts.load('current', {'packages':['line']});
+                            google.charts.setOnLoadCallback(drawChart);
+                      
+                          function drawChart() {
+                      
+                            var data = new google.visualization.DataTable();
+
+                            var index = $("#customer_index").val();
+
+                            data.addColumn('number', 'ngày');
+                            data.addColumn('number', 'lượt khách');
+
+                            if(index == "day"){
+                                var date = "ngày"; 
+                                data.addRows([
+                                  [1,  1],
+                                  [2,  1.5],
+                                  [3,  0.5],
+                                  [4,  2],
+                                  [5,  3],
+                                  [6,  0.7],
+                                  [7,  2.6]
+                                ]);
+                            } else if(index == "week"){
+                                var date = "Tuần"; 
+                                data.addRows([
+                                  [1,  1,    0.3,   0.7],
+                                  [2,  1.5,  0.3,   1.2],
+                                  [3,  0.5],
+                                  [4,  2],
+                                  [5,  3],
+                                  [6,  0.7],
+                                  [7,  2.6],
+                                  [8,  2.6]
+                                ]);
+                            } else{
+                                var date = "Tháng"; 
+                                data.addRows([
+                                  [1,  1],
+                                  [2,  1.5],
+                                  [3,  0.5],
+                                  [4,  2],
+                                  [5,  3],
+                                  [6,  0.7],
+                                  [7,  2.6],
+                                  [8,  2.6],
+                                  [9,  0.7],
+                                  [10,  2.6],
+                                  [11,  2.6],
+                                  [12,  2.6]
+                                ]);
+                            }
+                            var options = {
+                              chart: {
+                                title: 'Biểu đồ lượt khách theo ' + date,
+                                subtitle: '(lượt khách)'
+                              }
+                            };
+                      
+                            var chart = new google.charts.Line(document.getElementById('customer_chart'));
+                      
+                            chart.draw(data, google.charts.Line.convertOptions(options));
+                          }
+                        }
+                      </script>
+
+              </div>
+          </div>
+        </div>
+    </div>
+</body>
+</html>
