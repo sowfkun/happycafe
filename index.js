@@ -6,6 +6,8 @@ require('dotenv').config();
 const homeRouter= require('./routers/home_router')
 const drinkRouter= require('./routers/drink_router')
 const queue_orderRouter= require('./routers/queue_order_router')
+const dashboardRouter= require('./routers/dashboard_router')
+
 
 // body parser
 const bodyParser =require('body-parser')    
@@ -22,6 +24,7 @@ app.set('views', './views');
 app.use('/', homeRouter);
 app.use('/drink', drinkRouter);
 app.use('/queue_order', queue_orderRouter);
+app.use('/dashboard', dashboardRouter);
 
 const port = process.env.PORT || 3001;
 
