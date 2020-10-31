@@ -49,3 +49,28 @@
     background-color: transparent !important;
     color: white;
 }
+
+/*login*/
+
+#login_button {
+    padding: 0px 10px 0px 10px;
+    width: fit-content;
+    float: right ;
+    background-color: transparent;
+    border: 2px solid white;
+    font-size: 18px;
+    font-family: main_font;
+    margin-right: -15px;
+}
+#login a{
+    color: white;
+}
+
+#login a:hover{
+    text-decoration: none;
+    color: #ed9652;
+}
+
+#login a:hover #login_button{
+    background-color: white;
+}

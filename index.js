@@ -7,7 +7,7 @@ const homeRouter= require('./routers/home_router')
 const drinkRouter= require('./routers/drink_router')
 const queue_orderRouter= require('./routers/queue_order_router')
 const dashboardRouter= require('./routers/dashboard_router')
-
+const loginRouter= require('./routers/login_router')
 
 // body parser
 const bodyParser =require('body-parser')    
@@ -25,6 +25,7 @@ app.use('/', homeRouter);
 app.use('/drink', drinkRouter);
 app.use('/queue_order', queue_orderRouter);
 app.use('/dashboard', dashboardRouter);
+app.use('/login', loginRouter);
 
 const port = process.env.PORT || 3001;
 
