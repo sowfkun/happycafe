@@ -149,7 +149,7 @@
                                 <option value="month">Tháng</option>
                             </select>
                         </div>
-                        <div class="chart">
+                        <div class="chart" id="customer_chart">
 
                         </div>
                     </div>
@@ -158,9 +158,9 @@
                         loadcustomerchart();
                         function loadcustomerchart(){
                             google.charts.load('current', {'packages':['line']});
-                            google.charts.setOnLoadCallback(drawChart);
+                            google.charts.setOnLoadCallback(drawCustomerChart);
                       
-                          function drawChart() {
+                          function drawCustomerChart() {
                       
                             var data = new google.visualization.DataTable();
 
@@ -183,8 +183,8 @@
                             } else if(index == "week"){
                                 var date = "Tuần"; 
                                 data.addRows([
-                                  [1,  1,    0.3,   0.7],
-                                  [2,  1.5,  0.3,   1.2],
+                                  [1,  1],
+                                  [2,  1.5],
                                   [3,  0.5],
                                   [4,  2],
                                   [5,  3],
@@ -222,8 +222,13 @@
                           }
                         }
                       </script>
-
               </div>
+          </div>
+
+          <div id="" class="col-lg-3" >
+            <div style="background-color: white; height:100%">
+
+            </div>
           </div>
         </div>
     </div>
