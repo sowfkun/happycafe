@@ -1,97 +1,227 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/a0df4ac8c5.js"></script>
     <link rel="stylesheet" type="text/css" href="CSS/home.css">
     <title>Happy Cafe</title>
 </head>
+
 <body>
-    <div id="background" class="container-fluid" >
-        
+    <div id="background" class="container-fluid">
+
         <!--navigation module-->
         <div class="row">
-            <div id="module_nav" >
+            <div id="module_nav">
                 <%-include('./modules/navigation')%>
             </div>
         </div>
-           
+
         <!--menu module-->
         <div class="row" id="body">
             <!---->
             <!--danh mục thứ uống-->
             <div id="module_menu" class="col-lg-2">
                 <%-include('./modules/drink_menu')%>
-            </div> 
-            
+            </div>
+
             <!---->
             <!---->
             <!---->
             <!--hiển thị thức uống-->
-            <div id="display_drink" class="col-lg-6" >
-                <div class="one_menu" style="height: 90%;">
-                    <h2>Trà trái cây</h2>
+            <div id="display_drink" class="col-lg-6">
+                <% for(let i=0; i< category.length; i++){ %>
+                <div class="listGroupByCategory" id="list_<%-category[i].category_id%>" style="height: 90%;">
+                    <h2 class="list_title"><%-category[i].name%></h2>
                     <ul>
+                        <% for(let j=0; j< drinks.length; j++){%>
+                        <% if(drinks[j].category_id == category[i].category_id){ %>
                         <li>
-                            <div class="img">
-                                <img src="upload/drink_image/img_demo.png">
-                            </div>
+                            <form id= "drinkForm_<%-drinks[j].drink_id%>">
+                                <div id="drink_layout">
+                                    <div class="img">
+                                        <img src="upload/drink_image/<%-drinks[j].img%>">
+                                    </div>
 
-                            <div class="drink_info">
-                                <h3 class="drink_name">Trà đào cam sả</h3>
-                                <h3 class="drink_price">45.000đ</h3>
-                                <button class="choose">Chọn</button>
-                            </div>
+                                    <div class="drink_info">
+                                        <h3 class="drink_name"><%-drinks[j].name%></h3>
+                                        <input type="hidden" name="drink_id" id="drink_id" value="<%-drinks[j].drink_id%>">
+                                        <input type="hidden" name="drink_name" id="drink_name" value="<%-drinks[j].name%>">
+                                        <div id="drink_price">
+                                            <% if(drinks[j].price.size_m !== 0) { %>
+                                            <div>
+                                                <input class="sizeSelect_<%-drinks[j].drink_id%>" id="sizeSelect_<%-drinks[j].drink_id%>_0" 
+                                                type="checkbox" id="size_m"  name="size_m" value=<%-drinks[j].price.size_m%> onchange="priceChecked('<%-drinks[j].drink_id%>',0)" >
+                                                <label for="size_m">M:
+                                                    <span><%-drinks[j].price.size_m.toLocaleString()%></span> đ</label>
+                                            </div>
+                                            <% }; %>
+                                            <div>
+                                                <input class="sizeSelect_<%-drinks[j].drink_id%>" id="sizeSelect_<%-drinks[j].drink_id%>_1" 
+                                                type="checkbox" id="size_l"  name="size_l" value=<%-drinks[j].price.size_l%> onchange="priceChecked('<%-drinks[j].drink_id%>',1)">
+                                                <label for="size_l">L:
+                                                    <span><%-drinks[j].price.size_l.toLocaleString()%></span> đ</label>
+                                            </div>
+                                        
+                                        </div>
+                                        <div class="bottom" >
+                                            <% if(drinks[j].topping == true){ %>
+                                                <div class="addTopping">
+                                                    <i class="fas fa-plus-circle topping_show"></i>
+                                                    <input type="hidden" id="topping_input_<%-drinks[j].drink_id%>" name="topping" value="false" placeholder="Thêm topping">
+                                                    <input type="text" id="topping_show_<%-drinks[j].drink_id%>" name="topping_name" placeholder="Thêm topping">
+                                                    <div class="topping_list" id="topping_<%-drinks[j].drink_id%>">
+                                                        <i style="float: right;" class="fas fa-window-close topping_close"></i>
+                                                        <ul>
+                                                            <% topping.forEach((topping)=>{ %>
+                                                                <li class="topping_item" id="<%-topping.topping_id%>" onclick="toppingSelect('<%-drinks[j].drink_id%>','<%-topping.topping_id%>','<%-topping.name%>')"> <%-topping.name%> </li>
+                                                            <% }); %> 
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            <% } %>  
+                                            <div style="width:15%;" >
+                                                <button class="choose_btn" type="button" onclick="choseDrink('<%-drinks[j].drink_id%>')">Chọn</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </li>
-                        <li>
-                            <div class="img">
-                                <img src="upload/drink_image/img_demo.png">
-                            </div>
-
-                            <div class="drink_info">
-                                <h3 class="drink_name">Trà đào cam sả</h3>
-                                <h3 class="drink_price">45.000đ</h3>
-                                <button class="choose">Chọn</button>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="img">
-                                <img src="upload/drink_image/img_demo.png">
-                            </div>
-
-                            <div class="drink_info">
-                                <h3 class="drink_name">Trà đào cam sả</h3>
-                                <h3 class="drink_price">45.000đ</h3>
-                                <button class="choose">Chọn</button>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="img">
-                                <img src="upload/drink_image/img_demo.png">
-                            </div>
-
-                            <div class="drink_info">
-                                <h3 class="drink_name">Trà đào cam sả</h3>
-                                <h3 class="drink_price">45.000đ</h3>
-                                <button class="choose">Chọn</button>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="img">
-                                <img src="upload/drink_image/img_demo.png">
-                            </div>
-
-                            <div class="drink_info">
-                                <h3 class="drink_name">Trà đào cam sả</h3>
-                                <h3 class="drink_price">45.000đ</h3>
-                                <button class="choose">Chọn</button>
-                            </div>
-                        </li>
+                        <% } %>
+                        <% }; %>
                     </ul>
                 </div>
-            </div> 
+                <% }; %>
+            </div>
+            <!---->
+            <!---->
+            <!---->
+            <!--click để hiện thức uống theo danh mục-->
+            <script>
+                //
+                //
+                //lấy danh mục đang active
+                var active = $(".menu .active")[0].id;
+                //danh sách của active hiện, còn lại ẩn
+                $(".listGroupByCategory").hide();
+                $("#list_" + active).show();
+
+                //
+                //
+                //khi click vào danh mục
+                $(".menu li").on("click", function () {
+                    //các danh mục khác bỏ class active
+                    $(this).siblings("li").removeClass("active");
+
+                    // li được click thêm class active
+                    $(this).addClass("active");
+
+                    //ẩn list đang hiện
+                    $(".listGroupByCategory").hide();
+
+                    //lấy id để trỏ đến list cần hiện
+                    var id = $(".active")[0].id;
+
+                    //hiển thị list
+                    $("#list_" + id).slideDown("slow");
+                });
+
+                //
+                //
+                //checkbox giá tiền thức uống
+                function priceChecked(id,num) {
+                    $('.sizeSelect_' + id).prop('checked',false);
+                    $('#sizeSelect_' + id + "_" + num).prop('checked',true);
+                };
+
+                //
+                //
+                //chọn topping
+                $(".topping_show").on("click", function () {
+                    console.log("click");
+                    $(this).css("color", "#ed9652")
+                    $(this).siblings(".topping_list").slideDown();
+                });
+
+                $(".topping_close").on("click", function () {
+                    $(this).css("color", "#eeceb7")
+                    $(this).parents(".topping_list").slideUp();
+                });
+
+                function toppingSelect(drink_id, topping_id, toppingName){
+                    $("#topping_input_" + drink_id).val(topping_id);
+                    $("#topping_show_" + drink_id).val(toppingName);
+                    $("#topping_" + drink_id).hide();
+                }
+
+                // chọn thức uống
+                var items = [];
+                function choseDrink(id){
+                    var form = "#drinkForm_" + id;
+                    //lấy các input từ form dạng array
+                    var drink = $(form).serializeArray();
+                    //phần tử 0 là id
+                    var drink_id = drink[0].name == "drink_id" ? drink[0].value : false; 
+                    var drink_name = drink[1].name == "drink_name" ? drink[1].value : false;
+                    //phần tử thứ 1 là size m hoặc size l
+                    //nếu phần tử thứ 1 là topping thì return vì giá chưa được chọn
+                    if(drink[2].name == "size_m"){
+                        size_m = parseInt(drink[2].value);
+                        size_l = false;
+                    } else if(drink[2].name == "size_l"){
+                        size_m =false;
+                        size_l = parseInt(drink[2].value);
+                    } else if(drink[2].name == "topping"){
+                        console.log("Chưa chọn giá")
+                        return;
+                    }
+                    var topping = typeof(drink[3]) !== 'undefined' ? drink[3].value : false;
+                    var toppingName = typeof(drink[4]) !== 'undefined' && drink[4].value !=="" ? drink[4].value : false;
+
+                    var newItem = {
+                        drink_id: drink_id,
+                        drink_name: drink_name,
+                        size_m: size_m,
+                        size_l: size_l,
+                        topping: topping,
+                        toppingName: toppingName,
+                        qty:1
+                    }
+
+                    //nếu là item đầu tiên thì push luôn
+                    if(items.length == 0){
+                        items.push(newItem);
+                    } else {
+                        //nếu là item thứ 2 trở đi thì kiểm tra xem có tồn tại chưa
+                        var flag = 0;
+                        items.forEach((item)=>{
+                            if(item.drink_id == newItem.drink_id && (item.size_m == newItem.size_m || item.size_l == newItem.size_l) && item.topping == newItem.topping){
+                                console.log("Thức uống đã tồn tại");
+                                //số lượng +1
+                                item.qty += 1;
+                                flag = 1;
+                                return;
+                            }
+                        });
+
+                        if(flag == 0){  //flag vẫn giữ giá trị 0 tức là không phát hiện item trùng
+                            items.push(newItem);
+                        }
+                    }
+                    
+                    //reset form sau khi chọn
+                    $('.sizeSelect_' + id).prop('checked',false);
+                    console.log(items);
+                }
+
+            </script>
+
+
             <!---->
             <!---->
             <!---->
@@ -101,7 +231,25 @@
                     <!--ngày tháng và nhân viên thu ngân-->
                     <div id="top_field">
                         <div id="date">
-                            <input type="date" name="date">
+                            <input type="date" name="date" id="bill_date">
+                            <script>
+                                var date = new Date();
+
+                                if (date.getDate() < 10) {
+                                    var day = "0" + date.getDate();
+                                } else {
+                                    var day = date.getDate();
+                                }
+                                if (date.getMonth() < 10) {
+                                    var month = "0" + date.getMonth();
+                                } else {
+                                    var month = date.getMonth();
+                                }
+
+                                date = date.getFullYear() + "-" + month + "-" + day;
+                                $("#bill_date").val(date);
+                            </script>
+
                         </div>
                         <div id="staff">
                             <div class="staff_label">
@@ -115,12 +263,12 @@
 
                     <!--thức uống được chọn-->
                     <div id="middle_field">
-                        
+
                         <ul id="list_drink">
                             <li>
                                 <div id="number">
                                     <i class="arrow left"></i>
-                                    <input id="num_input" type="number" min="1" name="number" value="1">
+                                    <input id="num_input" type="number" min="1" value="1">
                                     <i class="arrow right"></i>
                                 </div>
 
@@ -135,59 +283,30 @@
                                     </div>
                                 </div>
                                 <div id="chosen_drink_price">
-                                    <input type="hidden" name="price_input" id="price_input" value="">
+                                    <input type="hidden" id="price_input" value="">
                                     <p>45.000đ</p>
                                 </div>
                                 <div id="drop_drink">
                                     <img src="Resources/icon/close.png" height="20px">
                                 </div>
                             </li>
-                            <li>
-                                <div id="number">
-                                    <i class="arrow left"></i>
-                                    <input id="num_input" type="number" min="1" name="number" value="1">
-                                    <i class="arrow right"></i>
-                                </div>
-
-                                <!--nhấn nút tăng giảm số lượng-->
-                                <div id="drink">
-                                    <div id="chosen_drink_name">
-                                        <p>trà đào cam sả</p>
-                                    </div>
-                                    <div id="size">
-                                        <p id="small" class="price">nhỏ</p>
-                                        <p id="medium">vừa <span>+6.000đ</span></p>
-                                        <p id="large">lớn <span>+12.000đ</span></p>
-                                    </div>
-                                    <!--script chọn size-->
-                                </div>
-                                <div id="chosen_drink_price">
-                                    <input type="hidden" name="price_input" id="price_input" value="">
-                                    <p>45.000đ</p>
-                                </div>
-                                <div id="drop_drink">
-                                    <img src="Resources/icon/close.png" height="20px">
-                                </div>
-                            </li>
-                         
-                            
                         </ul>
 
-                            <!--script chọn size-->
+                        <!--script chọn size-->
                         <script>
-                            $(document).ready(function(){
-                                $("#size p").on("click", function(){
+                            $(document).ready(function () {
+                                $("#size p").on("click", function () {
                                     $(this).addClass("price");
                                     $(this).siblings().removeClass("price");
                                 });
                             });
                         </script>
-                                <!--nhấn nút tăng giảm số lượng-->
+                        <!--nhấn nút tăng giảm số lượng-->
                         <script>
-                            $(document).ready(function(){
-                                $(".arrow").on("click", function(){
+                            $(document).ready(function () {
+                                $(".arrow").on("click", function () {
                                     var num = $(this).siblings("input#num_input").val();
-                                    if($(this).hasClass("right")){
+                                    if ($(this).hasClass("right")) {
                                         num++;
                                         $(this).siblings("input#num_input").val(num);
                                     } else {
@@ -204,7 +323,7 @@
                                 <label for="customer">Tên khách:</label>
                             </div>
                             <div class="input">
-                                <input type="text" placeholder="Tên khách hàng" name="customer">
+                                <input type="text" placeholder="Tên khách hàng" name="customer_name">
                             </div>
                         </div>
                         <!--tên khách hàng, ghi chú-->
@@ -252,6 +371,9 @@
                             </div>
                         </div>
                     </div>
+
+                    <input type="hidden" name="item">
+
                     <div id="confirm">
                         <button>Xác nhận</button>
                     </div>
@@ -261,4 +383,5 @@
         </div>
     </div>
 </body>
+
 </html>
