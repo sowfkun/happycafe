@@ -51,20 +51,30 @@ html, body{
     margin: 0 0 25px 0;
     color: #ed9652;
 }
+
+.list_title::first-letter{
+    text-transform: uppercase;
+}
 /*list thức uống*/
 #display_drink ul{
     max-height: 100%;
     overflow-y: auto;
     margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
     padding: 0;
-    display: grid;
-    grid-template-columns: auto auto;
-    grid-template-rows: auto ;
-    grid-gap: 15px;
 }
 
 /*từng món*/
 #display_drink ul li{
+    list-style: none;
+    height: fit-content;
+    width: 50%;
+    padding: 5px;
+
+}
+#drink_layout{
     display: flex;
     flex-direction: row;
     padding: 10px;
@@ -74,10 +84,10 @@ html, body{
 }
 /*hình ảnh*/
 .img{
-    width: 30%;
+    width: 145px;
 }
 .img img{
-    width: 100%;
+    width: 145px;
     height: auto;
 }
 
@@ -89,26 +99,114 @@ html, body{
 }
 .drink_info h3{
     margin: 0;
-    flex-grow: 1;
 }
 
 /*tên*/
 .drink_name{
     font-weight: bold;
 }
-
+.drink_name::first-letter{
+    text-transform: uppercase;
+}
 /*giá*/
-.drink_price{
+#drink_price{
+    padding-left: 30px; 
+    margin-top: 5px;
+    font-size: 18px;
+    min-height: 90px;
+}
+#drink_price input{
+    height: 22px;
+    width: 22px;
+    margin: 0;
+}
+
+#drink_price div{
+    display: flex;
+    margin-top: 10px;
+}
+#drink_price label{
+    margin: -2px 15px;
+    font-size: 20px;
+}
+#drink_price label span{
+    color: #ed9652;
+    font-size: 20px;
+}
+
+/*Thêm topping*/
+.drink_info .bottom{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.addTopping{
+    width: 85%;
+    display: flex;
+}
+.addTopping i{
+    color: #eeceb7;
+    font-size: 25px;
+    transition: all 0.5s ease;
+}
+.addTopping i:hover{
+    cursor: pointer;
     color: #ed9652;
 }
-.drink_info button{
+.addTopping input{
+    width: 95px;
+    border: none;
+    border-bottom: solid 1px #ed9652;
+    text-align: center;
+    margin-left: 5px;
+    font-size: 18px;
+}
+.choose_btn{
     border: none;
     background-color: #ed9652;
     color: white;
-    font-size: 18px;
-    width: 70px;
-    height: 30px;
+    font-size: 16px;
+    width: 40px;
+    height: 25px;
     border-radius: 5px;
+}
+
+/*Danh sách topping*/
+.topping_list{
+    display: none;
+    position: absolute;
+    height: fit-content;
+    padding: 10px;
+    width: 180px;
+    margin: 0px 30px;
+    box-shadow: 0 0 10px #ed9652;
+    border: solid 1px #ed9652;
+    background-color: #ffffff;
+    border-radius: 15px;
+}
+.topping_list ul{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.topping_list li{
+    padding: 0 !important;
+    margin-top: 5px;
+    height: 30px !important;
+    font-size: 20px;
+    width: 100% !important;
+    border-bottom: solid 1px #ed9652;
+    font-weight: bold;
+    transition: all 0.5s ease;
+}
+.topping_list li:hover{
+    color: #ed9652;
+    cursor: pointer;
+    text-indent: 10px;
+}
+.topping_item::first-letter{
+    text-transform: uppercase;
 }
 /**/
 /**/
@@ -216,7 +314,7 @@ html, body{
 }
 #number input{
     width: 25px;
-    height: 25px;
+    height: 20px;
     border: solid 2px #ed9652;
     text-align: center;
     color: white;
