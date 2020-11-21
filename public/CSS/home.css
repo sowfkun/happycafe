@@ -2,31 +2,33 @@
 
 @font-face {
     font-family: 'main_font';
-    src: url('../../Resources/font/Yanone/Yanone-Regular.eot?#iefix') format('embedded-opentype'),  
-        url('../../Resources/font/Yanone/Yanone-Regular.woff') format('woff'), 
-        url('../../Resources/font/Yanone/Yanone-Regular.ttf')  format('truetype'), 
+    src: url('../../Resources/font/Yanone/Yanone-Regular.eot?#iefix') format('embedded-opentype'),
+        url('../../Resources/font/Yanone/Yanone-Regular.woff') format('woff'),
+        url('../../Resources/font/Yanone/Yanone-Regular.ttf') format('truetype'),
         url('../../Resources/font/Yanone/Yanone-Regular.svg#Yanone/Yanone-Regular') format('svg');
     font-weight: normal;
     font-style: normal;
 }
-html, body{
+
+html,
+body {
     height: 100%;
 }
 
 /*background*/
-#background{
+#background {
     background-color: #ececec;
     height: 100%;
 }
 
 /*navigation bar*/
-#module_nav{
+#module_nav {
     width: 100%;
     height: 50px;
 }
 
 /*main part*/
-#body{
+#body {
     height: 100%;
     width: 100%;
     position: absolute;
@@ -39,24 +41,25 @@ html, body{
 /*k*/
 /*k*/
 /*display drink*/
-#display_drink{
+#display_drink {
     height: 100%;
     padding: 15px 0px 15px 0;
     font-family: main_font;
 }
 
 /*tên danh mục*/
-#display_drink h2{
+#display_drink h2 {
     font-size: 30px;
     margin: 0 0 25px 0;
     color: #ed9652;
 }
 
-.list_title::first-letter{
+.list_title::first-letter {
     text-transform: uppercase;
 }
+
 /*list thức uống*/
-#display_drink ul{
+#display_drink ul {
     max-height: 100%;
     overflow-y: auto;
     margin: 0;
@@ -67,14 +70,15 @@ html, body{
 }
 
 /*từng món*/
-#display_drink ul li{
+#display_drink ul li {
     list-style: none;
     height: fit-content;
     width: 50%;
     padding: 5px;
 
 }
-#drink_layout{
+
+#drink_layout {
     display: flex;
     flex-direction: row;
     padding: 10px;
@@ -82,78 +86,90 @@ html, body{
     height: fit-content;
     background-color: white;
 }
+
 /*hình ảnh*/
-.img{
+.img {
     width: 145px;
 }
-.img img{
+
+.img img {
     width: 145px;
     height: auto;
 }
 
 /* thông tin món*/
-.drink_info{
+.drink_info {
     margin-left: 25px;
     display: flex;
     flex-direction: column;
 }
-.drink_info h3{
+
+.drink_info h3 {
     margin: 0;
 }
 
 /*tên*/
-.drink_name{
+.drink_name {
     font-weight: bold;
 }
-.drink_name::first-letter{
+
+.drink_name::first-letter {
     text-transform: uppercase;
 }
+
 /*giá*/
-#drink_price{
-    padding-left: 30px; 
+#drink_price {
+    padding-left: 30px;
     margin-top: 5px;
     font-size: 18px;
     min-height: 90px;
 }
-#drink_price input{
+
+#drink_price input {
     height: 22px;
     width: 22px;
     margin: 0;
 }
 
-#drink_price div{
+#drink_price div {
     display: flex;
     margin-top: 10px;
 }
-#drink_price label{
+
+#drink_price label {
     margin: -2px 15px;
     font-size: 20px;
 }
-#drink_price label span{
+
+#drink_price label span {
     color: #ed9652;
     font-size: 20px;
 }
 
 /*Thêm topping*/
-.drink_info .bottom{
+.drink_info .bottom {
     display: flex;
     flex-direction: row;
     align-items: center;
 }
-.addTopping{
+
+.addTopping {
     width: 85%;
     display: flex;
 }
-.addTopping i{
+
+.addTopping i {
     color: #eeceb7;
     font-size: 25px;
     transition: all 0.5s ease;
 }
-.addTopping i:hover{
+
+.addTopping i:hover {
     cursor: pointer;
     color: #ed9652;
 }
-.addTopping input{
+
+.addTopping input {
     width: 95px;
     border: none;
     border-bottom: solid 1px #ed9652;
@@ -161,7 +177,8 @@ html, body{
     margin-left: 5px;
     font-size: 18px;
 }
-.choose_btn{
+
+.choose_btn {
     border: none;
     background-color: #ed9652;
     color: white;
@@ -172,7 +189,7 @@ html, body{
 }
 
 /*Danh sách topping*/
-.topping_list{
+.topping_list {
     display: none;
     position: absolute;
     height: fit-content;
@@ -184,13 +201,14 @@ html, body{
     background-color: #ffffff;
     border-radius: 15px;
 }
-.topping_list ul{
+
+.topping_list ul {
     margin: 0;
     padding: 0;
     width: 100%;
 }
 
-.topping_list li{
+.topping_list li {
     padding: 0 !important;
     margin-top: 5px;
     height: 30px !important;
@@ -200,66 +218,74 @@ html, body{
     font-weight: bold;
     transition: all 0.5s ease;
 }
-.topping_list li:hover{
+
+.topping_list li:hover {
     color: #ed9652;
     cursor: pointer;
     text-indent: 10px;
 }
-.topping_item::first-letter{
+
+.topping_item::first-letter {
     text-transform: uppercase;
 }
+
 /**/
 /**/
 /**/
 /**/
 /*Tinh tiền*/
-#billing{
+#billing {
     height: 100%;
     padding: 15px 15px 0 15px;
     font-family: main_font;
 }
-#bill_layout{
+
+#bill_layout {
     background-color: white;
-    height: 100%;   
+    height: 100%;
     display: flex;
     flex-direction: column;
 }
 
 /*ngày tháng và tên nhân viên*/
-#top_field{
+#top_field {
     height: 10%;
     padding: 10px;
     display: flex;
     flex-direction: row;
     align-items: center;
 }
-#date{
+
+#date {
     width: 50%;
 }
-#date input{
+
+#date input {
     font-weight: bold;
     height: 30px;
     font-size: 18px;
     color: #ed9652;
 }
 
-#staff{
+#staff {
     display: flex;
     flex-direction: row;
     width: 50%;
     padding-top: 5px;
 }
-.staff_label{
+
+.staff_label {
     width: 25%;
     font-size: 18px;
     line-height: 30px;
 }
 
-.input{
+.input {
     width: 75%;
     line-height: 30px;
 }
-.input input{
+
+.input input {
     border: none;
     border-bottom: solid 1px black;
     width: 100%;
@@ -273,46 +299,50 @@ html, body{
 /**/
 /**/
 /*thức uống được chọn*/
-#middle_field{
-    height: 60%;
-    border-top: solid  #ed9652; 
-    border-bottom: solid  #ed9652; 
+#middle_field {
+    height: fit-content;
+    border-top: solid #ed9652;
+    border-bottom: solid #ed9652;
     margin-top: -6px;
     padding: 10px;
+    border-radius: 10px;
 }
 
 /*danh sách thức uống được chọn*/
-#list_drink{
+#list_drink {
     display: flex;
     flex-direction: column;
-    max-height: 70%;
+    height: 300px;
     width: 100%;
     overflow-y: auto;
-    margin: 0 0 10px 0;
+    margin: 0;
     padding: 0;
 }
-#list_drink li{
+
+#list_drink li {
     display: flex;
     flex-direction: row;
     list-style: none;
     margin: 0;
     padding: 0;
     width: 100%;
-    height: 50px;
-    margin-bottom: 40px;
+    min-height: 55px;
+    margin-bottom: 20px;
     align-items: center;
     border-radius: 5px;
     box-shadow: 0 5px rgb(231, 225, 225);
 }
+
 /*số lượng */
-#number{
+.qty {
     width: 15%;
     display: flex;
     flex-direction: row;
     padding: 0px 5px 0 5px;
-    align-items: center; 
+    align-items: center;
 }
-#number input{
+
+.qty input {
     width: 25px;
     height: 20px;
     border: solid 2px #ed9652;
@@ -322,109 +352,139 @@ html, body{
     font-weight: bold;
     background-color: #ed9652;
 }
-#number input::-webkit-outer-spin-button,
-#number input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+
+.qty input::-webkit-outer-spin-button,
+.qty input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
-#number input[type=number] {
+
+.qty input[type=number] {
     -moz-appearance: textfield;
-  }
+}
+
 /*nút tăng giảm số lượng*/
-#number .arrow {
+.qty .arrow {
     border: solid #ed9652;
     border-width: 0 3px 3px 0;
     display: inline-block;
     padding: 5px;
-  }
-#number .arrow:hover{
+}
+
+.qty .arrow:hover {
     cursor: pointer;
 }
-#number .right {
+
+.qty .right {
     transform: rotate(-45deg);
     -webkit-transform: rotate(-45deg);
-  }
-  
-#number .left {
+}
+
+.qty .left {
     transform: rotate(135deg);
     -webkit-transform: rotate(135deg);
 }
 
 /*tên món và size*/
-#drink{
+#drink {
     width: 50%;
     display: flex;
     flex-direction: column;
     margin-left: 15px;
-}
-#drink p{
-    margin: 0;
+    font-size: 16px;
 }
 
-#chosen_drink_name{
+#chosen_drink_name {
     height: 50%;
     font-size: 20px;
-    color: #ed9652;
     font-weight: bold;
+    display: flex;
 }
 
-#size{
-    height: 50%;
+#chosen_drink_name div::first-letter {
+    text-transform: uppercase;
 }
-#size p{
-    font-size: 16px;
-    margin: 0 10px 0 0px;
-    opacity: 60%;
-}
-.price{
-    color: #ed9652;
-    font-size: 18px !important;
-    line-height: 22px;
-    opacity: 100% !important;
-    font-weight: bold;
-}
-#size p:hover {
-    cursor: pointer;
-}
-#size{
+
+.billTopping {
     display: flex;
     flex-direction: row;
+    align-items: center;
+}
+
+.billTopping p {
+    margin: 0;
+    font-size: 18px;
 }
 
 /*giá từng món*/
-#chosen_drink_price{
+#chosen_drink_price {
     width: 30%;
     text-align: center;
     color: #ed9652;
     font-size: 22px;
 }
-#chosen_drink_price p{
+
+#chosen_drink_price p {
     margin: 0 0 -5px 0;
 }
 
-#drop_drink{
+#drop_drink {
     width: 5%;
 }
 
+#drop_drink:hover {
+    cursor: pointer;
+}
+
+/*xác nhận xóa sản phẩm*/
+.confirm_delete {
+    min-height: 55px;
+    width: 100%;
+    margin-top: -75px;
+    margin-bottom: 20px;
+    z-index: 10;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding-top: 10px;
+    border: solid 1px sandybrown;
+    background-color: white;
+    display: none;
+}
+
+.confirm_delete p {
+    margin: 0 15px;
+    font-size: 22px;
+}
+
+.confirm_delete button {
+    border: none;
+    color: white;
+    font-size: 18px;
+    padding: 0 15px;
+    margin: 0 10px;
+}
 
 /*tên khách hàng*/
-.input_row{
+.input_row {
     height: 10%;
     display: flex;
     flex-direction: row;
-    margin-top: 20px;
 }
 
-.input_row .customer_label, .note_label{
+.input_row .customer_label,
+.note_label {
     width: 15%;
     font-size: 18px;
     line-height: 30px;
 }
 
-.input_row .input{
+.input_row .input {
     width: 85%;
 }
-.input_row input{
+
+.input_row input {
     text-align: center;
     height: 30px;
     line-height: 30px;
@@ -435,54 +495,61 @@ html, body{
 
 /**/
 /*Tính tiền*/
-#bottom_field{
-    height: 30%;
+#bottom_field {
+    height: 25%;
 }
 
-/*mã khuyến mãi*/
-#discount{
-    width: 100%;
-    align-items: center;
-    padding: 0 50px 0 50px;
-    margin-top: 10px;
-}
-
-#discount input{
+#discount input {
     width: 100%;
     border: solid 1px #ed9652;
 }
 
 /*tính tiền*/
-#payment{
+#payment {
     width: 50%;
     float: right;
-    margin-top: 15px;
+    margin-top: 5px;
     padding-right: 50px;
 }
+
 .payment {
     display: flex;
     flex-direction: row;
     font-size: 18px;
+    align-items: center;
+    margin-bottom: 5px;
 }
-.payment_title{
-    width: 40%;
+
+.payment_title {
+    padding-top: 5px;
+    width: 45%;
     font-weight: bold;
+    text-align: right;
 }
-.money{
-    width: 60%;
+
+.money {
+    width: 55%;
     font-size: 20px;
     color: #ed9652;
     font-weight: bold;
     text-align: right;
 }
+.money input{
+    width: 75px;
+    height: 25px;
+    border: none;
+    border-bottom: solid 1px #ed9652;
+    text-align: right;
+}
 
 /*nút xác nhận*/
-#confirm{
+#confirm {
     width: fit-content;
     margin: auto;
     margin-bottom: 20px;
 }
-#confirm button{
+
+#confirm button {
     height: 35px;
     width: fit-content;
     padding: 0 15px 0 15px;
@@ -492,7 +559,8 @@ html, body{
     font-weight: bold;
     font-size: 18px;
 }
-#confirm button:hover{
+
+#confirm button:hover {
     border-radius: 5px;
-    transform: scale(1.1,1.1);
+    transform: scale(1.1, 1.1);
 }
