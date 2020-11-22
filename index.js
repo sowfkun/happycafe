@@ -4,19 +4,24 @@ require('dotenv').config();
 
 //import mongoose
 var mongoose = require('mongoose');
-mongoose.connect(process.env.MONGOOSE_URL, {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(process.env.MONGOOSE_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
 
 //import router
-const homeRouter= require('./routers/home_router')
-const drinkRouter= require('./routers/drink_router')
-const queue_orderRouter= require('./routers/queue_order_router')
-const dashboardRouter= require('./routers/dashboard_router')
-const loginRouter= require('./routers/login_router')
+const homeRouter = require('./routers/home_router')
+const drinkRouter = require('./routers/drink_router')
+const queue_orderRouter = require('./routers/queue_order_router')
+const dashboardRouter = require('./routers/dashboard_router')
+const loginRouter = require('./routers/login_router')
 
 // body parser
-const bodyParser =require('body-parser')    
+const bodyParser = require('body-parser')
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
 
 //view template ejs
 app.use(express.static("public"));

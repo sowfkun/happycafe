@@ -17,7 +17,7 @@ $(".menu li").on("click", function () {
     //lấy id để trỏ đến list cần hiện
     var id = $(".active")[0].id;
     //hiển thị list
-    $("#list_" + id).slideDown("slow");
+    $("#list_" + id).show();
 });
 
 //
