@@ -58,6 +58,37 @@ body {
     text-transform: uppercase;
 }
 
+
+/*hết thức uống*/
+.out_stock {
+    position: absolute;
+    z-index: 10;
+    width: 50%;
+    height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.out_stock div{
+    color: white;
+    font-size: 26px;    
+    width: fit-content;
+    height: fit-content;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #ee8a3e;
+    background-color: #ff9f56;
+
+    transition: all 0.5s  ease;
+}
+.out_stock:hover > .out_tock_content{
+    border-radius: 50%;
+    background-color: #20bac5;
+
+}
 /*list thức uống*/
 #display_drink ul {
     max-height: 100%;
@@ -90,13 +121,19 @@ body {
 /*hình ảnh*/
 .img {
     width: 145px;
+    height: 145px;
+    overflow: hidden;
+    border: solid 0.5px #ed9652;
 }
 
 .img img {
     width: 145px;
-    height: auto;
+    height: 145px;
+    transition: all 0.5s ease;
 }
-
+.img img:hover{
+    transform: scale(1.1);
+}
 /* thông tin món*/
 .drink_info {
     margin-left: 25px;
@@ -122,7 +159,7 @@ body {
     padding-left: 30px;
     margin-top: 5px;
     font-size: 18px;
-    min-height: 90px;
+    min-height: 85px;
 }
 
 #drink_price input {
@@ -534,7 +571,8 @@ body {
     font-weight: bold;
     text-align: right;
 }
-.money input{
+
+.money input {
     width: 75px;
     height: 25px;
     border: none;

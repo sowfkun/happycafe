@@ -69,44 +69,77 @@ html, body{
     list-style: none;
     display: flex;
     flex-direction: row;
-    padding: 10px;
     height: fit-content;
+    background-color: white;
+}
+.list_title::first-letter{
+    text-transform: uppercase;
+}
+#display_drink .layout{
+    padding: 10px 10px 0 10px;
+    display: flex;
+    flex-direction: row;
     background-color: white;
 }
 /*hình ảnh*/
 .img{
-    width: 30%;
+    width: 130px;
 }
-.img img{
-    width: 100%;
-    height: auto;
+.avatar{
+    width: 130px;
+    height: 130px;
+    overflow: hidden;
+}
+.avatar img{
+    width: 130px;
+    height: 130px;
+    border: solid 0.5px #ed9652;
+    transition: all 0.5s ease;
+}
+
+.avatar img:hover{
+    transform: scale(1.1);
 }
 
 /* thông tin món*/
 .drink_info{
+    width: 70%;
     margin-left: 25px;
     display: flex;
     flex-direction: column;
 }
 .drink_info h3{
     margin: 0;
-    flex-grow: 1;
+    font-size: 25px;
 }
 /*tên*/
 .drink_name{
     font-weight: bold;
 }
-/*giá*/
-.drink_price{
-    color: #ed9652;
+.drink_name::first-letter{
+    text-transform: uppercase;
 }
+/*giá*/
+
+.drink_price{
+    padding-top: 5px;
+    margin-left: 30px;
+    min-height: 75px;
+}
+.drink_price h2{
+    font-size: 22px !important;
+    margin: 0 !important;
+    color: black !important;
+}
+
 .drink_info button{
     background-color: #ed9652;
     color: white;
-    font-size: 18px;
+    font-size: 16px;
     height: 30px;
-    width: 100px;
-    line-height: 12px;
+    width: 70px;
+    line-height: 8px;
+    border: none;
 }
 /**/
 /*Chỉnh sửa sản phẩm*/
@@ -132,7 +165,7 @@ html, body{
 
 /*chỉnh sửa thông tin*/
 #info_edit{
-    margin-left: 15px;
+    margin-left: 35px;
     width: 300px;
 }
 
@@ -151,6 +184,7 @@ html, body{
 
 .input input{
     width: 100%;
+    font-size: 18px;
     border: solid 2px #ed9652;
 }
 
@@ -174,6 +208,7 @@ html, body{
     height: 20px;
 }
 .input select{
+    font-size: 16px;
     width: 50%;
     height: 30px;
     border: solid 2px #ed9652;

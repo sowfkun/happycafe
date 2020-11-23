@@ -40,10 +40,19 @@
                     <ul>
                         <% for(let j=0; j< drinks.length; j++){%>
                         <% if(drinks[j].category_id == category[i].category_id){ %>
-                        <li>
-                            <form id="drinkForm_<%-drinks[j].drink_id%>">
+                            <li>
+                             <!--hết-->
+                             <% if(drinks[j].status == "active") { %>
+                                <form id="drinkForm_<%-drinks[j].drink_id%>">
+                            <% } else { %>  <!--Còn-->
+                                <div class="out_stock">
+                                    <div class="out_tock_content" >
+                                        <p style="margin: 0;"><i class="fas fa-exclamation-circle"></i>&ensp;Hết</p>
+                                    </div>
+                                </div>
+                                <form id="drinkForm_<%-drinks[j].drink_id%>" style="opacity: 50%">
+                            <% } %>   
                                 <div id="drink_layout">
-
                                     <!--hình ảnh-->
                                     <div class="img">
                                         <img src="upload/drink_image/<%-drinks[j].img%>">
@@ -100,10 +109,16 @@
                                                 </div>
                                             </div>
                                             <% } %>
-                                            <div style="width:15%;">
-                                                <button class="choose_btn" type="button"
-                                                    onclick="choseDrink('<%-drinks[j].drink_id%>')">Chọn</button>
-                                            </div>
+                                            <!--Hết-->
+                                            <% if(drinks[j].status == "active") { %>
+                                                <div style="width:15%;">
+                                                    <button class="choose_btn" type="button" onclick="choseDrink('<%-drinks[j].drink_id%>')">Chọn</button>
+                                                </div>
+                                            <% } else { %>
+                                                <div style="width:15%;">
+                                                    <button class="choose_btn" type="button">Chọn</button>
+                                                </div>
+                                            <% } %>   
                                         </div>
                                     </div>
                                 </div>

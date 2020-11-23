@@ -1,232 +1,270 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
     <link rel="stylesheet" type="text/css" href="CSS/drink.css">
     <title>Happy Cafe</title>
 </head>
+
 <body>
-    <div id="background" class="container-fluid" >
-        
+    <div id="background" class="container-fluid">
+
         <!--navigation module-->
         <div class="row">
-            <div id="module_nav" >
+            <div id="module_nav">
                 <%-include('./modules/navigation')%>
             </div>
         </div>
-           
+
         <!--menu module-->
         <div class="row" id="body">
             <!---->
             <!--danh mục thứ uống-->
             <div id="module_menu" class="col-lg-2">
                 <%-include('./modules/drink_menu')%>
-            </div> 
+            </div>
             <!---->
             <!---->
             <!---->
             <!--hiển thị thức uống-->
-            <div id="display_drink" class="col-lg-6" >
-                <div class="one_menu" style="height: 90%;">
-                    <h2>Trà trái cây</h2>
-                        <ul>
-                            <% for(let i=0; i<2; i++){ %>
-                                <li>
-                                    <div class="img">
-                                        <img id="drink_img_<%-i%> " src="upload/drink_image/img_demo.png">
+            <div id="display_drink" class="col-lg-6">
+
+                <!--group thức uống theo danh mục-->
+                <% for(let i=0; i< category.length; i++){ %>
+                <div class="listGroupByCategory" id="list_<%-category[i].category_id%>" style="height: 90%;">
+                    <!--Tiêu đề danh mục-->
+                    <h2 class="list_title"><%-category[i].name%></h2>
+
+                    <!--Danh sách thức uống-->
+                    <ul>
+                        <% for(let j=0; j< drinks.length; j++){%>
+                        <% if(drinks[j].category_id == category[i].category_id){ %>
+                        <li id="drink_<%=drinks[j].drink_id%>" class="drinkInList">
+                            <div class="layout">
+                                <!--hình ảnh và trạng thái-->
+                                <div class="img">
+                                    <div class="avatar" >
+                                        <img  src="upload/drink_image/<%=drinks[j].img%>">
                                     </div>
-                                    <div class="drink_info">
-                                        <h3 class="drink_name">Trà đào cam sả</h3>
-                                        <h3 class="drink_price">45.000đ</h3>
-                                        <div>
-                                            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal_<%-i%>">Chỉnh sửa</button>
-    
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="myModal_<%-i%>" role="dialog">
-                                                <div class="modal-dialog">
-                                                    <!-- Modal content-->
+
+                                    <% if(drinks[j].status == "active") {%>
+                                    <div class="status">
+                                        <img src="Resources/icon/active.png" width="115px" height="auto"
+                                            style="padding-left: 10px;">
+                                    </div>
+                                    <% } else { %>
+                                    <div class="status">
+                                        <img src="Resources/icon/inactive.png" width="115px" height="auto"
+                                            style="padding-left: 10px;">
+                                    </div>
+                                    <% } %>
+                                </div>
+                                <!-- thông tin thức uống-->
+                                <div class="drink_info">
+                                    <!--Tên thức uống-->
+                                    <h3 class="drink_name"><%=drinks[j].name%></h3>
+                                    <!--Giá tiền-->
+                                    <div class="drink_price">
+                                        <% if(parseInt(drinks[j].price.size_m) > 0 ){ %>
+                                        <h2>M: <span
+                                                style="margin: -2px 20px; color: #ed9652"><%-drinks[j].price.size_m.toLocaleString()%>
+                                                đ</span> </h2>
+                                        <% }; %>
+
+                                        <% if(parseInt(drinks[j].price.size_l) > 0 ){ %>
+                                        <h2>L: <span
+                                                style="margin: -2px 20px; color: #ed9652"><%-drinks[j].price.size_l.toLocaleString()%>
+                                                đ</span> </h2>
+                                        <% }; %>
+                                    </div>
+                                    <div>
+                                        <!--Nút hiển thị form chỉnh sửa -->
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#Modal_<%=drinks[j].drink_id%>">Chỉnh sửa</button>
+
+                                        <!-- Form chỉnh sửa -->
+                                        <div class="modal fade" id="Modal_<%=drinks[j].drink_id%>" tabindex="-1"
+                                            role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <form action="drink/update" method="POST" id="update_form_<%=drinks[j].drink_id%>" class="update_form" enctype="multipart/form-data">
+                                                    <input type="hidden" name="drink_id" value="<%=drinks[j].drink_id%>">
                                                     <div class="modal-content">
-                                                        <form action="" class="update_form" id="update_form_<%-i%>" enctype="multipart/form-data">
-                                                            <div class="modal-header">
-                                                                <h4 class="modal-title">Chỉnh sửa thông tin</h4>
+                                                        <!--Header của form-->
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Chỉnh sửa thông tin</h4>
+                                                        </div>
+                                                        <!--Body-->
+                                                        <div class="modal-body">
+                                                            <!--Hình ảnh-->
+                                                            <div class="modal_img">
+                                                                <img id="new_img_<%-drinks[j].drink_id%>"
+                                                                    src="upload/drink_image/<%=drinks[j].img%>"
+                                                                    width="150px" height="150px" style="border: solid 0.5px #ed9652;">
+                                                                <input type="file" class="img_input"
+                                                                    id="img_input_<%-drinks[j].drink_id%>"
+                                                                    name="new_img" style="display: none;"
+                                                                    onchange="loadImg_<%-drinks[j].drink_id%>(event), checkform('<%-drinks[j].drink_id%>')" />
+                                                                <input type="button" id="alter_input" value="Upload"
+                                                                    onclick="$(this).siblings('.img_input').click()" />
                                                             </div>
-    
-                                                            <div class="modal-body">
-                                                                <div class="modal_img">
-                                                                    <img id="new_img_<%-i%>" src="upload/drink_image/img_demo.png" width="150px">
-                                                                    <input type="file" id="selectedImg_<%-i%>" name="new_img" style="display: none;" onchange="loadimg<%-i%>(event), checkform(<%-i%>)" />
-                                                                    <input type="button" id="alter_input" value="Upload" onclick="document.getElementById('selectedImg_<%-i%>').click();" />
+                                                            <script>
+                                                                //Function load ảnh mới
+                                                                function loadImg_<%-drinks[j].drink_id%> (event) {
+                                                                    var reader = new FileReader();
+                                                                    reader.onload = function () {
+                                                                        var id = "new_img_" +
+                                                                            '<%-drinks[j].drink_id%>';
+                                                                        console.log(id);
+                                                                        var img = document.getElementById(id);
+                                                                        img.src = reader.result;
+                                                                    };
+                                                                    reader.readAsDataURL(event.target.files[0]);
+                                                                };
+                                                            </script>
+
+                                                            <div id="info_edit">
+                                                                <!--Danh mục -->
+                                                                <div class="input_row">
+                                                                    <div class="input_label">
+                                                                        <label for="edit_menu">Danh mục:</label>
+                                                                    </div>
+                                                                    <div class="input">
+                                                                        <input type="text" readonly
+                                                                            value="<%-category[i].name%> ">
+                                                                    </div>
                                                                 </div>
-    
-                                                                <div id="info_edit">
-                                                                    <div class="input_row">
-                                                                        <div class="input_label">
-                                                                            <label for="edit_menu">Danh mục:</label>
-                                                                        </div>
-                                                                        <div class="input">
-                                                                            <select name="edit_menu" style="width: 100%;" onchange="checkform(<%-i%>)">
-                                                                                <option value="cafe">cafe</option>
-                                                                                <option value="trà trái cây">trà trá cây</option>
-                                                                              </select>
-                                                                        </div>
+                                                                <!--Tên thức uống-->
+                                                                <div class="input_row">
+                                                                    <div class="input_label">
+                                                                        <label for="edit_name">Tên:</label>
                                                                     </div>
-                                                                    <div class="input_row">
-                                                                        <div class="input_label">
-                                                                            <label for="edit_name">Tên:</label>
-                                                                        </div>
-                                                                        <div class="input">
-                                                                            <input type="text" name="edit_name" id="edit_name" onchange="checkform(<%-i%>)">
-                                                                        </div>
+                                                                    <div class="input">
+                                                                        <input type="text" readonly id="edit_name"
+                                                                            value="<%-drinks[j].name%> ">
                                                                     </div>
-                                                                    <div class="input_row">
-                                                                        <div class="input_label">
-                                                                            <label>Giá:</label>
-                                                                        </div>
-                                                                        <div class="input">
-                                                                            <div class="size_input">
-                                                                                <div>
-                                                                                    <label for="small_price">Size nhỏ</label><br>
-                                                                                </div>
-                                                                                <div style="display: flex; flex-direction: column;">
-                                                                                    <input type="number" name="small_price" min="0" id="small_price" onchange="checkform(<%-i%>)">
-                                                                                </div>
+                                                                </div>
+                                                                <!--chính sửa giá-->
+                                                                <div class="input_row">
+                                                                    <div class="input_label">
+                                                                        <label>Giá:</label>
+                                                                    </div>
+                                                                    <div class="input">
+                                                                        <div class="size_input">
+                                                                            <div>
+                                                                                <label for="size_m">Size
+                                                                                    vừa</label><br>
                                                                             </div>
-                                                                            <div class="size_input">
-                                                                                <div>
-                                                                                    <label for="medium_price">Size vừa</label><br>
-                                                                                </div>
-                                                                                <div style="display: flex; flex-direction: column;">
-                                                                                    <input type="number" name="medium_price" min="0" id="medium_price" onchange="checkform(<%-i%>)">
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="size_input">
-                                                                                <div>
-                                                                                    <label for="large_price">Size lớn</label><br>
-                                                                                </div>
-                                                                                <div style="display: flex; flex-direction: column;">
-                                                                                    <input type="number" name="large_price" min="0" id="large_price" onchange="checkform(<%-i%>)">
-                                                                                </div>
+                                                                            <!--Giá size vừa-->
+                                                                            <div
+                                                                                style="display: flex; flex-direction: column;">
+                                                                                <% if(parseInt(drinks[j].price.size_m) == 0){%>
+                                                                                <input type="number" name="size_m"
+                                                                                    id="size_m_<%-drinks[j].drink_id%>" value=0
+                                                                                    onchange="checkform('<%-drinks[j].drink_id%>')" required>
+                                                                                <% } else { %>
+                                                                                <input type="number" name="size_m"
+                                                                                    id="size_m_<%-drinks[j].drink_id%>"
+                                                                                    value="<%-drinks[j].price.size_m%>"
+                                                                                    onchange="checkform('<%-drinks[j].drink_id%>')" required>
+                                                                                <% } %>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="input_row" style="margin: 0;">
-                                                                        <div class="input_label">
-                                                                            <label for="status">Trạng thái:</label>
+                                                                        <div class="size_input">
+                                                                            <div>
+                                                                                <label for="size_l">Size
+                                                                                    lớn</label><br>
+                                                                            </div>
+                                                                            <!--Giá size lớn-->
+                                                                            <div
+                                                                                style="display: flex; flex-direction: column;">
+                                                                                <% if( parseInt(drinks[j].price.size_l) == 0){%>
+                                                                                <input type="number" name="size_l"
+                                                                                    id="size_l_<%-drinks[j].drink_id%>" value=0
+                                                                                    onchange="checkform('<%-drinks[j].drink_id%>')" required>
+                                                                                <% } else { %>
+                                                                                <input type="number" name="size_l"
+                                                                                    id="size_l_<%-drinks[j].drink_id%>"
+                                                                                    value="<%-drinks[j].price.size_l%>"
+                                                                                    onchange="checkform('<%-drinks[j].drink_id%>')" required>
+                                                                                <% } %>
+                                                                            </div>
                                                                         </div>
-                                                                        <div class="input">
-                                                                            <select name="status" style="width: 50%;" id="status" onchange="checkform(<%-i%>)">
+                                                                    </div>
+                                                                </div>
+                                                                <!--Topping-->
+                                                                <div class="input_row"
+                                                                    style="margin: 0; margin-bottom: 15px;">
+                                                                    <div class="input_label">
+                                                                        <label for="status">Topping:</label>
+                                                                    </div>
+                                                                    <div class="input">
+                                                                        <select name="topping" style="width: 50%;" id="topping" onchange="checkform('<%-drinks[j].drink_id%>')">
+                                                                            <% if(drinks[j].topping == true) {%>
+                                                                                <option value=true>có</option>
+                                                                                <option value=false>không</option>
+                                                                            <% } else { %>
+                                                                                <option value=false>không</option>
+                                                                                <option value=true>có</option>
+                                                                            <% } %>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <!--Trạng thái-->
+                                                                <div class="input_row" style="margin: 0;">
+                                                                    <div class="input_label">
+                                                                        <label for="status">Trạng thái:</label>
+                                                                    </div>
+                                                                    <div class="input">
+                                                                        <select name="status" style="width: 50%;" id="status" onchange="checkform('<%-drinks[j].drink_id%>')">
+                                                                            <% if(drinks[j].status == "active") {%>
                                                                                 <option value="active">Active</option>
                                                                                 <option value="inactive">Inactive</option>
-                                                                              </select>
-                                                                        </div>
+                                                                            <% } else { %>
+                                                                                <option value="inactive">Inactive</option>
+                                                                                <option value="active">Active</option>
+                                                                            <% } %>
+                                                                        </select>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                           
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color: red;">Hủy</button>
-                                                                <button id="btn_<%-i%>" type="submit" disabled class="btn btn-default">Cập nhật</button>
-                                                            </div>
-                                                        </form>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default btn-cancel"
+                                                                data-dismiss="modal"
+                                                                onclick="cancekUpdate('<%-drinks[j].drink_id%>')"
+                                                                style="background-color: red;">Hủy</button>
+                                                            <button id="btn_<%-drinks[j].drink_id%>" 
+                                                                disabled class="btn btn-default" type="submit"
+                                                                onclick="updateDrink('<%-drinks[j].drink_id%>')">Cập nhật</button>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                             </div>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
-    
-                                    <script type="text/javascript">  //validate
-                                        $(document).ready(function() {    
-                                            var id = "#update_form_" + '<%-i%>' 
-                                            $(id).validate({
-                                                rules: {
-                                                    edit_menu:{
-                                                        required:true
-                                                    },
-                                                    edit_name:{
-                                                        required:true
-                                                    },
-                                                    small_price:{
-                                                        number: true
-                                                    },
-                                                    medium_price:{
-                                                        required: true,
-                                                        number: true
-                                                    },
-                                                    large_price:{
-                                                        number: true
-                                                    },
-                                                    stutus:{
-                                                        required: true
-                                                    }
-                                                },
-                                                messages:{
-                                                    edit_menu:{
-                                                        required: "Danh mục không được để trống"
-                                                    },
-                                                    edit_name:{
-                                                        required: "Tên không được bỏ trống"
-                                                    },
-                                                    small_price:{
-                                                        number: "Giá tiền phải là số"
-                                                    },
-                                                    medium_price:{
-                                                        required: "Giá size vừa không thể bỏ trống",
-                                                        number: "Giá tiền phải là số"
-                                                    },
-                                                    large_price:{
-                                                        number: "Giá tiền phải là số"
-                                                    },
-                                                    stutus:{
-                                                        required: "Giá tiền phải là số"
-                                                    }
-                                                }
-                                            });
-                                        });
-                                    </script>
-                                    <script>
-                                        function checkform(i){
-                                            var id = "#update_form_" + i
-                                            var valid = $(id).valid();
-                        
-                                            var btn_id = "#btn_" + i;
-                                            if(valid == true){
-                                                $(btn_id).attr("disabled",false);
-                                            } else {
-                                                $(btn_id).attr("disabled", true);
-                                            }
-                                        }
-                                    </script>
-                                   
-                                    <script>        //load ảnh
-                                        function loadimg<%-i%>(event){
-                                           var reader = new FileReader();
-                                           reader.onload = function(){
-                                            var id = "new_img_" + '<%-i%>'
-                                            var img = document.getElementById(id);
-                                            img.src = reader.result;
-                                           };
-                                           reader.readAsDataURL(event.target.files[0]);
-                                         };
-                                    </script>
-        
-                                </li>
-                            <% } %>  
-                        </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <% } %>
+                        <% }; %>
+                    </ul>
                 </div>
-            </div> 
+                <% }; %>
+            </div>
             <!---->
             <!---->
             <!---->
-            <!--tính tiền-->
+
             <div id="create" class="col-lg-4">
                 <div id="create_layout">
                     <div id="new_menu">
                         <h2>Tạo danh mục mới</h2>
-                        <form >
+                        <form>
                             <div class="input_row" style="margin: 20px 0 20px 0;">
                                 <div class="input_label">
                                     <label for="new_menu">Tên danh mục:</label>
@@ -238,13 +276,15 @@
                             </div>
                         </form>
                     </div>
-    
+
                     <div id="new_drink">
                         <h2>Tạo thức uống mới</h2>
-                        <form action="" id="create_form" enctype="multipart/form-data">
+                        <form action="drink/update" id="create_form" method="POST" enctype="multipart/form-data">
                             <div class="modal_img">
-                                <input type="file" id="drinkImg" name="drink_img" style="display: none;" onchange="load_drink_img(event), check_new_drink_form()" />
-                                <input type="button" id="alter_input" value="Chọn ảnh" onclick="document.getElementById('drinkImg').click();" />
+                                <input type="file" id="drinkImg" name="drink_img" style="display: none;"
+                                    onchange="load_drink_img(event), check_new_drink_form()" />
+                                <input type="button" id="alter_input" value="Chọn ảnh"
+                                    onclick="document.getElementById('drinkImg').click();" />
                                 <div class="img_border">
                                     <img id="drink_img" src="" width="150px" height="150px">
                                 </div>
@@ -256,10 +296,11 @@
                                         <label for="chose_menu">Danh mục:</label>
                                     </div>
                                     <div class="input">
-                                        <select name="chose_menu" style="width: 100%;" onchange="check_new_drink_form()">
+                                        <select name="chose_menu" style="width: 100%;"
+                                            onchange="check_new_drink_form()">
                                             <option value="cafe">cafe</option>
                                             <option value="trà trái cây">trà trá cây</option>
-                                          </select>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="input_row">
@@ -267,7 +308,8 @@
                                         <label for="enter_name">Tên:</label>
                                     </div>
                                     <div class="input">
-                                        <input type="text" name="enter_name" onchange="check_new_drink_form()" id="enter_name">
+                                        <input type="text" name="enter_name" onchange="check_new_drink_form()"
+                                            id="enter_name">
                                     </div>
                                 </div>
                                 <div class="input_row">
@@ -277,18 +319,11 @@
                                     <div class="input">
                                         <div class="size_input">
                                             <div>
-                                                <label for="small_price">Size nhỏ</label><br>
-                                            </div>
-                                            <div style="display: flex; flex-direction: column; width: 100%;">
-                                                <input type="number" name="small_price" min="0" id="small_price" onchange="check_new_drink_form()">
-                                            </div>
-                                        </div>
-                                        <div class="size_input">
-                                            <div>
                                                 <label for="medium_price">Size vừa</label><br>
                                             </div>
                                             <div style="display: flex; flex-direction: column; width: 100%;">
-                                                <input type="number" name="medium_price" min="0" id="medium_price" onchange="check_new_drink_form()">
+                                                <input type="number" name="medium_price" min="0" id="medium_price"
+                                                    onchange="check_new_drink_form()">
                                             </div>
                                         </div>
                                         <div class="size_input">
@@ -296,7 +331,8 @@
                                                 <label for="large_price">Size lớn</label><br>
                                             </div>
                                             <div style="display: flex; flex-direction: column; width: 100%;">
-                                                <input type="number" name="large_price" min="0" id="large_price" onchange="check_new_drink_form()">
+                                                <input type="number" name="large_price" min="0" id="large_price"
+                                                    onchange="check_new_drink_form()">
                                             </div>
                                         </div>
                                     </div>
@@ -306,10 +342,11 @@
                                         <label for="status">Trạng thái:</label>
                                     </div>
                                     <div class="input">
-                                        <select name="status" style="width: 50%;" id="status" onchange="check_new_drink_form()">
+                                        <select name="status" style="width: 50%;" id="status"
+                                            onchange="check_new_drink_form()">
                                             <option value="active">Active</option>
                                             <option value="inactive">Inactive</option>
-                                          </select>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -320,80 +357,67 @@
                     </div>
                 </div>
             </div>
-            <script>        //load ảnh
-                function load_drink_img(event){
-                   var reader = new FileReader();
-                   reader.onload = function(){
-                     var img = document.getElementById('drink_img');
-                     img.src = reader.result;
-                   };
-                   reader.readAsDataURL(event.target.files[0]);
-                 };
-            </script>
-
-            <script type="text/javascript">  //validate
-               $(document).ready(function(){
-                   $("#create_form").validate({
-                    rules: {
-                        chose_menu:{
-                            required:true
-                        },
-                        enter_name:{
-                            required:true
-                        },
-                        small_price:{
-                            number: true
-                        },
-                        medium_price:{
-                            number: true,
-                            required: true
-                        },
-                        large_price:{
-                            number: true
-                        },
-                        stutus:{
-                            required: true
-                        }
-                    },
-                    messages:{
-                        chose_menu:{
-                            required: "Danh mục không được để trống"
-                        },
-                        enter_name:{
-                            required: "Tên không được bỏ trống"
-                        },
-                        small_price:{
-                            number: "Giá tiền phải là số"
-                        },
-                        medium_price:{
-                            number: "Giá tiền phải là số",
-                            required: "Giá size vừa là bắt buộc"
-                        },
-                        large_price:{
-                            number: "Giá tiền phải là số"
-                        },
-                        stutus:{
-                            required: "Tình trạng không được bỏ trống"
-                        }
-                    }
-                   });
-               });
-                   
-                      
-            
-            </script>
-
             <script>
-                function check_new_drink_form(){
-                    var valid = $("#create_form").valid();
-                    if(valid == true){
-                        $("#btn_create").attr("disabled",false);
-                    } else {
-                        $("#btn_create").attr("disabled", true);
-                    }
-                }
+                //load ảnh
+                function load_drink_img(event) {
+                    var reader = new FileReader();
+                    reader.onload = function () {
+                        var img = document.getElementById('drink_img');
+                        img.src = reader.result;
+                    };
+                    reader.readAsDataURL(event.target.files[0]);
+                };
             </script>
+
+            <script type="text/javascript">
+                //validate
+                $(document).ready(function () {
+                    $("#create_form").validate({
+                        rules: {
+                            chose_menu: {
+                                required: true
+                            },
+                            enter_name: {
+                                required: true
+                            },
+                            medium_price: {
+                                number: true,
+                                required: true
+                            },
+                            large_price: {
+                                number: true
+                            },
+                            status: {
+                                required: true
+                            }
+                        },
+                        messages: {
+                            chose_menu: {
+                                required: "Danh mục không được để trống"
+                            },
+                            enter_name: {
+                                required: "Tên không được bỏ trống"
+                            },
+                            medium_price: {
+                                number: "Giá tiền phải là số",
+                                required: "Giá size vừa là bắt buộc"
+                            },
+                            large_price: {
+                                number: "Giá tiền phải là số"
+                            },
+                            status: {
+                                required: "Tình trạng không được bỏ trống"
+                            }
+                        }
+                    });
+                });
+            </script>
+
+
         </div>
     </div>
+
+    <script src="JS/drink.js"></script>
 </body>
+
 </html>
