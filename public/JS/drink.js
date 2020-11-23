@@ -25,15 +25,15 @@ $(".menu li").on("click", function () {
 //
 //kiểm tra update form có hợp lệ không
 //
-function checkform(id){
+function checkform(id) {
     var form = "#update_form_" + id;
     var value = $(form).serializeArray();
 
     console.log(value);
-    var size_m = value[1].value !== "" && (parseInt(value[1].value) >= 30000) ?  parseInt(value[1].value) : 0;
-    var size_l = value[2].value !== "" && (parseInt(value[2].value) >= 30000) ?  parseInt(value[2].value) : 30000;
+    var size_m = value[1].value !== "" && (parseInt(value[1].value) >= 30000) ? parseInt(value[1].value) : 0;
+    var size_l = value[2].value !== "" && (parseInt(value[2].value) >= 30000) ? parseInt(value[2].value) : 30000;
 
-    if(size_m >= size_l){
+    if (size_m >= size_l) {
         size_m = 0;
     }
 
@@ -49,7 +49,7 @@ function checkform(id){
 // function updateDrink(id){
 //     var form = document.getElementById('update_form_'+ id);
 //     var formData = new FormData(form);
-    
+
 //     $.ajax({
 //         type: "POST",
 //         url: "drink/update",
@@ -62,10 +62,10 @@ function checkform(id){
 //
 //Hủy cập nhật
 //
-function cancekUpdate(id){
+function cancekUpdate(id) {
     //hủy dữ liệu đã nhập nếu nhấn nút hủy
     var reload_id = "#update_form_" + id;
-    $(reload_id).load(location.href + " #update_form_" + id + ">*","");
+    $(reload_id).load(location.href + " #update_form_" + id + ">*", "");
 };
 
 //////
@@ -73,10 +73,50 @@ function cancekUpdate(id){
 /////
 ////
 function check_new_drink_form() {
-    var valid = $("#create_form").valid();
-    if (valid == true) {
+    var form = "#create_form";
+    var value = $(form).serializeArray();
+
+    var name = value[1].value.trim();
+    $("#enter_name").val(name);
+
+    console.log(value);
+    //size_l là phần tử 2
+    var size_l = value[2].value !== "" && (parseInt(value[2].value) >= 30000) ? parseInt(value[2].value) : 30000;
+    //size_m là phần tử thứ 3
+    var size_m = value[3].value !== "" && (parseInt(value[3].value) >= 30000) ? (parseInt(value[3].value)) : 0;
+
+    //nếu size m > size l thì gán size m = 0
+    if (size_m >= size_l) {
+        size_m = 0;
+    }
+
+    //cập nhật lại giá
+    $("#size_m").val(size_m);
+    $("#size_l").val(size_l);
+    
+    //hiện tips nếu nhập sai giá
+    $(".create_price_tips").css("display","none");
+    //size l phải lớn hơn hoặc = 30000
+    if(parseInt(value[2].value) <30000 ){
+        $(".create_price_tips").css("display","block");
+    } else if(value[3].value !== "0" && parseInt(value[3].value) <30000) {  //size m có thể =0, và phải lớn hơn = 30000
+        $(".create_price_tips").css("display","block");
+    } else if(parseInt(value[2].value) <= parseInt(value[3].value)){        //size m phải nhở hơn size l
+        $(".create_price_tips").css("display","block");
+    }
+
+    //enable nút tạo
+    var img = $("#drinkImg").val();
+    if(value[1].value !== "" && img !== ""){
         $("#btn_create").attr("disabled", false);
-    } else {
-        $("#btn_create").attr("disabled", true);
     }
 }
+
+//hướng dẫn nhập giá
+$(".price_tips").siblings(".create_price_tips").hide();
+$(".price_tips").hover(function () {
+    $(this).siblings(".create_price_tips").fadeIn();
+    $(this).css("cursor", "pointer");
+}, function () {
+    $(this).siblings(".create_price_tips").fadeOut();
+});

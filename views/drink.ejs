@@ -7,6 +7,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+    <script src="https://kit.fontawesome.com/a0df4ac8c5.js"></script>
     <link rel="stylesheet" type="text/css" href="CSS/drink.css">
     <title>Happy Cafe</title>
 </head>
@@ -279,9 +280,9 @@
 
                     <div id="new_drink">
                         <h2>Tạo thức uống mới</h2>
-                        <form action="drink/update" id="create_form" method="POST" enctype="multipart/form-data">
+                        <form action="drink/create" id="create_form" method="POST" enctype="multipart/form-data">
                             <div class="modal_img">
-                                <input type="file" id="drinkImg" name="drink_img" style="display: none;"
+                                <input type="file" id="drinkImg" name="drinkImg" style="display: none;"
                                     onchange="load_drink_img(event), check_new_drink_form()" />
                                 <input type="button" id="alter_input" value="Chọn ảnh"
                                     onclick="document.getElementById('drinkImg').click();" />
@@ -293,48 +294,74 @@
                             <div id="drink_info">
                                 <div class="input_row">
                                     <div class="input_label">
-                                        <label for="chose_menu">Danh mục:</label>
+                                        <label for="category">Danh mục:</label>
                                     </div>
                                     <div class="input">
-                                        <select name="chose_menu" style="width: 100%;"
+                                        <select name="category" style="width: 100%;"
                                             onchange="check_new_drink_form()">
-                                            <option value="cafe">cafe</option>
-                                            <option value="trà trái cây">trà trá cây</option>
+                                            <% category.forEach((cate)=>{ %>
+                                                <option value="<%-cate.category_id%>"><%-cate.name%></option>
+                                            <% }) %> 
                                         </select>
                                     </div>
                                 </div>
                                 <div class="input_row">
                                     <div class="input_label">
-                                        <label for="enter_name">Tên:</label>
+                                        <label for="name">Tên:</label>
                                     </div>
                                     <div class="input">
-                                        <input type="text" name="enter_name" onchange="check_new_drink_form()"
+                                        <input type="text" name="name" onchange="check_new_drink_form()"
                                             id="enter_name">
+                                            <label class="error" style="display: none;"></label>
                                     </div>
                                 </div>
                                 <div class="input_row">
                                     <div class="input_label">
                                         <label>Giá:</label>
+                                        <i class="fas fa-info-circle price_tips" style="margin-left: 10px;"></i>
+                                        <div class="create_price_tips">
+                                            <div >
+                                                <ul style="padding: 5px 15px 5px 30px; margin: 0;">
+                                                    <li>Giá tối thiểu là 30,000đ</li>
+                                                    <li>Giá size M phải nhỏ hơn size L</li>
+                                                    <li>Size M có thể bằng 0 </li>
+                                                    <li>Size L là bắt buộc</li>
+                                                </ul>
+                                            </div>
+                                        </div>
                                     </div>
+                                    
                                     <div class="input">
                                         <div class="size_input">
                                             <div>
-                                                <label for="medium_price">Size vừa</label><br>
+                                                <label for="size_l">Size lớn</label><br>
                                             </div>
                                             <div style="display: flex; flex-direction: column; width: 100%;">
-                                                <input type="number" name="medium_price" min="0" id="medium_price"
+                                                <input type="number" name="size_l" id="size_l" value="35000"
                                                     onchange="check_new_drink_form()">
                                             </div>
                                         </div>
                                         <div class="size_input">
                                             <div>
-                                                <label for="large_price">Size lớn</label><br>
+                                                <label for="size_m">Size vừa</label><br>
                                             </div>
                                             <div style="display: flex; flex-direction: column; width: 100%;">
-                                                <input type="number" name="large_price" min="0" id="large_price"
+                                                <input type="number" name="size_m" id="size_m" value="30000"
                                                     onchange="check_new_drink_form()">
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="input_row" style="margin: 0 0 15px 0;">
+                                    <div class="input_label">
+                                        <label for="topping">Topping:</label>
+                                    </div>
+                                    <div class="input">
+                                        <select name="topping" style="width: 50%;" id="status"
+                                            onchange="check_new_drink_form()">
+                                            <option value=false>Không</option>
+                                            <option value=true>Có</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="input_row" style="margin: 0;">
@@ -368,52 +395,6 @@
                     reader.readAsDataURL(event.target.files[0]);
                 };
             </script>
-
-            <script type="text/javascript">
-                //validate
-                $(document).ready(function () {
-                    $("#create_form").validate({
-                        rules: {
-                            chose_menu: {
-                                required: true
-                            },
-                            enter_name: {
-                                required: true
-                            },
-                            medium_price: {
-                                number: true,
-                                required: true
-                            },
-                            large_price: {
-                                number: true
-                            },
-                            status: {
-                                required: true
-                            }
-                        },
-                        messages: {
-                            chose_menu: {
-                                required: "Danh mục không được để trống"
-                            },
-                            enter_name: {
-                                required: "Tên không được bỏ trống"
-                            },
-                            medium_price: {
-                                number: "Giá tiền phải là số",
-                                required: "Giá size vừa là bắt buộc"
-                            },
-                            large_price: {
-                                number: "Giá tiền phải là số"
-                            },
-                            status: {
-                                required: "Tình trạng không được bỏ trống"
-                            }
-                        }
-                    });
-                });
-            </script>
-
-
         </div>
     </div>
 
