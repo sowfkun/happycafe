@@ -197,6 +197,7 @@ html, body{
 .size_input label{
     width: 65px;
     margin-top: 5px;
+    font-size: 16px;
 }
 
 .size_input input[type=number]{
@@ -237,13 +238,14 @@ html, body{
 /*menu mới*/
 #new_menu button{
     width: 50px;
-    height: 26px;
+    height: 30px;
     position: absolute;
     right: 30px;
     background-color: #ed9652;
     color: white;
     font-size: 16px;
     border-radius: 0;
+    border: none;
     line-height: 16px;
 }
 /*hình ảnh*/
@@ -287,4 +289,23 @@ label.error{
     font-size: 18px;
     color: white;
     font-weight: bold;
+}
+
+.create_price_tips{
+    position: absolute;
+    padding: 5px;
+    color: rgb(6, 6, 75);
+    font-size: 18px;
+    margin-left: -5px;
+    margin-top: -12px;
+    height: fit-content;
+}
+.create_price_tips div{
+    background-color: #ed9652;
+    border-radius: 5px;
+    height: fit-content;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

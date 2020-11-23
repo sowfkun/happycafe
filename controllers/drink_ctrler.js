@@ -115,3 +115,9 @@ module.exports.update = function (req, res) {
              res.redirect('back');
         })
 }
+
+//Thêm sản phẩm mới
+module.exports.create = function (req, res) {
+    //lấy tên hình ảnh
+    var img = typeof (req.file) !== "undefined" ? req.file.filename : ""; //có thể ko cập nhật hình ảnh
+}

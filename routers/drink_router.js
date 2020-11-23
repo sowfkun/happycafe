@@ -22,5 +22,6 @@ var upload = multer({
 
 router.get('/', drinkCtrler.manage);
 router.post('/update', upload.single('new_img'), drinkCtrler.update);
+router.post('/create', upload.single('new_img'), drinkCtrler.create);
 
 module.exports = router;
