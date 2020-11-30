@@ -50,12 +50,12 @@
     list-style: none;
     transition: all 0.4s ease;
 }
+
 .menu>li:hover{
     color: #ed9652;
     text-decoration: underline;
     cursor: pointer;
     transition: all 0.4s ease;
-
 }
 
 .menu>li::first-letter{

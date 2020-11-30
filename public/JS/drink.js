@@ -1,3 +1,22 @@
+//danh mục và topping
+
+$("#topping-container").hide();
+
+$(".nav-tabs #menu").on("click", function () {
+    $(this).addClass("active");
+    $(".nav-tabs #topping").removeClass("active");
+    $("#menu-container").show();
+    $("#topping-container").hide();
+});
+$(".nav-tabs #topping").on("click", function () {
+    $(this).addClass("active");
+    $(".nav-tabs #menu").removeClass("active");
+    $("#topping-container").show();
+    $("#menu-container").hide();
+});
+
+
+
 //click để hiện thức uống theo danh mục
 //
 
@@ -6,19 +25,18 @@ var active = $(".menu .active")[0].id;
 //danh sách của active hiện, còn lại ẩn
 $(".listGroupByCategory").hide();
 $("#list_" + active).show();
-
 //khi click vào danh mục
-$(".menu li").on("click", function () {
+$(".menu .cate_name").on("click", function () {
     //các danh mục khác bỏ class active
-    $(this).siblings("li").removeClass("active");
+    $(".cate_name").removeClass("active");
     // li được click thêm class active
     $(this).addClass("active");
     //ẩn list đang hiện
     $(".listGroupByCategory").hide();
     //lấy id để trỏ đến list cần hiện
-    var id = $(".active")[0].id;
+    var id = $(".menu .active")[0].id;
     //hiển thị list
-    $("#list_" + id).slideDown("slow");
+    $("#list_" + id).show();
 });
 
 
@@ -68,10 +86,10 @@ function cancekUpdate(id) {
     $(reload_id).load(location.href + " #update_form_" + id + ">*", "");
 };
 
-//////
-////
-/////
-////
+
+//
+//kiểm tra form create
+//
 function check_new_drink_form() {
     var form = "#create_form";
     var value = $(form).serializeArray();
@@ -93,26 +111,28 @@ function check_new_drink_form() {
     //cập nhật lại giá
     $("#size_m").val(size_m);
     $("#size_l").val(size_l);
-    
+
     //hiện tips nếu nhập sai giá
-    $(".create_price_tips").css("display","none");
+    $(".create_price_tips").css("display", "none");
     //size l phải lớn hơn hoặc = 30000
-    if(parseInt(value[2].value) <30000 ){
-        $(".create_price_tips").css("display","block");
-    } else if(value[3].value !== "0" && parseInt(value[3].value) <30000) {  //size m có thể =0, và phải lớn hơn = 30000
-        $(".create_price_tips").css("display","block");
-    } else if(parseInt(value[2].value) <= parseInt(value[3].value)){        //size m phải nhở hơn size l
-        $(".create_price_tips").css("display","block");
+    if (parseInt(value[2].value) < 30000) {
+        $(".create_price_tips").css("display", "block");
+    } else if (value[3].value !== "0" && parseInt(value[3].value) < 30000) { //size m có thể =0, và phải lớn hơn = 30000
+        $(".create_price_tips").css("display", "block");
+    } else if (parseInt(value[2].value) <= parseInt(value[3].value)) { //size m phải nhở hơn size l
+        $(".create_price_tips").css("display", "block");
     }
 
     //enable nút tạo
     var img = $("#drinkImg").val();
-    if(value[1].value !== "" && img !== ""){
+    if (value[1].value !== "" && img !== "") {
         $("#btn_create").attr("disabled", false);
     }
 }
 
+//
 //hướng dẫn nhập giá
+//
 $(".price_tips").siblings(".create_price_tips").hide();
 $(".price_tips").hover(function () {
     $(this).siblings(".create_price_tips").fadeIn();
@@ -120,3 +140,148 @@ $(".price_tips").hover(function () {
 }, function () {
     $(this).siblings(".create_price_tips").fadeOut();
 });
+
+//
+//Tạo danh mục mới
+//
+function cateCreate(){
+    var id = $("#new_menu_id").val().trim();
+    var name = $("#new_menu_name").val().trim();
+
+    $.ajax({
+        type: "POST",
+        url: "drink/categoryCreate",
+        dataType: "json",
+        data: {category_id: id, name: name},
+        cache: false
+    }).done (function (data) {
+        console.log(data)
+        if(data.msg == "success"){
+            //hiển thị thông báo
+            updateSuccess(data.id)
+
+            //thêm danh mục mới vào list danh mục
+            $("#menu").append(`
+            <li  style="display: flex; flex-direction:row;">
+            <div style="width: 80%">
+                <span class="active cate_name" id="${data.id}">${data.name}</span>
+            </div>
+            <form id="update_cate_${data.id}">
+                <label class="switch">
+                    <input id="input_${data.id}" type="checkbox" onchange="update_category(${data.id})">
+                    <span class="slider round"></span>
+                </label> 
+            </form>
+            </li>
+            `)
+        } else {
+           updateFail(data.id)
+        }
+    });
+}
+
+//
+//active or inactive một danh mục
+//
+function update_category(id) {
+    var status = $("#input_" + id).prop("checked");
+    console.log(status);
+
+    $.ajax({
+        type: "POST",
+        url: "drink/categoryUpdate",
+        dataType: "json",
+        data: {category_id: id, status: status},
+        cache: false
+    }).done (function (data) {
+        console.log(data)
+        if(data.msg == "success"){
+           updateSuccess(data.id)
+        } else {
+            updateFail(data.id);
+            var check = $("#input_" + id).prop("checked");
+            if (check == true){
+                $("#input_" + data.id).prop("checked",false)
+            } else {
+                $("#input_" + data.id).prop("checked",true)
+            }
+        }
+    }).fail(function() {
+        updateFail(id);
+        var check = $("#input_" + id).prop("checked");
+        if (check == true){
+            $("#input_" + id).prop("checked",false)
+        } else {
+            $("#input_" + id).prop("checked",true)
+        }
+    });
+}
+
+//
+//active or inactive topping
+//
+function update_topping(id){
+    var status = $("#input_" + id).prop("checked");
+    console.log(status);
+
+    $.ajax({
+        type: "POST",
+        url: "drink/toppingUpdate",
+        dataType: "json",
+        data: {topping_id: id, status: status},
+        cache: false
+    }).done (function (data) {
+        console.log(data)
+        if(data.msg == "success"){
+            updateSuccess(data.id)
+        } else {
+            updateFail(data.id);
+            var check = $("#input_" + id).prop("checked");
+            if (check == true){
+                $("#input_" + data.id).prop("checked",false)
+            } else {
+                $("#input_" + data.id).prop("checked",true)
+            }
+        }
+    }).fail(function() {
+        updateFail(id);
+        var check = $("#input_" + id).prop("checked");
+        if (check == true){
+            $("#input_" + id).prop("checked",false)
+        } else {
+            $("#input_" + id).prop("checked",true)
+        }
+    });
+}
+//
+//function hiển thị thông báo thành công khi update
+//
+function updateSuccess(id){
+    $(".alert_box").append(`
+    <div id="alert_${id}" class="alert alert-success" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <span id="msg">Update topping ${id} thành công</span>
+    </div>`);
+    setTimeout(function(){
+        $("#alert_" + id).fadeTo(500, 0).slideUp(500, function(){
+            $(this).remove(); 
+        });
+    }, 2000);
+}
+//
+//function hiển thị thông báo thất bại khi update
+//
+function updateFail(id){
+    $(".alert_box").append(`
+    <div id="alert_${id}" class="alert alert-danger" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <span id="msg">Update menu ${id} thất bại</span>
+    </div>`);
+    
+    setTimeout(function(){
+        $("#alert_" + id).fadeTo(500, 0).slideUp(500, function(){
+            $(this).remove(); 
+        });
+    }, 2000);
+}
+
