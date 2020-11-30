@@ -17,7 +17,7 @@ const dashboardRouter = require('./routers/dashboard_router')
 const loginRouter = require('./routers/login_router')
 
 // body parser
-const bodyParser = require('body-parser')
+var bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({
     extended: true
 }));

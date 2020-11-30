@@ -9,13 +9,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
     <script src="https://kit.fontawesome.com/a0df4ac8c5.js"></script>
     <link rel="stylesheet" type="text/css" href="CSS/drink.css">
+    <link rel="stylesheet" type="text/css" href="CSS/modules_css/drink_menu.css">
     <title>Happy Cafe</title>
 </head>
 
 <body>
     <div id="background" class="container-fluid">
 
-        <!--navigation module-->
+        <!--hiển thị alert-->
+        <div class="alert_box">
+           
+        </div>
+        
+
+        <!--Thanh điểu hướng-->
         <div class="row">
             <div id="module_nav">
                 <%-include('./modules/navigation')%>
@@ -25,9 +32,82 @@
         <!--menu module-->
         <div class="row" id="body">
             <!---->
-            <!--danh mục thứ uống-->
+            <!--danh mục thức uống va-->
+         
             <div id="module_menu" class="col-lg-2">
-                <%-include('./modules/drink_menu')%>
+                <ul class="nav nav-tabs">
+                    <li class="nav-item active" id="menu">
+                      <a class="nav-link" >Menu</a>
+                    </li>
+                    <li class="nav-item" id="topping">
+                      <a class="nav-link">Topping</a>
+                    </li>
+                </ul>
+                <nav class="menu_container" id="menu-container">
+                    <div>
+                      <h2 id="menu-title">MENU</h2>
+                      <ul class="menu">
+                        <% category.forEach(function(cate,index){ %>
+                          <% if(index == 0){ %>
+                            <li  style="display: flex; flex-direction:row;">
+                                <div style="width: 80%">
+                                    <span class="active cate_name" id="<%-cate.category_id%>"><%-cate.name%></span>
+                                </div>
+                                <form id="update_cate_<%-cate.category_id%>">
+                                    <label class="switch">
+                                        <% if(cate.status == "active"){ %>
+                                            <input id="input_<%-cate.category_id%>" type="checkbox" checked onchange="update_category('<%-cate.category_id%>')">
+                                        <% } else { %>
+                                            <input id="input_<%-cate.category_id%>" type="checkbox" onchange="update_category('<%-cate.category_id%>')">
+                                        <% } %>  
+                                        <span class="slider round"></span>
+                                    </label> 
+                                </form>
+                            </li>
+                          <% } else { %>
+                            <li  style="display: flex; flex-direction:row;">
+                                <div style="width: 80%">
+                                    <span class="cate_name" id="<%-cate.category_id%>"><%-cate.name%></span>
+                                </div>
+                                <form id="update_cate_<%-cate.category_id%>">
+                                    <label class="switch">
+                                        <% if(cate.status == "active"){ %>
+                                            <input id="input_<%-cate.category_id%>" type="checkbox" checked onchange="update_category('<%-cate.category_id%>')">
+                                        <% } else { %>
+                                            <input id="input_<%-cate.category_id%>" type="checkbox" onchange="update_category('<%-cate.category_id%>')">
+                                        <% } %>  
+                                        <span class="slider round"></span>
+                                    </label> 
+                                </form>
+                            </li>
+                          <% } %>
+                        <% }); %>
+                      </ul>
+                    </div>
+                </nav>
+                <nav class="menu_container" id="topping-container">
+                    <div>
+                      <ul class="topping">
+                        <% topping.forEach((topping)=>{ %>
+                            <li id="<%-topping.topping_id%>" style="display: flex; flex-direction:row">
+                                <div style="width:80%;">
+                                    <span><%-topping.name%></span>
+                                </div>
+                                <form id="update_topping_<%-topping.topping_id%>">
+                                    <label class="switch">
+                                        <% if(topping.status == "active"){ %>
+                                            <input id="input_<%-topping.topping_id%>" type="checkbox" checked onchange="update_topping('<%-topping.topping_id%>')">
+                                        <% } else { %>
+                                            <input id="input_<%-topping.topping_id%>" type="checkbox" onchange="update_topping('<%-topping.topping_id%>')">
+                                        <% } %>  
+                                        <span class="slider round"></span>
+                                    </label> 
+                                </form>
+                            </li>
+                        <% }); %>
+                      </ul>
+                    </div>
+                </nav>
             </div>
             <!---->
             <!---->
@@ -265,14 +345,22 @@
                 <div id="create_layout">
                     <div id="new_menu">
                         <h2>Tạo danh mục mới</h2>
-                        <form>
-                            <div class="input_row" style="margin: 20px 0 20px 0;">
+                        <form id="create_menu">
+                            <div class="input_row" style="margin: 10px 0 10px 0;">
                                 <div class="input_label">
-                                    <label for="new_menu">Tên danh mục:</label>
+                                    <label for="new_menu">ID danh mục:</label>
                                 </div>
                                 <div class="input">
-                                    <input type="text" name="new_menu" onchange="update_drink()" id="new_menu">
-                                    <button id="menu_create" type="submit" class="btn btn-default">Tạo</button>
+                                    <input type="text" name="menu_id" id="new_menu_id">
+                                </div>
+                            </div>
+                            <div class="input_row" style="margin: 10px 0 10px 0;">
+                                <div class="input_label">
+                                    <label for="new_menu_id">Tên danh mục:</label>
+                                </div>
+                                <div class="input">
+                                    <input type="text" name="menu_id" id="new_menu_name">
+                                    <button type="button" class="btn btn-default" onclick="cateCreate()">Tạo</button>
                                 </div>
                             </div>
                         </form>
