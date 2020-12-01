@@ -1,3 +1,4 @@
+//
 //click để hiện thức uống theo danh mục
 //
 //lấy danh mục đang active
@@ -64,7 +65,8 @@ function choseDrink(id) {
     //phần tử thứ 1 là size m hoặc size l
     //nếu phần tử thứ 1 là topping thì return vì giá chưa được chọn
     if (typeof (drink[2]) == "undefined" || drink[2].name == "topping") {
-        console.log("Chưa chọn giá")
+        var msg = "Chưa chọn giá";
+        alertFail(drink_id, msg);
         return;
     } else if (drink[2].name == "size_m") {
         size_m = parseInt(drink[2].value);
@@ -258,7 +260,6 @@ function updateQty(index) {
         qty = 1;
         $("#qty_input_" + index).val(1);
         confirmDelete(index);
-
     }
     //cập nhật lại số lượng
     items[index].qty = qty;
@@ -315,7 +316,6 @@ $("#bill_date").val(date);
 //
 //Tính tổng tiền
 //
-
 function totalMoney(items) {
     var total = 0;
     items.forEach((item) => {
@@ -338,8 +338,9 @@ function totalMoney(items) {
     moneyBalance();
 }
 
+//
 //tính tiền thừa
-
+//
 function moneyBalance() {
     var totalMoney = parseInt($("#totalMoney").val());
     var paid = $("#paid").val().replace(",", "");
@@ -353,4 +354,37 @@ function moneyBalance() {
 
     $("#paid").val(paid.toLocaleString().replace(".", ","))
     $("#changeMoney").text(change.toLocaleString().replace(".", ",") + " đ");
+}
+
+//
+//function hiển thị thông báo thành công
+function alertSuccess(id, msg){
+    var random = Math.floor(Math.random() * 100) + 1;
+    $(".alert_box").append(`
+    <div id="alert_${id}_${random}" class="alert alert-success" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <span id="msg">${msg}</span>
+    </div>`);
+    setTimeout(function(){
+        $("#alert_" + id + "_" + random).fadeTo(500, 0).slideUp(500, function(){
+            $(this).remove(); 
+        });
+    }, 2000);
+}
+//
+//function hiển thị thông báo không thành công
+//
+function alertFail(id, msg){
+    var random = Math.floor(Math.random() * 100) + 1;
+    $(".alert_box").append(`
+    <div id="alert_${id}_${random}" class="alert alert-danger" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <span id="msg">${msg}</span>
+    </div>`);
+    
+    setTimeout(function(){
+        $("#alert_" + id + "_" + random).fadeTo(500, 0).slideUp(500, function(){
+            $(this).remove(); 
+        });
+    }, 2000);
 }

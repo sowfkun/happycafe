@@ -320,32 +320,33 @@ function update_topping(id){
     });
 }
 //
-//function hiển thị thông báo thành công khi update
-//
+//function hiển thị thông báo thành công
 function alertSuccess(id, msg){
+    var random = Math.floor(Math.random() * 100) + 1;
     $(".alert_box").append(`
-    <div id="alert_${id}" class="alert alert-success" role="alert">
+    <div id="alert_${id}_${random}" class="alert alert-success" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <span id="msg">${msg}</span>
     </div>`);
     setTimeout(function(){
-        $("#alert_" + id).fadeTo(500, 0).slideUp(500, function(){
+        $("#alert_" + id + "_" + random).fadeTo(500, 0).slideUp(500, function(){
             $(this).remove(); 
         });
     }, 2000);
 }
 //
-//function hiển thị thông báo không thành công khi update
+//function hiển thị thông báo không thành công
 //
 function alertFail(id, msg){
+    var random = Math.floor(Math.random() * 100) + 1;
     $(".alert_box").append(`
-    <div id="alert_${id}" class="alert alert-danger" role="alert">
+    <div id="alert_${id}_${random}" class="alert alert-danger" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <span id="msg">${msg}</span>
     </div>`);
     
     setTimeout(function(){
-        $("#alert_" + id).fadeTo(500, 0).slideUp(500, function(){
+        $("#alert_" + id + "_" + random).fadeTo(500, 0).slideUp(500, function(){
             $(this).remove(); 
         });
     }, 2000);

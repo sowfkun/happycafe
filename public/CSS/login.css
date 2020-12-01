@@ -18,6 +18,19 @@ html, body{
     background: linear-gradient(-135deg, #d87111, #dfa563);
     height: 100%;
 }
+/*Vùng hiển thị các thông báo*/
+.alert_box{
+    width: 250px;
+    float: right;
+    height: fit-content;
+    padding: 5px;
+}
+.alert{
+    z-index: 10000;
+    margin-bottom: 10px !important;
+    box-shadow: 0 0 5px cadetblue;
+}
+
 
 #login{
     height: 100%;
@@ -98,3 +111,6 @@ html, body{
     line-height: 25px;
 }
 
+.switch:hover{
+    cursor: pointer;
+}
