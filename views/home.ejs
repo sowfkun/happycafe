@@ -86,7 +86,7 @@
                                                 <label for="size_l">L:
                                                     <span><%-drinks[j].price.size_l.toLocaleString()%></span> đ</label>
                                             </div>
-
+                                            
                                         </div>
                                         <!--chọn topping-->
                                         <div class="bottom">
@@ -102,9 +102,12 @@
                                                         class="fas fa-window-close topping_close"></i>
                                                     <ul>
                                                         <% topping.forEach((topping)=>{ %>
-                                                        <li class="topping_item" id="<%-topping.topping_id%>"
-                                                            onclick="toppingSelect('<%-drinks[j].drink_id%>','<%-topping.topping_id%>','<%-topping.name%>')">
-                                                            <%-topping.name%> </li>
+                                                            <% if(topping.status == "active"){ %>
+                                                                <li class="topping_item" id="<%-topping.topping_id%>"
+                                                                    onclick="toppingSelect('<%-drinks[j].drink_id%>','<%-topping.topping_id%>','<%-topping.name%>')">
+                                                                    <%-topping.name%> 
+                                                                </li>
+                                                            <% } %>  
                                                         <% }); %>
                                                     </ul>
                                                 </div>

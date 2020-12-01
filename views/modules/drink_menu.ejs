@@ -15,14 +15,16 @@
       <ul class="menu">
         <% category.forEach(function(cate,index){ %>
           <% if(cate.status == "active"){ %> 
-              <li class="active" id="<%-cate.category_id%>"><%-cate.name%> </li>
-            <% } else { %>
               <li id="<%-cate.category_id%>"><%-cate.name%> </li>
-            <% } %>
+          <% } %>
         <% }); %>
       </ul>
     </div>
   </nav>
+
+  <script>
+    $(".menu li").first().addClass("active");
+  </script>
 </body>
 
 </html>

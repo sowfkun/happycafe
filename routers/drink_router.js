@@ -29,8 +29,9 @@ router.post('/create', upload.single('drinkImg'), drinkCtrler.create);
 //create category
 router.post('/categoryCreate', drinkCtrler.categoryCreate);
 //update category
-
 router.post('/categoryUpdate', drinkCtrler.categoryUpdate);
+//create topping
+router.post('/toppingCreate', drinkCtrler.toppingCreate);
 //update topping
 router.post('/toppingUpdate', drinkCtrler.toppingUpdate);
 

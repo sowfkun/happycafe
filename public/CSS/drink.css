@@ -374,17 +374,17 @@ ul.topping>li::first-letter{
 }
 
 /*menu mới*/
-#new_menu button{
+.btnCreate{
     width: 50px;
     height: 30px;
     position: absolute;
     right: 30px;
-    background-color: #ed9652;
-    color: white;
-    font-size: 16px;
-    border-radius: 0;
-    border: none;
-    line-height: 16px;
+    background-color: #ed9652 !important;
+    color: white !important;
+    font-size: 16px !important;
+    border-radius: 0 !important;
+    border: none !important;
+    line-height: 16px !important;
 }
 /*hình ảnh*/
 

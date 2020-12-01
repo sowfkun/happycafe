@@ -158,25 +158,38 @@ function cateCreate(){
         console.log(data)
         if(data.msg == "success"){
             //hiển thị thông báo
-            updateSuccess(data.id)
+            var msg = "Tạo danh mục thành công";
+            alertSuccess(data.id, msg)
 
             //thêm danh mục mới vào list danh mục
-            $("#menu").append(`
+            $(".menu").append(`
             <li  style="display: flex; flex-direction:row;">
             <div style="width: 80%">
-                <span class="active cate_name" id="${data.id}">${data.name}</span>
+                <span class="cate_name" id="${data.id}">${data.name}</span>
             </div>
             <form id="update_cate_${data.id}">
                 <label class="switch">
-                    <input id="input_${data.id}" type="checkbox" onchange="update_category(${data.id})">
+                    <input id="input_${data.id}" type="checkbox" onchange="update_category('${data.id}')">
                     <span class="slider round"></span>
                 </label> 
             </form>
             </li>
+            `);
+
+            //thêm danh mục mới vào chọn danh mục ở phần tạo thức uống mới
+            $("#select_category").append(`
+            <option value="${data.id}">${data.name}</option>
             `)
+        } else if(data.msg == "exist") {
+            var msg = "Danh mục đã tồn tại"
+            alertFail(data.id, msg);
         } else {
-           updateFail(data.id)
+            var msg = "Tạo danh mục không thành công"
+            alertFail(data.id, msg);
         }
+    }).fail(function() {
+        var msg = "Tạo danh mục không thành công"
+        alertFail(id, msg);
     });
 }
 
@@ -196,9 +209,11 @@ function update_category(id) {
     }).done (function (data) {
         console.log(data)
         if(data.msg == "success"){
-           updateSuccess(data.id)
+            var msg = "Cập nhật " + data.id + " thành công"
+            alertSuccess(data.id, msg)
         } else {
-            updateFail(data.id);
+            var msg = "Cập nhật " + data.id + " không thành công"
+            alertFail(data.id, msg);
             var check = $("#input_" + id).prop("checked");
             if (check == true){
                 $("#input_" + data.id).prop("checked",false)
@@ -207,13 +222,61 @@ function update_category(id) {
             }
         }
     }).fail(function() {
-        updateFail(id);
+        var msg = "Cập nhật " + id + " không thành công"
+        alertFail(id, msg);
         var check = $("#input_" + id).prop("checked");
         if (check == true){
             $("#input_" + id).prop("checked",false)
         } else {
             $("#input_" + id).prop("checked",true)
         }
+    });
+}
+
+//
+//Tạo topping mới
+//
+function toppingCreate(){
+    var id = $("#new_topping_id").val().trim();
+    var name = $("#new_topping_name").val().trim();
+
+    $.ajax({
+        type: "POST",
+        url: "drink/toppingCreate",
+        dataType: "json",
+        data: {topping_id: id, name: name},
+        cache: false
+    }).done (function (data) {
+        console.log(data)
+        if(data.msg == "success"){
+            //hiển thị thông báo
+            var msg = "Tạo topping thành công";
+            alertSuccess(data.id, msg)
+
+            //thêm danh mục mới vào list danh mục
+            $(".topping").append(`
+            <li id="${data.id}" style="display: flex; flex-direction:row">
+                <div style="width:80%;">
+                    <span>${data.name}</span>
+                </div>
+                <form id="update_topping_${data.id}">
+                    <label class="switch">
+                    <input id="input_${data.id}" type="checkbox" onchange="update_topping('${data.id}')">
+                    <span class="slider round"></span>
+                    </label> 
+                </form>
+            </li>
+            `)
+        } else if(data.msg == "exist") {
+            var msg = "Topping đã tồn tại"
+            alertFail(data.id, msg);
+        } else {
+            var msg = "Tạo topping không thành công"
+            alertFail(data.id, msg);
+        }
+    }).fail(function() {
+        var msg = "Tạo topping không thành công"
+        alertFail(id, msg);
     });
 }
 
@@ -233,9 +296,11 @@ function update_topping(id){
     }).done (function (data) {
         console.log(data)
         if(data.msg == "success"){
-            updateSuccess(data.id)
+            var msg = "Cập nhật " + data.id + " thành công"
+            alertSuccess(data.id, msg)
         } else {
-            updateFail(data.id);
+            var msg = "Cập nhật " + data.id + " không thành công"
+            alertFail(data.id);
             var check = $("#input_" + id).prop("checked");
             if (check == true){
                 $("#input_" + data.id).prop("checked",false)
@@ -244,7 +309,8 @@ function update_topping(id){
             }
         }
     }).fail(function() {
-        updateFail(id);
+        var msg = "Cập nhật " + id + " không thành công"
+        alertFail(id, msg);
         var check = $("#input_" + id).prop("checked");
         if (check == true){
             $("#input_" + id).prop("checked",false)
@@ -256,11 +322,11 @@ function update_topping(id){
 //
 //function hiển thị thông báo thành công khi update
 //
-function updateSuccess(id){
+function alertSuccess(id, msg){
     $(".alert_box").append(`
     <div id="alert_${id}" class="alert alert-success" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <span id="msg">Update topping ${id} thành công</span>
+        <span id="msg">${msg}</span>
     </div>`);
     setTimeout(function(){
         $("#alert_" + id).fadeTo(500, 0).slideUp(500, function(){
@@ -269,13 +335,13 @@ function updateSuccess(id){
     }, 2000);
 }
 //
-//function hiển thị thông báo thất bại khi update
+//function hiển thị thông báo không thành công khi update
 //
-function updateFail(id){
+function alertFail(id, msg){
     $(".alert_box").append(`
     <div id="alert_${id}" class="alert alert-danger" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <span id="msg">Update menu ${id} thất bại</span>
+        <span id="msg">${msg}</span>
     </div>`);
     
     setTimeout(function(){
