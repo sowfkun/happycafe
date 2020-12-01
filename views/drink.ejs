@@ -45,26 +45,10 @@
                 </ul>
                 <nav class="menu_container" id="menu-container">
                     <div>
+                        <!--Danh mục-->
                       <h2 id="menu-title">MENU</h2>
                       <ul class="menu">
                         <% category.forEach(function(cate,index){ %>
-                          <% if(index == 0){ %>
-                            <li  style="display: flex; flex-direction:row;">
-                                <div style="width: 80%">
-                                    <span class="active cate_name" id="<%-cate.category_id%>"><%-cate.name%></span>
-                                </div>
-                                <form id="update_cate_<%-cate.category_id%>">
-                                    <label class="switch">
-                                        <% if(cate.status == "active"){ %>
-                                            <input id="input_<%-cate.category_id%>" type="checkbox" checked onchange="update_category('<%-cate.category_id%>')">
-                                        <% } else { %>
-                                            <input id="input_<%-cate.category_id%>" type="checkbox" onchange="update_category('<%-cate.category_id%>')">
-                                        <% } %>  
-                                        <span class="slider round"></span>
-                                    </label> 
-                                </form>
-                            </li>
-                          <% } else { %>
                             <li  style="display: flex; flex-direction:row;">
                                 <div style="width: 80%">
                                     <span class="cate_name" id="<%-cate.category_id%>"><%-cate.name%></span>
@@ -80,32 +64,56 @@
                                     </label> 
                                 </form>
                             </li>
-                          <% } %>
                         <% }); %>
+                        <script>
+                            $(".menu .cate_name").first().addClass("active");
+                        </script>
                       </ul>
                     </div>
                 </nav>
                 <nav class="menu_container" id="topping-container">
                     <div>
-                      <ul class="topping">
-                        <% topping.forEach((topping)=>{ %>
-                            <li id="<%-topping.topping_id%>" style="display: flex; flex-direction:row">
-                                <div style="width:80%;">
-                                    <span><%-topping.name%></span>
+                        <!--Form tạo topping mới-->
+                        <form id="create_topping" >
+                            <h2 style="font-size: 22px;">Tạo topping mới</h2>
+                            <div class="input_row" style="margin: 10px 0 0px 0; align-items: center;">
+                                <div class="input_label">
+                                    <label for="new_topping" style="font-size: 15px;">ID topping:</label>
                                 </div>
-                                <form id="update_topping_<%-topping.topping_id%>">
-                                    <label class="switch">
-                                        <% if(topping.status == "active"){ %>
-                                            <input id="input_<%-topping.topping_id%>" type="checkbox" checked onchange="update_topping('<%-topping.topping_id%>')">
-                                        <% } else { %>
-                                            <input id="input_<%-topping.topping_id%>" type="checkbox" onchange="update_topping('<%-topping.topping_id%>')">
-                                        <% } %>  
-                                        <span class="slider round"></span>
-                                    </label> 
-                                </form>
-                            </li>
-                        <% }); %>
-                      </ul>
+                                <div class="input">
+                                    <input type="text" name="topping_id" id="new_topping_id">
+                                </div>
+                            </div>
+                            <div class="input_row" style="margin: 10px 0 10px 0; align-items: center;">
+                                <div class="input_label">
+                                    <label for="new_topping_id" style="font-size: 15px;">Tên topping:</label>
+                                </div>
+                                <div class="input">
+                                    <input type="text" name="topping_id" id="new_topping_name">
+                                    <button type="button" style="padding: 0 !important; width: 30px" class="btn btn-default btnCreate" onclick="toppingCreate()">Tạo</button>
+                                </div>
+                            </div>
+                        </form>  
+                        <!--Danh sách topping-->
+                        <ul class="topping" style="margin-top: 30px; border-top: solid #ed9652; border-radius: 7px; padding-top: 10px;">
+                            <% topping.forEach((topping)=>{ %>
+                                <li id="<%-topping.topping_id%>" style="display: flex; flex-direction:row">
+                                    <div style="width:80%;">
+                                        <span><%-topping.name%></span>
+                                    </div>
+                                    <form id="update_topping_<%-topping.topping_id%>">
+                                        <label class="switch">
+                                            <% if(topping.status == "active"){ %>
+                                                <input id="input_<%-topping.topping_id%>" type="checkbox" checked onchange="update_topping('<%-topping.topping_id%>')">
+                                            <% } else { %>
+                                                <input id="input_<%-topping.topping_id%>" type="checkbox" onchange="update_topping('<%-topping.topping_id%>')">
+                                            <% } %>  
+                                            <span class="slider round"></span>
+                                        </label> 
+                                    </form>
+                                </li>
+                            <% }); %>
+                        </ul>
                     </div>
                 </nav>
             </div>
@@ -360,7 +368,7 @@
                                 </div>
                                 <div class="input">
                                     <input type="text" name="menu_id" id="new_menu_name">
-                                    <button type="button" class="btn btn-default" onclick="cateCreate()">Tạo</button>
+                                    <button type="button" class="btn btn-default btnCreate" onclick="cateCreate()">Tạo</button>
                                 </div>
                             </div>
                         </form>
@@ -385,7 +393,7 @@
                                         <label for="category">Danh mục:</label>
                                     </div>
                                     <div class="input">
-                                        <select name="category" style="width: 100%;"
+                                        <select id="select_category" name="category" style="width: 100%;"
                                             onchange="check_new_drink_form()">
                                             <% category.forEach((cate)=>{ %>
                                                 <option value="<%-cate.category_id%>"><%-cate.name%></option>

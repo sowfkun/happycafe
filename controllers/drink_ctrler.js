@@ -2,9 +2,10 @@ var Drink = require("../models/drink_model");
 var Category = require("../models/category_model");
 var Topping = require("../models/topping_model");
 var fs = require('fs');
-const { fail } = require("assert");
+
 module.exports.manage = function (req, res) {
     //query dữ liệu từ database
+
     Promise.all([
         Drink.find({}, {
             _id: 0
@@ -25,7 +26,9 @@ module.exports.manage = function (req, res) {
     });
 }
 
+//
 //cập nhật thông tin thức uống
+//
 module.exports.update = function (req, res) {
     //lấy tên hình ảnh
     var img = typeof (req.file) !== "undefined" ? req.file.filename : ""; //có thể ko cập nhật hình ảnh
@@ -200,7 +203,7 @@ module.exports.create = function (req, res) {
 //
 //Create category
 //
-module.exports.categoryCreate = async function (req, res) {
+module.exports.categoryCreate = function (req, res) {
     var data = req.body;
     //validate dữ liệu
     var id = typeof(data.category_id) == "string" && data.category_id !== "" ? data.category_id.trim() : "err";
@@ -213,6 +216,34 @@ module.exports.categoryCreate = async function (req, res) {
         return;
     }
     console.log(id, name)
+     //kiểm tra category mới đã tồn tại hay chưa
+    Category.find({category_id: id}).then( async (cate) => {
+        if(cate.length !== 0){
+            console.log("category đã tồn tại");
+            res.writeHead(200, { 'Content-Type': 'application/json' }); 
+            res.end(JSON.stringify({'msg':"exist",'id': id}));
+        } else {
+            var cate = new Category({
+               category_id : id,
+               name: name,
+               status: "inactive"
+            });
+
+            //lưu vào database
+            cate.save((function(err, doc) {
+                if (err || (doc.category_id !== id)){
+                    res.writeHead(200, { 'Content-Type': 'application/json' }); 
+                    res.end(JSON.stringify({'msg':"fail",'id': id}));
+                    throw err;
+                } else {
+                    console.log("drink created")
+                    res.writeHead(200, { 'Content-Type': 'application/json' }); 
+                    res.end(JSON.stringify({'msg':"success",'id': id, name: name}));
+                } ;
+               
+            }));
+        }
+    });
 }
 
 //
@@ -256,6 +287,50 @@ module.exports.categoryUpdate = async function (req, res) {
         res.end(JSON.stringify({'msg':"success",'id': id}));
     }
     
+}
+
+//
+//Create topping
+//
+module.exports.toppingCreate = function (req, res) {
+    var data = req.body;
+    //validate dữ liệu
+    var id = typeof(data.topping_id) == "string" && data.topping_id !== "" ? data.topping_id.trim() : "err";
+    var name = typeof(data.name) == "string" && data.name !== "" ? data.name.trim() : "err";
+
+    //redirect nếu phát hiện lỗi
+    if(id == "err" || name == "err"){
+        console.log("create fail");
+        return;
+    }
+    console.log(id, name)
+     //kiểm tra topping mới đã tồn tại hay chưa
+    Topping.find({topping_id: id}).then( async (topping) => {
+        if(topping.length !== 0){
+            console.log("Topping đã tồn tại");
+            res.writeHead(200, { 'Content-Type': 'application/json' }); 
+            res.end(JSON.stringify({'msg':"exist",'id': id}));
+        } else {
+            var topping = new Topping({
+               topping_id : id,
+               name: name,
+               status: "inactive"
+            });
+
+            //lưu vào database
+            topping.save((function(err, doc) {
+                if (err || (doc.topping_id !== id)){
+                    res.writeHead(200, { 'Content-Type': 'application/json' }); 
+                    res.end(JSON.stringify({'msg':"fail",'id': id}));
+                    throw err;
+                } else {
+                    console.log("drink created")
+                    res.writeHead(200, { 'Content-Type': 'application/json' }); 
+                    res.end(JSON.stringify({'msg':"success",'id': id, name: name}));
+                } ;
+            }));
+        }
+    });
 }
 
 //
