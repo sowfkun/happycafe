@@ -68,7 +68,7 @@
     color: #ed9652;
 }
 /*Thông tin nhân viên*/
-#staffModal .modal-backdrop{
+.modal-backdrop{
     z-index: 1000 !important;
 }
 #staffModal .modal-dialog{
