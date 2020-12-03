@@ -68,14 +68,14 @@
     color: #ed9652;
 }
 /*Thông tin nhân viên*/
-.modal-backdrop{
+#staffModal .modal-backdrop{
     z-index: 1000 !important;
 }
-.modal-dialog{
+#staffModal .modal-dialog{
     float: right;
     margin: 10px 20px;
 }
 
-.modal-body i{
+#staffModal .modal-body i{
     margin: 5px 0;
 }
