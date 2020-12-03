@@ -25,7 +25,7 @@
 
 /*logo image*/
 #container img{
-    margin-left: -45px;
+    margin-left: -25px;
     height: 100%;
 }
 
@@ -52,7 +52,7 @@
 
 /*login*/
 
-#login_button {
+#btnStaffModal {
     padding: 0px 10px 0px 10px;
     width: fit-content;
     float: right ;
@@ -62,15 +62,20 @@
     font-family: main_font;
     margin-right: -15px;
 }
-#login a{
-    color: white;
-}
 
-#login a:hover{
-    text-decoration: none;
+#btnStaffModal:hover{
+    background-color: white;
     color: #ed9652;
 }
+/*Thông tin nhân viên*/
+.modal-backdrop{
+    z-index: 1000 !important;
+}
+.modal-dialog{
+    float: right;
+    margin: 10px 20px;
+}
 
-#login a:hover #login_button{
-    background-color: white;
+.modal-body i{
+    margin: 5px 0;
 }

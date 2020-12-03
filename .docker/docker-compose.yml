@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  node-app:
+    container_name: nodejs
+    image: node
+    ports:
+      - "3001:3001"
+    tty: true
+    volumes:
+      - /e/docker/sowfkun_environment/sowfkun/nodejs/project/:/app/
+
+  nginx:
+    container_name: nginx
+    image: nginx
+    ports: 
+      - 80:80
+      - 443:443
+    

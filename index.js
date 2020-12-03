@@ -22,10 +22,14 @@ app.use(express.static("public"));
 //view template ejs
 app.set('view engine', 'ejs');
 app.set('views', './views');
+
+
 // cookies parser
 var cookieParser = require('cookie-parser');
-app.use(cookieParser());
-
+const cookieEncrypter = require('cookie-encrypter');
+const secretKey = process.env.SECRET_KEY;
+app.use(cookieParser(secretKey));
+app.use(cookieEncrypter(secretKey));
 
 //import router
 const homeRouter = require('./routers/home_router')
@@ -33,11 +37,15 @@ const drinkRouter = require('./routers/drink_router')
 const queue_orderRouter = require('./routers/queue_order_router')
 const dashboardRouter = require('./routers/dashboard_router')
 const loginRouter = require('./routers/login_router')
+
+//import middleware
+var checkLogin = require('./middleware/loginCheck');
+
 //router
-app.use('/', homeRouter);
-app.use('/drink', drinkRouter);
-app.use('/queue_order', queue_orderRouter);
-app.use('/dashboard', dashboardRouter);
+app.use('/', checkLogin.check, homeRouter);
+app.use('/drink', checkLogin.check, drinkRouter);
+app.use('/queue_order', checkLogin.check, queue_orderRouter);
+app.use('/dashboard', checkLogin.check, dashboardRouter);
 app.use('/login', loginRouter);
 
 //server
