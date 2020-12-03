@@ -1,6 +1,12 @@
 var Staff = require("../models/staff_model");
 var bcrypt = require('bcrypt');
 const saltRounds = 10;
+
+const cookieParams = {
+    httpOnly: true,
+    signed: true,
+    maxAge: 300000,
+  } ;
 //
 // Render login page
 //
@@ -31,6 +37,7 @@ module.exports.login = function (req, res) {
                 res.writeHead(200, { 'Content-Type': 'application/json' }); 
                 res.end(JSON.stringify({'msg':"fail",'id': "fail"}));
             } else {
+                res.cookie('_id', docs[0].staff_id , cookieParams);
                 res.writeHead(200, { 'Content-Type': 'application/json' }); 
                 res.end(JSON.stringify({'msg':"success",'id': "success"}));
             }

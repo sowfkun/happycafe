@@ -4,7 +4,6 @@ orbs:
   node: circleci/node@1.1.6
 
 jobs:
-
   build:
     executor:
       name: node/default
@@ -18,3 +17,27 @@ jobs:
           name: Run Unit Tests
           command: |
             npm test
+  deploy:
+    executor:
+      name: node/default
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "9f:09:89:34:dd:89:53:33:57:3d:90:55:80:a8:36:e3"
+      - run: ssh-keyscan 104.215.156.233 >> ~/.ssh/known_hosts
+      - run:
+          name: Deploy over SSH
+          command: ssh vuong_truong@13.67.61.14 "cd /home/sowfkun/lapcity/webproject; git fetch; 
+          git commit -m 'update code when master change'; git merge; docker restart node;";
+
+       
+workflows:
+  demo:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master

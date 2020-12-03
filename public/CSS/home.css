@@ -339,11 +339,11 @@ body {
     border: none;
     border-bottom: solid 1px black;
     width: 100%;
-    font-weight: bold;
     height: 30px;
     font-size: 18px;
     text-align: center;
     color: #ed9652;
+    line-height: 50px;
 }
 
 /**/
@@ -537,7 +537,7 @@ body {
 .input_row input {
     text-align: center;
     height: 30px;
-    line-height: 30px;
+    line-height: 40px;
     font-size: 18px;
     color: #ed9652;
 }

@@ -69,7 +69,8 @@ $("#btn_login").on('click', function(){
         if(data.msg == "success"){
             //hiển thị thông báo
             var msg = "Đăng nhập thành công";
-            alertSuccess(data.id, msg)
+            alertSuccess(data.id, msg);
+            window.location.replace("/");
         } else {
             var msg = "Số điện thoại hoặc mật khẩu không đúng"
             alertFail(data.id, msg);

@@ -1,32 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="CSS/modules_css/navigation.css">
-    <title>nav</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="CSS/modules_css/navigation.css">
+  <title>nav</title>
 </head>
+
 <body>
-    <nav class="navbar navbar-fixed-top">
-        <div class="container-fluid" id="container">
-          <img class="col-lg-2" src="Resources/images/mini_logo_no_background.png">
+  <nav class="navbar navbar-fixed-top">
+    <div class="container-fluid" id="container">
+      <img class="col-lg-2" src="Resources/images/mini_logo_no_background.png">
 
-          <ul class="nav navbar-nav col-lg-8">
-            <li><a href="/">Home</a></li>
-            <li><a href="/drink">Sản phẩm</a></li>
-            <li><a href="#">Tồn kho</a></li>
-            <li><a href="#">Nhân sự</a></li>
-            <li><a href="dashboard">Thống kê</a></li>
-            <li><a href="/queue_order">Đơn hàng</a></li>
-          </ul>
+      <ul class="nav navbar-nav col-lg-8">
+        <li><a href="/">Home</a></li>
+        <li><a href="/drink">Sản phẩm</a></li>
+        <li><a href="#">Tồn kho</a></li>
+        <li><a href="#">Nhân sự</a></li>
+        <li><a href="dashboard">Thống kê</a></li>
+        <li><a href="/queue_order">Đơn hàng</a></li>
+      </ul>
 
-          <div class="col-lg-2" id="login">
-            <a href="/login"><button id="login_button">Đăng nhập</button></a>
+      <div class="col-lg-2" id="login">
+        <!-- Button trigger modal -->
+        <button type="button" id="btnStaffModal" class="btn btn-primary" data-toggle="modal" data-target="#staffModal">
+          <%-staff.name%> 
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="staffModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <!--Header-->
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">Đóng</button>
+              </div>
+              <!--Body-->
+              <div class="modal-body">
+                <!--Thông tin nhân viên-->
+                <div class="row info" style="display: flex; align-items: center;">
+                  <div class="col-sm-6 col-md-4">
+                      <img src="http://placehold.it/300x400" alt="" height="400px" width="300px" style="margin: 0;" class="img-rounded img-responsive" />
+                  </div>
+                  <div class="col-sm-6 col-md-8">
+                      <h4 style="color: #ed9652;"><%-staff.name%> </h4>
+                      <small><cite ><%-staff.address%>  <i class="glyphicon glyphicon-map-marker">
+                      </i></cite></small>
+                      <p>
+                        <i class="glyphicon glyphicon-phone"></i>&ensp;<%-staff.phone%><br/>
+                        <i class="glyphicon glyphicon-envelope"></i>&ensp;<%-staff.email%><br/>
+                        <i class="glyphicon glyphicon-gift"> </i>&ensp;<span class="birthday"></span> <br>
+                        <% if(staff.sex == "male"){ %> 
+                          <i class='fas fa-transgender' style="font-size:15px; margin-left: 2px;"></i>&ensp;Nam&emsp;
+                        <% } else { %>
+                          <i class='fas fa-transgender' style="font-size:15px; margin-left: 2px;"></i>&ensp;Nữ&emsp;
+                        <% } %>  
+
+                        <% if(staff.position == "manager"){ %> 
+                          <i class="glyphicon glyphicon-briefcase"></i>&ensp;Quản lí<br/>
+                        <% } else if(staff.position == "cashier") { %>
+                          <i class="glyphicon glyphicon-briefcase"></i>&ensp;Thu ngân<br/>
+                        <% } else { %>
+                          <i class="glyphicon glyphicon-briefcase"></i>&ensp;Pha chế<br/>
+                        <% } %>  
+                      </p>
+                          <script>
+                            var birthday = '<%-staff.birthday%>'
+                            var arr = birthday.split(" ");
+                            var newBirthday = arr[0] + " " + arr[1] + " " + arr[2] + " " + arr[3];
+                            $(".birthday").text(newBirthday);
+                          </script>
+                  </div>
+                </div>
+
+              </div>
+              <!--footer-->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đổi mật khẩu</button>
+                <button type="button" class="btn btn-primary">Đăng xuất</button>
+              </div>
+            </div>
           </div>
         </div>
-       
-    </nav>
+      </div>
+    </div>
+
+  </nav>
 </body>
+
 </html>

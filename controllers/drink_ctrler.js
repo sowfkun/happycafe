@@ -217,7 +217,7 @@ module.exports.categoryCreate = function (req, res) {
     }
     console.log(id, name)
      //kiểm tra category mới đã tồn tại hay chưa
-    Category.find({category_id: id}).then( (cate) => {
+    Category.find({category_id: id},{category_id: 1}).then( (cate) => {
         if(cate.length !== 0){
             console.log("category đã tồn tại");
             res.writeHead(200, { 'Content-Type': 'application/json' }); 
