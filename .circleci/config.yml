@@ -27,8 +27,7 @@ jobs:
       - run: ssh-keyscan 104.215.156.233 >> ~/.ssh/known_hosts
       - run:
           name: Deploy over SSH
-          command: ssh vuong_truong@104.215.156.233 "cd /app/cloud_computing/webapp_frontend; git fetch; 
-          git commit -m 'update code when master change'; git merge; sudo docker restart nodejs;";
+          command: ssh vuong_truong@104.215.156.233 "cd /app/cloud_computing/webapp_frontend; git fetch; git commit -m 'update code when master change'; git merge; sudo docker restart nodejs;";
 
 workflows:
   demo:
