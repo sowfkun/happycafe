@@ -4,8 +4,24 @@ var Topping = require("../models/topping_model");
 var fs = require('fs');
 
 module.exports.manage = function (req, res) {
-    //query dữ liệu từ database
+    
+    //kiểm tra đăng nhập
+    var staff = res.locals.staff;
+    //nếu chưa đăng nhập thì quay về trang đăng nhập
+    if(res.locals.isLogin == false){
+        res.redirect('/login');
+        return;
+    } 
 
+    //nếu đã đăng nhập mà không phải manager thì quay về trang trước
+    if(res.locals.isLogin == true && staff.position !== "manager") {
+        console.log(staff.position);
+        res.redirect('back');
+        return;
+    } 
+
+    console.log(staff.position);
+    //query dữ liệu từ database
     Promise.all([
         Drink.find({}, {
             _id: 0
@@ -21,9 +37,11 @@ module.exports.manage = function (req, res) {
         res.render('drink', {
             drinks: drinks,
             category: category,
-            topping: topping
+            topping: topping,
+            staff: staff
         });
     });
+    
 }
 
 //
@@ -205,6 +223,7 @@ module.exports.create = function (req, res) {
 //
 module.exports.categoryCreate = function (req, res) {
     var data = req.body;
+    console.log(data);
     //validate dữ liệu
     var id = typeof(data.category_id) == "string" && data.category_id !== "" ? data.category_id.trim() : "err";
     var name = typeof(data.name) == "string" && data.name !== "" ? data.name.trim() : "err";
@@ -250,15 +269,24 @@ module.exports.categoryCreate = function (req, res) {
 //update category
 //
 module.exports.categoryUpdate = async function (req, res) {
+    //kiểm tra đăng nhập
+    var staff = res.locals.staff;
+    if(res.locals.isLogin == false || staff.position !== "manager"){
+        res.end(JSON.stringify({"msg":'require login'}));
+        return;
+    } 
+
     var data = req.body;
+    console.log(data);
     //validate dữ liệu
     var id = typeof(data.category_id) == "string" && data.category_id !== "" ? data.category_id : "err";
     var status = data.status == "false" || data.status == "true" ? data.status : "err";
+    console.log(id);
+    console.log(status);
 
     //redirect nếu phát hiện lỗi
     if(id == "err" || status == "err"){
         console.log("update fail");
-        res.redirect('back');
         return;
     }
 
