@@ -1,7 +1,6 @@
 var Staff = require("../models/staff_model");
 var bcrypt = require('bcrypt');
 const saltRounds = 10;
-const chalk = require('chalk');
 
 const cookieParams = {
     httpOnly: true,
@@ -12,7 +11,6 @@ const cookieParams = {
 // Render login page
 //
 module.exports.loginPage = function (req, res) {
-    console.log(chalk.blue('Hello world!'));
     res.render("login");
 }
 

@@ -24,6 +24,6 @@ module.exports.home = function(req, res) {
             });
         });
     } else {
-         res.redirect('/login');
+        res.redirect('/login');
     }
 }
