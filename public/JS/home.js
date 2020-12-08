@@ -336,6 +336,7 @@ function totalMoney(items) {
     $("#alt_totalMoney").val(total.toLocaleString().replace(".", ","));
 
     moneyBalance();
+    return total;
 }
 
 //
@@ -354,10 +355,60 @@ function moneyBalance() {
 
     $("#paid").val(paid.toLocaleString().replace(".", ","))
     $("#changeMoney").text(change.toLocaleString().replace(".", ",") + " đ");
+    return change;
+}
+
+
+//
+//Xác nhận đặt món
+//
+function confirmOrder(){
+    //check item
+    if(items.length == 0){
+        alertFail("empty", "Bạn chưa chọn món");
+        return;
+    }
+    //check tên khách
+    var customer = $("#customer input").val();
+    if(customer == ""){
+        alertFail("empty", "Bạn chưa nhập tên khách");
+        return;
+    }
+    var note = $("#note input").val().trim().replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+    //check balance
+    var changeMoney = moneyBalance();
+    if(changeMoney < 0){
+        alertFail("fail", "Số tiền không hợp lệ");
+        return;
+    }
+    //các giá trị đều hợp lệ
+    $.ajax({
+        type: "POST",
+        url: "/createOrder",
+        dataType: "json",
+        data: {
+            items: items,
+            customer: customer,
+            note: note
+        },
+        cache: false
+    }).done (function (data) {
+        console.log(data)
+        if(data.msg == "success"){
+         
+        } else {
+           
+        }
+    }).fail(function() {
+        var msg = "Tạo order không thành công"
+        alertFail("abc", msg);
+    });
 }
 
 //
 //function hiển thị thông báo thành công
+//
 function alertSuccess(id, msg){
     var random = Math.floor(Math.random() * 100) + 1;
     $(".alert_box").append(`

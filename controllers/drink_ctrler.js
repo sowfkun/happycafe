@@ -5,20 +5,7 @@ var fs = require('fs');
 
 module.exports.manage = function (req, res) {
     
-    //kiểm tra đăng nhập
-    var staff = res.locals.staff;
-    //nếu chưa đăng nhập thì quay về trang đăng nhập
-    if(res.locals.isLogin == false){
-        res.redirect('/login');
-        return;
-    } 
-
-    //nếu đã đăng nhập mà không phải manager thì quay về trang trước
-    if(res.locals.isLogin == true && staff.position !== "manager") {
-        console.log(staff.position);
-        res.redirect('back');
-        return;
-    } 
+    
 
     console.log(staff.position);
     //query dữ liệu từ database

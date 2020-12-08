@@ -1,11 +1,14 @@
 const express = require('express');
 const router = express.Router();
 
-
 const drinkCtrler = require('../controllers/drink_ctrler')
 
+//middleware kiểm tra đăng nhập
+var checkLogin = require('../middleware/loginCheck');
 
-var multer = require('multer'); //upload file
+
+//upload file
+var multer = require('multer'); 
 
 var storage = multer.diskStorage({
   destination: function (req, file, callback) {
@@ -20,19 +23,21 @@ var upload = multer({
   storage: storage
 })
 
+
+
 //trang quản lí
-router.get('/', drinkCtrler.manage);
+router.get('/', checkLogin.managerOnly, drinkCtrler.manage);
 //update
-router.post('/update', upload.single('new_img'), drinkCtrler.update);
+router.post('/update', checkLogin.managerOnly, upload.single('new_img'), drinkCtrler.update);
 //tạo mới
-router.post('/create', upload.single('drinkImg'), drinkCtrler.create);
+router.post('/create', checkLogin.managerOnly, upload.single('drinkImg'), drinkCtrler.create);
 //create category
-router.post('/categoryCreate', drinkCtrler.categoryCreate);
+router.post('/categoryCreate', checkLogin.managerOnly, drinkCtrler.categoryCreate);
 //update category
-router.post('/categoryUpdate', drinkCtrler.categoryUpdate);
+router.post('/categoryUpdate', checkLogin.managerOnly, drinkCtrler.categoryUpdate);
 //create topping
-router.post('/toppingCreate', drinkCtrler.toppingCreate);
+router.post('/toppingCreate', checkLogin.managerOnly, drinkCtrler.toppingCreate);
 //update topping
-router.post('/toppingUpdate', drinkCtrler.toppingUpdate);
+router.post('/toppingUpdate', checkLogin.managerOnly, drinkCtrler.toppingUpdate);
 
 module.exports = router;

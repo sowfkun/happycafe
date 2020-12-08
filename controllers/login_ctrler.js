@@ -5,7 +5,7 @@ const saltRounds = 10;
 const cookieParams = {
     httpOnly: true,
     signed: true,
-    maxAge: 300000,
+    expires: new Date(Date.now() + 18000000)
   } ;
 //
 // Render login page
@@ -43,7 +43,4 @@ module.exports.login = function (req, res) {
             }
         });
     });
-
-    
-
 }
