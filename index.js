@@ -38,14 +38,12 @@ const queue_orderRouter = require('./routers/queue_order_router')
 const dashboardRouter = require('./routers/dashboard_router')
 const loginRouter = require('./routers/login_router')
 
-//import middleware
-var checkLogin = require('./middleware/loginCheck');
 
 //router
-app.use('/', checkLogin.check, homeRouter);
-app.use('/drink', checkLogin.check, drinkRouter);
-app.use('/queue_order', checkLogin.check, queue_orderRouter);
-app.use('/dashboard', checkLogin.check, dashboardRouter);
+app.use('/', homeRouter);
+app.use('/drink', drinkRouter);
+app.use('/queue_order', queue_orderRouter);
+app.use('/dashboard', dashboardRouter);
 app.use('/login', loginRouter);
 
 //server

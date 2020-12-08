@@ -1,3 +1,5 @@
 module.exports.queue = function(req, res) {
-    res.render("queue_order");
+    res.render("queue_order",{
+        staff: ""
+    });
 }
