@@ -70,9 +70,9 @@ function choseDrink(id) {
         return;
     } else if (drink[2].name == "size_m") {
         size_m = parseInt(drink[2].value);
-        size_l = false;
+        size_l = 0;
     } else if (drink[2].name == "size_l") {
-        size_m = false;
+        size_m = 0;
         size_l = parseInt(drink[2].value);
     }
 
@@ -142,7 +142,7 @@ function loadItem() {
                 </div>
             `
         //element tên, size và topping, giá
-        if (item.size_m !== false) { //item này là size vừa
+        if (item.size_m !== 0) { //item này là size vừa
 
             //element tên, size
             var info = `
@@ -393,12 +393,12 @@ function confirmOrder(){
             note: note
         },
         cache: false
-    }).done (function (data) {
+    }).done(function (data) {
         console.log(data)
-        if(data.msg == "success"){
-         
+        if(data.msg == "fail"){
+            alertFail("fail", "Tạo order không thành công")
         } else {
-           
+           alertSuccess("success", "Tạo order thành công")
         }
     }).fail(function() {
         var msg = "Tạo order không thành công"

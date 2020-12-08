@@ -1,7 +1,9 @@
 var Drink = require("../models/drink_model");
 var Category = require("../models/category_model");
 var Topping = require("../models/topping_model");
+var Order = require("../models/order_model");
 
+var dateFormat = require("dateformat");
 
 module.exports.home = function (req, res) {
 
@@ -37,18 +39,23 @@ module.exports.createOrder = function (req, res) {
 
     var data = req.body;
 
-    var customer = typeof(data.customer) !== "undefined" && data.customer !== "" ? data.customer.trim() : "err";
+    var customer_name = typeof (data.customer) !== "undefined" && data.customer !== "" ? data.customer.trim() : "err";
     var note = data.note.trim().replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    var items = typeof(data.items) == "object" && data.items.length >=1 ? data.items : "err";
+    var items = typeof (data.items) == "object" && data.items.length >= 1 ? data.items : "err";
     var finalItems = [];
+
+    if (customer_name == "err" || note == "err" || items == "err") {
+        console.log("Create order fail");
+        return;
+    }
     //format lại items
     items.forEach(item => {
         var newItem = {
             drink_id: item.drink_id,
             drink_name: item.drink_name,
             price: {
-                size_m: item.size_m,
-                size_l: item.size_l,
+                size_m: parseInt(item.size_m),
+                size_l: parseInt(item.size_l),
             },
             topping: {
                 topping_id: item.topping,
@@ -59,7 +66,18 @@ module.exports.createOrder = function (req, res) {
 
         finalItems.push(newItem);
     });
-    console.log(finalItems);
-    
-    
+
+    var date = Date.now();
+    //Lấy thời gian đặt món làm order_id
+    var order_id = date;
+    console.log(order_id);
+
+    //thời gian bắt đầu order
+    var time_begin = dateFormat(date, "isoDateTime");
+
+    console.log(time_begin)
+    var order = new Order({
+
+    });
+
 }
