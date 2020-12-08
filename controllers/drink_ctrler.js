@@ -5,9 +5,7 @@ var fs = require('fs');
 
 module.exports.manage = function (req, res) {
     
-    
-
-    console.log(staff.position);
+    var staff = res.locals.staff;
     //query dữ liệu từ database
     Promise.all([
         Drink.find({}, {
