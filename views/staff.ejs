@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="CSS/staff.css">
+    <title>Happy Cafe-Staff</title>
+</head>
+<body>
+    <div id="background" class="container-fluid" >
+        
+        <!--navigation module-->
+        <div class="row">
+            <div id="module_nav" >
+                <%-include('./modules/navigation')%>
+            </div>
+        </div>
+           
+        <!--menu module-->
+        <div class="row" id="body">
+            <div id="queue_zone" class="col-lg-8">
+                <div id="queue_layout">
+                    <div id="header">
+                            <input type="date" id="select_date">
+                    </div>
+
+                    <script>
+                        document.getElementById('select_date').valueAsDate = new Date();
+                    </script>
+
+
+                    <div id="table_queue">
+                        <div id="table_header">
+                            <table>
+                                <tr>
+                                    <th style="width: 5%">ID</th>
+                                    <th style="width: 20%">Tên nhân viên</th>
+                                    <th style="width: 10%">Giới tính</th>
+                                    <th style="width: 15%">SĐT</th>
+                                    <th style="width: 20%">Email</th>
+                                    <th style="width: 10%">Ca làm</th>
+                                    <th style="width: 10%">Vị trí</th>
+                                    <th style="width: 20%;">Mức lương</th>
+                                </tr>
+                            </table>
+                        </div>
+                        <div id="table_body">
+                            <table>
+                                <% staff.forEach((staffs,index) => { %>
+                                    
+                                    <tr class="row_queue" id="row_<%-index%>">
+                                        <td style="width: 5%"><%-staffs.staff_id%></td>
+                                        <td style="width: 20%"><%-staffs.name%></td>
+
+                                        <% if (staffs.sex == "male") {%>
+                                        <td style="width: 10%">Nam</td>
+                                        <%} else {%>
+                                        <td style="width: 10%">Nữ</td>
+                                        <%}%>
+
+                                        <td style="width: 15%"><%-staffs.phone%></td>
+                                        <td style="width: 20%"><%-staffs.email%></td>
+                                        <td style="width: 10%"><%-staffs.period%></td>
+                                        <% if(staffs.position == "cashier"){%>
+                                        <td style="width: 10%">Thu ngân</td>
+                                        <%}else if(staffs.position == "manager"){%>                                            
+                                        <td style="width: 10%">Quản lý</td>
+                                        <%} else {%>                                                                                   
+                                        <td style="width: 10%">Pha chế</td>
+                                        <%}%>
+                                        <td style="width: 20%"><%-staffs.salary.toLocaleString()%> VND</td>
+                                    </tr>
+                                    <script>
+                                        var index = parseInt('<%-index%>');
+                                        if(index == 0){
+                                            $("#row_0").css("background-color","#aedeec");
+                                            $("#row_0 span").css("color","#ed9652");
+                                        } else if(index % 2 == 0 ){
+                                            var id = "#row_" + index;
+                                            $(id).css("background-color","#ffeadb");
+                                        }
+                                        </script>
+                                <%}); %>
+                            </table>
+                        </div>
+                        
+                        <script>
+                            var height=  $("#table_body").height();
+                            if(height > 520){
+                                $("#table_header").css("padding-right","18px")
+                            }
+                        </script>
+                    </div>
+                </div>
+
+            </div>
+<!--thêm nhân viên mới-->
+            <div id="is_making_zone" class="col-lg-4">
+                <div id="create_layout">
+                    <h2>Thêm nhân viên mới</h2>
+                            <form  action="/staff/create" id="create_form" method="POST">
+
+
+                                <div class="modal_img">
+                                    <input type="file" id="staffImg" name="staffImg" style="display: none;"
+                                        onchange="load_staff_img(event), check_new_drink_form()" />
+                                    <input type="button" id="alter_input" value="Chọn ảnh"
+                                        onclick="document.getElementById('staffImg').click();" />
+                                    <div class="img_border">
+                                        <img id="staff_img" src="" width="150px" height="150px">
+                                    </div>
+                                </div>
+                                <div id="staff_info">
+
+                                    <!--Họ tên-->
+                                    <div class="input_row">
+                                        <div class="input_label">
+                                            <label for="name">Họ tên</label>
+                                        </div>
+                                        <div class="input">
+                                            <input id ="name" placeholder="Hoàng Gia Vương" style="width:100%" type="text" name="name" onchange="check_new_drink_form()">
+                                                <label class="error" style="display: none;"></label>
+                                        </div>
+                                    </div>
+
+                                        <!--Giới tính-->
+
+                                    <div class="input_row">    
+                                        <div class="input_label">
+                                            <label for="sex">Giới tính</label>
+                                        </div>
+                                        <div class="input">
+                                            <select style="width:100%" id="sex" name="sex" 
+                                                onchange="check_new_drink_form()">
+                                                    <option value="male">Nam</option>
+                                                    <option value="female">Nữ</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                        <!--Số điện thoại-->
+
+                                    <div class="input_row">
+                                        <div class="input_label">
+                                            <label for="phone">Số điện thoại</label>
+                                        </div>
+                                        <div class="input">
+                                            <input id="phone" placeholder="0987654312" style="width:100%" type="text" name="phone" onchange="check_new_drink_form()">
+                                                <label class="error" style="display: none;"></label>
+                                        </div>
+                                    </div>
+
+                                        <!--Email-->
+
+                                    <div class="input_row">        
+                                        <div class="input_label">
+                                            <label for="email">Email</label>
+                                        </div>
+                                        <div class="input">
+                                            <input id="email" placeholder="happycafe@gmail.com" style="width:100%" type="text" name="email" onchange="check_new_drink_form()">
+                                                <label class="error" style="display: none;"></label>
+                                        </div>
+                                    </div>
+
+                                        <!--Ca làm-->
+                                    
+                                    <div class="input_row">
+                                        <div class="input_label">
+                                            <label for="period">Ca làm</label>
+                                        </div>
+                                        <div class="input">
+                                            <select style="width:100%" id="period" name="period" 
+                                                onchange="check_new_drink_form()">
+                                                    <option value="Sáng">Ca sáng</option>
+                                                    <option value="Chiều">Ca chiều</option>
+                                                    <option value="Tối">Ca tối</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                        <!--Vị trí-->
+                                    <div class="input_row">
+                                        <div class="input_label">
+                                            <label for="position">Vị trí</label>
+                                        </div>
+                                        <div class="input">
+                                            <select style="width:100%" id="position" name="position" 
+                                                onchange="check_new_drink_form()">
+                                                    <option value="bartender">Pha chế</option>
+                                                    <option value="cashier">Thu ngân</option>
+                                                    <option value="manager">Quản lý</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                        <!--Vai trò-->
+
+                                    <div class="input_row">
+                                        <div class="input_label">
+                                            <label for="salary">Mức Lương</label>
+                                        </div>
+                                        <div class="input">
+                                            <input id="salary" placeholder="5.000.000" style="width:100%" type="text" name="salary" onchange="check_new_drink_form()">
+                                                <label class="error" style="display: none;"></label>
+                                        </div>
+                                    </div>
+                                        
+                                        <!--Địa chỉ-->
+
+                                    <div class="input_row">    
+                                        <div class="input_label">
+                                            <label for="address">Địa chỉ</label>
+                                        </div>
+                                        <div class="input">
+                                            <input id="address" placeholder="Tô Ngọc Vân, Phường Tam Bình, Quận Thủ Đức, TP HCM" style="width:100%" type="text" name="address" onchange="check_new_drink_form()">
+                                                <label class="error" style="display: none;"></label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div style="width: fit-content; margin : auto; margin-top:15px;">
+                                    <button id="btn_create" type="submit" class="btn btn-default">Tạo</button>
+                                </div>
+                            </form>
+                            <script>
+                                //load ảnh
+                                function load_staff_img(event) {
+                                    var reader = new FileReader();
+                                    reader.onload = function () {
+                                        var img = document.getElementById('staff_img');
+                                        img.src = reader.result;
+                                    };
+                                    reader.readAsDataURL(event.target.files[0]);
+                                };
+                            </script>
+                            
+                            <script>
+                                $(document).ready(function(){
+                                    $("#create_form").validate({
+                                        rules:{
+                                            name:{
+                                                required: true,
+                                                minlength: 4
+                                            },
+                                            phone:{
+                                                required: true,
+
+                                            },
+                                            email:{
+                                                required:true,
+                                                email:true
+                                            },
+                                            salary:{
+                                                required:true,
+                                                number:true
+                                            },
+                                            address:{
+                                                required: true
+                                            }
+        
+                                        },
+                                        messages:{
+                                            name:{
+                                            required:"Vui lòng nhập họ tên đầy đủ",
+                                            minlength:"Họ tên quá ngắn"
+                                            },                                            
+                                            phone:{
+                                                required:"Vui lòng nhập số điện thoại"
+                                            },
+                                            email:{
+                                                required:"Vui lòng nhập Email",
+                                                email:"Email không hợp lệ"
+                                            },
+                                            salary:{
+                                                required:"Vui lòng nhập lương cho nhân viên",
+                                                number:"phải là kiểu số"
+                                            },
+                                            address:{
+                                                required:"Vui lòng nhập địa chỉ"
+                                            }
+                                        },
+                                    });
+                                });
+                            </script>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
