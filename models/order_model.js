@@ -35,7 +35,7 @@ var orderSchema = new mongoose.Schema({
                 type: String,
                 required: [true, "topping_id is required"]
             },
-            toppng_name: {
+            topping_name: {
                 type: String,
                 required: [true, "toppng_name is required"]
             }

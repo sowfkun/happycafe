@@ -335,7 +335,6 @@ module.exports.toppingCreate = function (req, res) {
                 if (err || (doc.topping_id !== id)){
                     res.writeHead(200, { 'Content-Type': 'application/json' }); 
                     res.end(JSON.stringify({'msg':"fail",'id': id}));
-                    throw err;
                 } else {
                     console.log("drink created")
                     res.writeHead(200, { 'Content-Type': 'application/json' }); 
