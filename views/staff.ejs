@@ -37,14 +37,14 @@
                         <div id="table_header">
                             <table>
                                 <tr>
-                                    <th style="width: 5%">ID</th>
-                                    <th style="width: 20%">Tên nhân viên</th>
-                                    <th style="width: 10%">Giới tính</th>
-                                    <th style="width: 15%">SĐT</th>
-                                    <th style="width: 20%">Email</th>
-                                    <th style="width: 10%">Ca làm</th>
-                                    <th style="width: 10%">Vị trí</th>
-                                    <th style="width: 20%;">Mức lương</th>
+                                    <th style="width: 5%; text-align: center">ID</th>
+                                    <th style="width: 20%; text-align: center">Tên nhân viên</th>
+                                    <th style="width: 10%; text-align: center">Giới tính</th>
+                                    <th style="width: 15%; text-align: center">SĐT</th>
+                                    <th style="width: 20%; text-align: center">Email</th>
+                                    <th style="width: 10%; text-align: center">Ca làm</th>
+                                    <th style="width: 10%; text-align: center">Vị trí</th>
+                                    <th style="width: 20%;; text-align: center">Mức lương</th>
                                 </tr>
                             </table>
                         </div>
@@ -52,7 +52,7 @@
                             <table>
                                 <% staff.forEach((staffs,index) => { %>
                                     
-                                    <tr class="row_queue" id="row_<%-index%>">
+                                    <tr class="row_queue" id="row_<%-index%>" onclick="showEdit('<%-staffs.staff_id%>')">
                                         <td style="width: 5%"><%-staffs.staff_id%></td>
                                         <td style="width: 20%"><%-staffs.name%></td>
 
@@ -74,6 +74,42 @@
                                         <%}%>
                                         <td style="width: 20%"><%-staffs.salary.toLocaleString()%> VND</td>
                                     </tr>
+
+                                    <!-- Button trigger modal -->
+                                    <button style="display: none;" type="button" id="btn_<%-staffs.staff_id%>" class="btn btn-primary" data-toggle="modal" data-target="#staffModal_<%-staffs.staff_id%>">
+                                        Launch demo modal
+                                    </button>
+                                    
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="staffModal_<%-staffs.staff_id%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel"><%-staffs.staff_id%></h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                            </div>
+                                            <div class="modal-body">
+                                            ...
+                                            </div>
+                                            <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary">Save changes</button>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+
+                                    <script>
+                                        function showEdit(id){
+                                            $("#btn_" +id).click();
+                                        }
+                                    </script>
+
+
+
+
                                     <script>
                                         var index = parseInt('<%-index%>');
                                         if(index == 0){
@@ -102,12 +138,12 @@
             <div id="is_making_zone" class="col-lg-4">
                 <div id="create_layout">
                     <h2>Thêm nhân viên mới</h2>
-                            <form  action="/staff/create" id="create_form" method="POST">
+                            <form  action="/staff/create" id="create_form" method="POST" enctype="multipart/form-data">
 
 
                                 <div class="modal_img">
                                     <input type="file" id="staffImg" name="staffImg" style="display: none;"
-                                        onchange="load_staff_img(event), check_new_drink_form()" />
+                                        onchange="load_staff_img(event)" />
                                     <input type="button" id="alter_input" value="Chọn ảnh"
                                         onclick="document.getElementById('staffImg').click();" />
                                     <div class="img_border">

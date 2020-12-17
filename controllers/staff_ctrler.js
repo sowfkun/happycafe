@@ -55,7 +55,7 @@ module.exports.create = function(req,res){
         if (testArr.includes("err") == true) {
             //nếu có chọn ảnh mà các giá trị khác sai thì xóa ảnh
             if (img !== "err") {
-                var imgPath = 'public/upload/staff_image/' + img;
+                var imgPath = 'public/upload/staff/' + img;
                 fs.unlink(imgPath, function (err) {
                     if (err) throw err;
                     console.log(`delete ${img} successfully`);
@@ -68,7 +68,7 @@ module.exports.create = function(req,res){
         Staff.find({staff_id: staff_id}).then((staff) => {
             if(staff.length !== 0){
                 console.log("Nhân viên đã tồn tại trong hệ thống");
-                var imgPath = 'public/upload/staff_image/' + img;
+                var imgPath = 'public/upload/staff/' + img;
                 fs.unlink(imgPath, function (err) {
                 if (err) throw err;
                 console.log(`delete ${img} successfully`);
