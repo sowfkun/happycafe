@@ -297,22 +297,28 @@ function cancelDelete(index) {
 //
 //Chọn ngày cho bill
 //
-var date = new Date();
+function updateTime(){
+    var date = new Date();
 
-if (date.getDate() < 10) {
-    var day = "0" + date.getDate();
-} else {
-    var day = date.getDate();
+    if (date.getDate() < 10) {
+        var day = "0" + date.getDate();
+    } else {
+        var day = date.getDate();
+    }
+    if (date.getMonth() < 10) {
+        var month = "0" + (date.getMonth() + 1) ;
+    } else {
+        var month = date.getMonth() + 1;
+    }
+
+    var hour = date.getHours();
+    var minute = date.getMinutes();
+    var second = date.getSeconds();
+    date =  day + "/" + month + "/" + date.getFullYear() + "     " + hour + ":" + minute + ":" + second;
+    $("#bill_date").val(date);
 }
-if (date.getMonth() < 10) {
-    var month = "0" + date.getMonth();
-} else {
-    var month = date.getMonth();
-}
 
-date = date.getFullYear() + "-" + month + "-" + day;
-$("#bill_date").val(date);
-
+setInterval(updateTime, 1000);
 //
 //Tính tổng tiền
 //
@@ -320,7 +326,7 @@ function totalMoney(items) {
     var total = 0;
     items.forEach((item) => {
         //giá size m * số lượng
-        if (item.size_m !== false) {
+        if (item.size_m !== 0) {
             total += item.size_m * item.qty;
         } else {
             //Giá size l * số lượng
@@ -396,9 +402,17 @@ function confirmOrder(){
     }).done(function (data) {
         console.log(data)
         if(data.msg == "fail"){
-            alertFail("fail", "Tạo order không thành công")
+            alertFail("fail", "Tạo order không thành công");
         } else {
-           alertSuccess("success", "Tạo order thành công")
+           alertSuccess("success", "Tạo order thành công");
+           //reset lại form
+           items = [];
+           loadItem();
+           totalMoney(items);
+           $("#paid").val(0)
+           $("#changeMoney").text("0 đ");
+           $("#customer input").val("");
+           $("#note input").val("")
         }
     }).fail(function() {
         var msg = "Tạo order không thành công"
