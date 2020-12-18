@@ -3,7 +3,6 @@ var Category = require("../models/category_model");
 var Topping = require("../models/topping_model");
 var Order = require("../models/order_model");
 
-var dateFormat = require("dateformat");
 var moment = require('moment-timezone');
 
 module.exports.home = function (req, res) {
