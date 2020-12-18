@@ -35,7 +35,7 @@ var orderSchema = new mongoose.Schema({
                 type: String,
                 required: [true, "topping_id is required"]
             },
-            toppng_name: {
+            topping_name: {
                 type: String,
                 required: [true, "toppng_name is required"]
             }
@@ -55,7 +55,10 @@ var orderSchema = new mongoose.Schema({
     },
     discount: {
         type: Number,
-        required: [true, "discount is required"],
+        required: [true, "discount is required"]
+    },
+    note:{
+        type: String
     },
     total: {
         type: Number,
