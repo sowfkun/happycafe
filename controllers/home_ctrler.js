@@ -3,6 +3,7 @@ var Category = require("../models/category_model");
 var Topping = require("../models/topping_model");
 var Order = require("../models/order_model");
 
+
 module.exports.home = function (req, res) {
 
     var staff = res.locals.staff;
@@ -83,6 +84,7 @@ module.exports.createOrder = function (req, res) {
     });
 
     var now = Date.now();
+    console.log(now)
     //lấy thời gian kiểu sô làm id
     var id = "order_" + now;
 
@@ -107,7 +109,10 @@ module.exports.createOrder = function (req, res) {
             res.writeHead(200, { 'Content-Type': 'application/json' }); 
             res.end(JSON.stringify({'msg':"fail",'id': id}));
         } else {
-            console.log("drink created")
+            //tạo sự kiện newOrder
+            req.io.emit("neworder", "success");
+
+            console.log("order created")
             res.writeHead(200, { 'Content-Type': 'application/json' }); 
             res.end(JSON.stringify({'msg':"success",'id': id}));
         } ;

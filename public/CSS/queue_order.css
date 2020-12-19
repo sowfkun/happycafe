@@ -12,7 +12,18 @@
 html, body{
     height: 100%;
 }
-
+/*Vùng hiển thị các thông báo*/
+.alert_box{
+    width: 250px;
+    float: right;
+    height: fit-content;
+    padding: 5px;
+}
+.alert{
+    z-index: 10000;
+    margin-bottom: 10px !important;
+    box-shadow: 0 0 5px cadetblue;
+}
 /*background*/
 #background{
     background-color: #ececec;
@@ -94,6 +105,13 @@ html, body{
     font-size: 18px;
 
 }
+
+.list_drink{
+    width: 45%; 
+    text-align: left !important; 
+    padding-left: 20px
+}
+
 #table_queue p{
     margin: 10px 0 10px 0px
 }
@@ -102,7 +120,14 @@ html, body{
     font-weight: bold;
 }
 
+.drink_name::first-letter{
+    text-transform: uppercase;
+}
 
+.no-data{
+    height:100px;
+    color: tomato;
+}
 /**/
 /**/
 /**/
@@ -177,6 +202,7 @@ html, body{
 .drink span{
     color: #ed9652;
 }
+
 .check{
     width: 20%;
 }
@@ -191,4 +217,33 @@ html, body{
     color:white;
     border: none;
     padding: 5px 15px 5px 15px;
+}
+
+/*xác nhận xóa sản phẩm*/
+.confirm_done {
+    min-height: 55px;
+    width: 350px;
+    right: 70px;
+    margin-top: -45px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border: solid 1px sandybrown;
+    background-color: white;
+    position: absolute;
+    display: none;
+}
+
+
+.confirm_done p {
+    margin: 0 15px;
+    font-size: 22px;
+}
+
+.confirm_done button {
+    border: none;
+    color: white;
+    font-size: 18px;
+    padding: 0 15px;
+    margin: 0 10px;
 }

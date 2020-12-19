@@ -31,25 +31,37 @@ const secretKey = process.env.SECRET_KEY;
 app.use(cookieParser(secretKey));
 app.use(cookieEncrypter(secretKey));
 
+
+
+//server with socket.io
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
+
+app.use(function(req, res, next) {
+    req.io = io;
+    next();
+  });
+//sự kiện kết nối
+io.on("connection", ()=>{
+    console.log("New connection...")
+});
+
 //import router
 const homeRouter = require('./routers/home_router')
 const drinkRouter = require('./routers/drink_router')
-const queue_orderRouter = require('./routers/queue_order_router')
+const orderRouter = require('./routers/order_router')
 const dashboardRouter = require('./routers/dashboard_router')
 const loginRouter = require('./routers/login_router')
-
 
 //router
 app.use('/', homeRouter);
 app.use('/drink', drinkRouter);
-app.use('/queue_order', queue_orderRouter);
+app.use('/order', orderRouter);
 app.use('/dashboard', dashboardRouter);
 app.use('/login', loginRouter);
 
-//server
 const port = process.env.PORT || 3001;
-var server = app.listen(port, () => {
-    console.log(`Server started on port ${port}`);
+server.listen(port, ()=>{
+    console.log(`Server listening on port ${port}`);
 });
-
-module.exports = server;
+module.exports = io;

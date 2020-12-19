@@ -317,7 +317,7 @@ function updateTime(){
     date =  day + "/" + month + "/" + date.getFullYear() + "     " + hour + ":" + minute + ":" + second;
     $("#bill_date").val(date);
 }
-
+updateTime();
 setInterval(updateTime, 1000);
 //
 //Tính tổng tiền
