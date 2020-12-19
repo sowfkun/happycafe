@@ -64,4 +64,4 @@ const port = process.env.PORT || 3001;
 server.listen(port, ()=>{
     console.log(`Server listening on port ${port}`);
 });
-module.exports = io;
+module.exports =server;
