@@ -114,3 +114,7 @@ html, body{
 .switch:hover{
     cursor: pointer;
 }
+
+.resendOTP:hover{
+    cursor: pointer;
+}

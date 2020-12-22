@@ -41,10 +41,11 @@ module.exports.createOrder = function (req, res) {
     //validate lại dữ liệu
     var customer_name = typeof (data.customer) !== "undefined" && data.customer !== "" ? data.customer.trim() : "err";
     var note = data.note.trim().replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    var items = typeof (data.items) == "object" && data.items.length >= 1 ? data.items : "err";
+    var items = typeof(data.items) == "object" && data.items.length >= 1 ? data.items : "err";
+    var staff_id = typeof(data.staff_id) !== "undefined" && data.staff_id !== "" ? data.staff_id.trim() : "err";
     var finalItems = [];
 
-    if (customer_name == "err" || items == "err") {
+    if (customer_name == "err" || items == "err" || staff_id == "err") {
         console.log("Create order fail");
         return;
     }
@@ -93,6 +94,7 @@ module.exports.createOrder = function (req, res) {
 
     var order = new Order({
         order_id: id,
+        staff_id: staff_id,
         customer_name: customer_name,
         drink: finalItems,
         time_begin: time_begin,
@@ -111,7 +113,6 @@ module.exports.createOrder = function (req, res) {
         } else {
             //tạo sự kiện newOrder
             req.io.emit("neworder", "success");
-
             console.log("order created")
             res.writeHead(200, { 'Content-Type': 'application/json' }); 
             res.end(JSON.stringify({'msg':"success",'id': id}));

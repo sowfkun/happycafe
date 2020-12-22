@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <link rel="stylesheet" type="text/css" href="CSS/modules_css/navigation.css">
+  <script src="https://kit.fontawesome.com/a0df4ac8c5.js"></script>
   <title>nav</title>
 </head>
 
@@ -37,12 +38,12 @@
             <div class="modal-content">
               <!--Header-->
               <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">Đóng</button>
+                <button id="close_btn" type="button" class="close" data-dismiss="modal" aria-label="Close"  >Đóng</button>
               </div>
               <!--Body-->
               <div class="modal-body">
                 <!--Thông tin nhân viên-->
-                <div class="row info" style="display: flex; align-items: center;">
+                <div class="row info layout" style="display: flex; align-items: center;">
                   <div class="col-sm-6 col-md-4">
                       <img src="http://placehold.it/300x400" alt="" height="400px" width="300px" style="margin: 0;" class="img-rounded img-responsive" />
                   </div>
@@ -53,9 +54,8 @@
                       <p>
                         <i class="glyphicon glyphicon-phone"></i>&ensp;<%-staff.phone%><br/>
                         <i class="glyphicon glyphicon-envelope"></i>&ensp;<%-staff.email%><br/>
-                        <i class="glyphicon glyphicon-gift"> </i>&ensp;<span class="birthday"></span> <br>
                         <% if(staff.sex == "male"){ %> 
-                          <i class='fas fa-transgender' style="font-size:15px; margin-left: 2px;"></i>&ensp;Nam&emsp;
+                          <span style="display: inline-block; width:100px;"><i class='fas fa-transgender' style="font-size:15px; margin-left: 2px;"></i>&ensp;Nam&emsp;</span>
                         <% } else { %>
                           <i class='fas fa-transgender' style="font-size:15px; margin-left: 2px;"></i>&ensp;Nữ&emsp;
                         <% } %>  
@@ -66,30 +66,57 @@
                           <i class="glyphicon glyphicon-briefcase"></i>&ensp;Thu ngân<br/>
                         <% } else { %>
                           <i class="glyphicon glyphicon-briefcase"></i>&ensp;Pha chế<br/>
-                        <% } %>  
+                        <% } %> 
+                        <span style="display: inline-block; width: 100px;"><i class="glyphicon glyphicon-time"></i>&ensp;Ca <%-staff.period %> &emsp;</span>
+                        <i class="glyphicon glyphicon-euro" style="font-size: 15px;">&ensp;<%=staff.salary.toLocaleString() %>đ</i> 
                       </p>
-                          <script>
-                            var birthday = '<%-staff.birthday%>'
-                            var arr = birthday.split(" ");
-                            var newBirthday = arr[0] + " " + arr[1] + " " + arr[2] + " " + arr[3];
-                            $(".birthday").text(newBirthday);
-                          </script>
                   </div>
                 </div>
 
+                <div class="changepassAlert layout" style="display: none;">
+                  <p>Bạn có chắc muốn đổi mật khẩu?</p>
+                  <button type="button" id="btn_yes" style="background-color: blue;">Xác nhận</button>
+                  <button type="button" class="btn_no" style="background-color: red;">Hủy</button>
+              </div>
+
+                <!--Form xác nhận otp-->
+                <form class="form layout" id="otpConfirm" style="width: 100%; display: none ;">
+                  <span class="form_title w3-animate-left" style="font-size: 30px;">Đổi mật khẩu</span>
+                  <div class="input w3-animate-left" style="margin-bottom: 30px; display: flex; flex-direction: row; align-items: center;">
+                      <div style="margin-right: 25px; display: flex; align-items: center">
+                          <i id="otp_label" class="fas fa-check-square" style="font-size: 26px; margin: 5px 4px;"></i>
+                          <input type="text" id="otp" name="otp" style="width:100%" placeholder="Nhập mã xác nhận" >
+                      </div>
+                      <h2 class="resendOTP" style="font-size: 15px; color: #0380a0; margin: 0;" >Gửi lại mã</h2>
+                  </div>
+                  
+                  <div class="input w3-animate-left" style="margin-bottom: 30px;">
+                      <i class="fas fa-unlock-alt" style="font-size: 26px; margin: 5px 4px;"></i>
+                      <input type="password" id="newpass" name="newpass" placeholder="Nhập mật khẩu mới">
+                  </div>
+
+                  <div class="input w3-animate-left" style="margin-bottom: 30px;">
+                      <i class="fas fa-unlock-alt" style="font-size: 26px; margin: 5px 4px;"></i>
+                      <input type="password" id="confirm_pass" name="confirm" placeholder="Nhập lại mật khẩu" >
+                  </div>
+                  <div>
+                      <button id="confirm_new_pass" type="" class="btn btn_confirm btn-info w3-animate-right">Xác nhận</button>
+                      <button type="button" class="btn_no btn_confirm btn btn-info w3-animate-right" style="background-color: red;">Hủy</button>
+                  </div>
+                 
               </div>
               <!--footer-->
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đổi mật khẩu</button>
-                <button type="button" class="btn btn-primary">Đăng xuất</button>
+                <button type="button" id="btn_change_pass" class="btn btn-secondary">Đổi mật khẩu</button>
+                <button type="button" id="btn_logout" class="btn btn-primary">Đăng xuất</button>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-
   </nav>
 </body>
-
+  <script src="JS/navigation.js">
+  </script>
 </html>

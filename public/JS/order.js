@@ -163,7 +163,7 @@ function render(data) {
 
             part2 += `
                 <p>
-                    <span class="drink_name" style=" color: black; font-weight: 100; display: inline-block; width: 120px;">
+                    <span class="drink_name" style=" color: black; font-weight: 100; display: inline-block; width: 130px;">
                     ${drink.drink_name}</span>
                     <span>${drink.qty}x &ensp;</span>
                     <span></span>${price.toLocaleString()} đ &ensp;</span>
