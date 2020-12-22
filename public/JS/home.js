@@ -388,6 +388,9 @@ function confirmOrder(){
         alertFail("fail", "Số tiền không hợp lệ");
         return;
     }
+
+    //Staffid
+    var staff_id = $("#staff_id").val();
     //các giá trị đều hợp lệ
     $.ajax({
         type: "POST",
@@ -396,7 +399,8 @@ function confirmOrder(){
         data: {
             items: items,
             customer: customer,
-            note: note
+            note: note,
+            staff_id: staff_id
         },
         cache: false
     }).done(function (data) {

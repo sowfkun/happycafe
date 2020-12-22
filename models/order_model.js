@@ -7,6 +7,10 @@ var orderSchema = new mongoose.Schema({
         type: String,
         required: [true, "order_id is required"]
     },
+    staff_id: {
+        type: String,
+        required: [true, "staff_id is required"]
+    },
     customer_name: {
         type: String,
         required: [true, "customer_name is required"]
@@ -68,7 +72,7 @@ var orderSchema = new mongoose.Schema({
         type: String,
         enum: ["waiting", "complete"],
         required: [true, 'status is required']
-    },
+    }
 
 });
 var Order = mongoose.model("Order", orderSchema, "order");

@@ -47,6 +47,7 @@
                         <% if(drinks[j].category_id == category[i].category_id){ %>
                             <li>
                              <!--hết-->
+                             <form></form>
                              <% if(drinks[j].status == "active") { %>
                                 <form id="drinkForm_<%-drinks[j].drink_id%>">
                             <% } else { %>  <!--Còn-->
@@ -66,9 +67,9 @@
                                     <div class="drink_info">
                                         <!--tên thức uống-->
                                         <h3 class="drink_name"><%-drinks[j].name%></h3>
-                                        <input type="hidden" name="drink_id" id="drink_id"
+                                        <input type="hidden" name="drink_id" 
                                             value="<%-drinks[j].drink_id%>">
-                                        <input type="hidden" name="drink_name" id="drink_name"
+                                        <input type="hidden" name="drink_name" 
                                             value="<%-drinks[j].name%>">
                                         <!--Giá tiền-->
                                         <div id="drink_price">

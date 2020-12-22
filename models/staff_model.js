@@ -46,6 +46,11 @@ var staffSchema = new mongoose.Schema({
     type: String,
     enum: ["working", "resign"],
     required: [true, 'status is required']
+  },
+  period:{
+    type: String,
+    enum: ["Sáng", "Chiều"],
+    required: [true, 'period is required']
   }
 });
 var Staff = mongoose.model("Staff", staffSchema, "staff");

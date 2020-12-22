@@ -41,7 +41,6 @@ module.exports.selectOrder = function (req, res) {
     }).sort({
         'time_begin': 1
     }).then((orders) => {
-
         res.writeHead(200, {'Content-Type': 'application/json'});
         res.end(JSON.stringify({"data": orders}));
     });
@@ -58,7 +57,7 @@ module.exports.confirmOrder = async function (req, res) {
         res.writeHead(200, { 'Content-Type': 'application/json' }); 
         res.end(JSON.stringify({'msg':"fail",'id': order_id}));
     } else {
-        console.log("update completed");
+        console.log("order done");
         res.writeHead(200, { 'Content-Type': 'application/json' }); 
         res.end(JSON.stringify({'msg':"success",'id': order_id}));
     }
