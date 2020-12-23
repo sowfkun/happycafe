@@ -17,9 +17,13 @@ var upload = multer({
 
 
 const staffCtrler= require('../controllers/staff_ctrler')
+//middleware kiểm tra đăng nhập
+var checkLogin = require('../middleware/loginCheck');
 //get staff info
 router.get('/', staffCtrler.staff); 
 //post staff info
-router.post('/create',upload.single('staffImg'),staffCtrler.create);
+router.post('/create', checkLogin.managerOnly, upload.single('staffImg'),staffCtrler.create);
+router.post('/update', checkLogin.managerOnly,upload.single('new_img'),staffCtrler.update);
+
 
 module.exports = router;

@@ -13,18 +13,19 @@ module.exports.staff = function (req, res) {
        
 
     ]).then(([staff]) => {
-        console.log(staff);
         res.render('staff', {
             staff: staff
         });
     });
     
 }
-module.exports.create = function(req,res){
+module.exports.create =  function(req,res){
     //get data from ejs
 
         //get name of img
         var img = typeof(req.file) !== "undefined" ? req.file.filename : "err";
+        console.log(img);
+        console.log(req.file);
         //other data
         var data = req.body;
         // phone staff
@@ -42,7 +43,7 @@ module.exports.create = function(req,res){
         //period staff
         var staff_period = data.period !== "sáng" || data.period !== "chiều" || data.period !=="tối" ? data.period : "err";
         //position staff    
-        var staff_position = data.position !== "bartender" || data.position !== "cashier" || data.position !=="manager" ? data.position : "err";
+        var staff_position = data.position !== "bartender" || data.position !== "cashier" || data.position !=="manager" || data.position !== "waiter" || data.position !== "security" ? data.position : "err";
         //salary staff
         var staff_salary = typeof(data.salary) !== "undefined" && data.salary !== ""? parseInt(data.salary) : "err";
         // staff address
@@ -65,17 +66,17 @@ module.exports.create = function(req,res){
             return;
         }
     // kiểm tra nhân viên đã tồn tại hay chưa
-        Staff.find({staff_id: staff_id}).then((staff) => {
+         Staff.find({staff_id: staff_id}).then((staff) => {
             if(staff.length !== 0){
                 console.log("Nhân viên đã tồn tại trong hệ thống");
                 var imgPath = 'public/upload/staff/' + img;
                 fs.unlink(imgPath, function (err) {
                 if (err) throw err;
                 console.log(`delete ${img} successfully`);
-            });
+                });
                 console.log("create fail");
             } else{
-                bcrypt.hash(staff_password, saltRounds, function(err, hash) {
+                bcrypt.hash(staff_password, saltRounds,async function(err, hash) {
                     var staff = new Staff({
                         staff_id: staff_id,
                         name: staff_name,
@@ -88,14 +89,89 @@ module.exports.create = function(req,res){
                         address: staff_address,
                         status: "working",
                         period: staff_period,
+                        img: img
                     });
-                    staff.save((function(err,doc){
+                    await staff.save((function(err,doc){
                         if (err) throw err;
                         console.log("staff created")
                     }));
+                    console.log(1);
+                    res.redirect('back');
                 });
             }
-        }).then(() => {
-            res.redirect('back');
-        });
+        })      
+}
+module.exports.update = function(req, res){
+    //lấy tên hình ảnh
+    var img = typeof(req.file) !== "undefined" ? req.file.filename : "";
+    //các trường dữ liệu khác
+    var data = req.body;
+    var id = typeof (data.staff_id) == "string" && data.staff_id !== "" ? data.staff_id : "err"; //bắt buộc
+    var EditStaffPeriod = data.period !== "sáng" || data.period !== "chiều" || data.period !=="tối" ? data.period : "err";
+    var EditStaffPosition = data.position !== "bartender" || data.position !== "cashier" || data.position !=="manager" || data.position !== "waiter" || data.position !== "security" ? data.position : "err";
+    var EditStaffSalary = isNaN(data.salary) == false && data.salary !=="" && parseInt(data.salary) >= 1000 ? parseInt(data.salary) : "err"; // Lương phải lớn hơn 1000
+    var EditStaffAddress = typeof(data.address) !== "undefined" && data.address !== ""? data.address : "err";
+    //Kiểm tra các giá trị, không hợp lệ thì hủy cập nhật
+    var testArr = [EditStaffPeriod, EditStaffPosition, EditStaffSalary, EditStaffAddress];
+    if (testArr.includes("err") == true) {
+        //nếu có chọn ảnh mà các giá trị khác sai thì xóa ảnh
+        if (img !== "") {
+            var imgPath = 'public/upload/staff/' + img;
+            fs.unlink(imgPath, function (err) {
+                if (err) throw err;
+                console.log('file deleted successfully');
+            });
+        }
+        console.log("update fail");
+        return;
+    }
+    //Sau khi kiểm tra xong, tiến hành cập nhật
+    if(img !== ""){ //có thay đổi ảnh, tức giá trị ảnh không bị rỗng
+        var update ={
+            $set:{
+                period: EditStaffPeriod,
+                position: EditStaffPosition,
+                salary: EditStaffSalary,
+                address: EditStaffAddress,
+                img: img
+            }
+        }
+    } else { //không có sự thay đổi ảnh
+        var update ={
+            $set:{
+                period: EditStaffPeriod,
+                position: EditStaffPosition,
+                salary: EditStaffSalary,
+                address: EditStaffAddress,
+                img: img
+            }
+    }
+    }
+    const query = {
+        "staff_id" : id
+    };
+    const options = {
+        "upsert": false,
+        "multi": false,
+    };
+    Staff.updateOne(query, update,options,function(err,res){
+        if(err) throw err;
+        console.log(res.nModified);
+        if(res.nModified ==0){
+            console.log("update fail");
+            // nếu có chọn ảnh mà giá trị khác không hợp lệ thì xóa ảnh
+            if(img !== ""){
+                var imgPath = 'public/upload/staff' + img;
+                fs.unlink(imgPath, function (err) {
+                    if (err) throw err;
+                    console.log('file delete successfully')
+                });
+            }
+            return;
+        } else {
+            console.log("update complete");
+        }
+    }).then(() => {
+        res.redirect('back');
+    })
 }

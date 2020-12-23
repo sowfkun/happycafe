@@ -65,12 +65,16 @@
                                         <td style="width: 15%"><%-staffs.phone%></td>
                                         <td style="width: 20%"><%-staffs.email%></td>
                                         <td style="width: 10%"><%-staffs.period%></td>
-                                        <% if(staffs.position == "cashier"){%>
+                                        <% if(staffs.position == "cashier") {%>
                                         <td style="width: 10%">Thu ngân</td>
-                                        <%}else if(staffs.position == "manager"){%>                                            
+                                        <%}else if(staffs.position == "manager") {%>                                            
                                         <td style="width: 10%">Quản lý</td>
-                                        <%} else {%>                                                                                   
+                                        <%} else if(staffs.position == "bartender") {%>                                                                                   
                                         <td style="width: 10%">Pha chế</td>
+                                        <%} else if(staffs.position =="waiter") {%>
+                                        <td style="width: 10%">Phục vụ</td>
+                                        <%} else {%>
+                                        <td style="width: 10%">Bảo vệ</td>
                                         <%}%>
                                         <td style="width: 20%"><%-staffs.salary.toLocaleString()%> VND</td>
                                     </tr>
@@ -82,22 +86,216 @@
                                     
                                     <!-- Modal -->
                                     <div class="modal fade" id="staffModal_<%-staffs.staff_id%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel"><%-staffs.staff_id%></h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                            </div>
-                                            <div class="modal-body">
-                                            ...
-                                            </div>
-                                            <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary">Save changes</button>
-                                            </div>
-                                        </div>
+                                        <div class="modal-dialog" role="document" style="max-width:700px">
+                                            <form action="staff/update" method="POST" id="update_form_<%=staffs.staff_id%>" class="update_form" enctype="multipart/form-data">
+                                                <input type="hidden" name="staff_id" value="<%=staffs.staff_id%>">
+                                                <div class="modal-content" >
+                                                    <!--Header của form-->
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Chỉnh sửa thông tin</h4>                                                        </h4>
+                                                    </div>
+                                                    <!--Body-->
+                                                    <div class="modal-body" style="display:flex; flex-direction: row; justify-content: center;">
+                                                        <!--Hình ảnh-->
+                                                        <div id="img_layout">
+                                                            <img id="new_img_<%-staffs.staff_id%>"
+                                                            src="upload/staff/<%=staffs.img%>"
+                                                            width="150px" height="150px" style="border: solid 0.5px #ed9652;">
+                                                        <input type="file" class="img_input"
+                                                            id="img_input_<%-staffs.staff_id%>"
+                                                            name="new_img" style="display: none;"
+                                                            onchange="loadImg_<%-staffs.staff_id%>(event), checkform('<%-staffs.staff_id%>')" />
+                                                        <input type="button" id="alter_input" value="Upload"
+                                                            onclick="$(this).siblings('.img_input').click()" />
+                                                        </div>
+                                                        
+                                                        <div id="info_layout">
+                                                            <!--Họ và tên-->
+                                                            <div id="info_edit">
+                                                                <div class="input_row">
+                                                                    <div class="input_label">
+                                                                        <label for="edit_menu">Họ và tên</label>
+                                                                    </div>
+                                                                    <div class="input">
+                                                                        <input type="text" readonly
+                                                                            value="<%-staffs.name%> ">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!--Giới tính-->
+                                                            <div class="input_row">    
+                                                                <div class="input_label">
+                                                                    <label for="sex">Giới tính</label>
+                                                                </div>
+                                                                <div class="input">
+                                                                    <select style="width:100%" id="sex"
+                                                                        onchange='<%-staffs.staff_id%>' aria-readonly>
+                                                                            <%if(staffs.sex=="male") {%>
+                                                                            <option value="male">Nam</option>
+                                                                            <%} else {%>
+                                                                            <option value="female">Nữ</option>
+                                                                            <%}%>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                            <!--Số điện thoại-->
+                                                            <div id="info_edit">
+                                                                <div class="input_row">
+                                                                    <div class="input_label">
+                                                                        <label for="edit_menu">Số điện thoại</label>
+                                                                    </div>
+                                                                    <div class="input">
+                                                                        <input type="text" readonly
+                                                                            value="<%-staffs.phone%> ">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!--Email-->
+                                                            <div id="info_edit">
+                                                                <div class="input_row">
+                                                                    <div class="input_label">
+                                                                        <label for="edit_menu">Email</label>
+                                                                    </div>
+                                                                    <div class="input">
+                                                                        <input type="text" readonly
+                                                                            value="<%-staffs.email%> ">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!--Ca làm-->
+                                                            <div class="input_row" style=" 
+                                                                margin: 0; margin-bottom: 15px;">
+                                                                <div class="input_label">
+                                                                    <label for="period">Ca làm</label>
+                                                                </div>
+                                                                <div class="input">
+                                                                    <select style="width:100%" id="period" name="period" 
+                                                                        onchange="checkform('<%-staffs.staff_id%>')">
+                                                                        <%if(staffs.period=="Sáng") {%>
+                                                                            <option value="Sáng">Ca sáng</option>
+                                                                            <option value="Chiều">Ca chiều</option>
+                                                                            <option value="Tối">Ca tối</option>
+                                                                        <%} else if(staffs.period=="Chiều") {%>
+                                                                            <option value="Chiều">Ca chiều</option>
+                                                                            <option value="Sáng">Ca sáng</option>                                                                    
+                                                                            <option value="Tối">Ca tối</option>
+                                                                        <%} else {%>
+                                                                            <option value="Tối">Ca tối</option>
+                                                                            <option value="Chiều">Ca chiều</option>
+                                                                            <option value="Sáng">Ca sáng</option>
+                                                                        <%}%>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <!--Vị trí-->
+                                                            <div class="input_row" 
+                                                                style="margin: 0;margin-bottom: 15px;">
+                                                                <div class="input_label">
+                                                                    <label for="position">Vị trí</label>
+                                                                </div>
+                                                                <div class="input">
+                                                                    <select style="width:100%" id="position" name="position" 
+                                                                        onchange="checkform('<%-staffs.staff_id%>')">
+                                                                        <% if (staffs.position=="bartender"){%>
+                                                                                <option value="bartender">Pha chế</option>
+                                                                                <option value="cashier">Thu ngân</option>
+                                                                                <option value="manager">Quản lý</option>
+                                                                                <option value="waiter">Phục vụ</option>
+                                                                                <option value="security">Bảo vệ</option>
+                                                                            <%} else if(staffs.position=="cashier") { %>
+                                                                                <option value="cashier">Thu ngân</option>
+                                                                                <option value="bartender">Pha chế</option>
+                                                                                <option value="manager">Quản lý</option>
+                                                                                <option value="waiter">Phục vụ</option>
+                                                                                <option value="security">Bảo vệ</option>
+                                                                            <%} else if(staffs.position=="manager"){ %> 
+                                                                                <option value="manager">Quản lý</option>
+                                                                                <option value="bartender">Pha chế</option>
+                                                                                <option value="cashier">Thu ngân</option>
+                                                                                <option value="waiter">Phục vụ</option>
+                                                                                <option value="security">Bảo vệ</option>
+                                                                            <% } else if(staffs.position=="waiter"){ %>
+                                                                                <option value="waiter">Phục vụ</option> 
+                                                                                <option value="bartender">Pha chế</option>
+                                                                                <option value="cashier">Thu ngân</option>
+                                                                                <option value="manager">Quản lý</option>
+                                                                                <option value="security">Bảo vệ</option>
+                                                                            <% } else if(staffs.position=="security") { %>                                                                    
+                                                                                <option value="security">Bảo vệ</option> 
+                                                                                <option value="bartender">Pha chế</option>
+                                                                                <option value="cashier">Thu ngân</option>
+                                                                                <option value="manager">Quản lý</option>
+                                                                                <option value="waiter">Phục vụ</option>
+                                                                            <% } else{ %>                                                                        
+                                                                                <option value="bartender">Pha chế</option>
+                                                                                <option value="cashier">Thu ngân</option>
+                                                                                <option value="manager">Quản lý</option>
+                                                                                <option value="waiter">Phục vụ</option>
+                                                                                <option value="security">Bảo vệ</option>
+                                                                            <%}%>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <!--Mức lương-->
+                                                            <div class="input_row"
+                                                                style="margin: 0;margin-bottom: 15px;">
+                                                                <div class="input_label">
+                                                                    <label for="salary">Mức Lương</label>
+                                                                </div>
+                                                                <div class="input">
+                                                                    <input id="edit_salary_<%-staffs.staff_id%>" value="<%=staffs.salary%>" style="width:100%" type="number" name="salary" onchange="checkform('<%-staffs.staff_id%>')">
+                                                                        <label class="error" style="display: none;"></label>
+                                                                </div>
+                                                            </div>
+                                                            <!--Địa chỉ-->
+                                                            <div class="input_row"
+                                                                style="margin: 0;margin-bottom: 15px;">
+                                                                <div class="input_label">
+                                                                    <label for="salary">Địa chỉ</label>
+                                                                </div>
+                                                                <div class="input">
+                                                                    <input id="address" value="<%=staffs.address%>" style="width:100%" type="text" name="address" onchange="checkform('<%-staffs.staff_id%>')">
+                                                                        <label class="error" style="display: none;"></label>
+                                                                </div>
+                                                            </div></div>
+                                                    </div>
+                                                    <script>
+                                                        //Function load ảnh mới
+                                                        function loadImg_<%-staffs.staff_id%> (event) {
+                                                            var reader = new FileReader();
+                                                            reader.onload = function () {
+                                                                var id = "new_img_" +
+                                                                    '<%-staffs.staff_id%>';
+                                                                console.log(id);
+                                                                var img = document.getElementById(id);
+                                                                img.src = reader.result;
+                                                            };
+                                                            reader.readAsDataURL(event.target.files[0]);
+                                                        };
+                                                    </script>
+                                                    
+                                                    <!--button submit edit-->
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default btn-cancel"
+                                                            data-dismiss="modal"
+                                                            onclick="cancelUpdate('<%-staffs.staff_id%>')"
+                                                            style="background-color: red;">Hủy</button>
+                                                        <button id="btn_edit_<%-staffs.staff_id%>" 
+                                                            disabled class="btn btn-default" type="submit"
+                                                            onclick="updateStaff('<%-staffs.staff_id%>')">Cập nhật</button>
+                                                    </div>
+                                                    <script>
+                                                        function cancelUpdate(id) {
+                                                            //hủy dữ liệu đã nhập nếu nhấn nút hủy
+                                                            var reload_id = "#update_form_" + id;
+                                                            $(reload_id).load(location.href + " #update_form_" + id + ">*", "");
+                                                        };
+                                                    </script>
+
+
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
 
@@ -185,7 +383,7 @@
                                             <label for="phone">Số điện thoại</label>
                                         </div>
                                         <div class="input">
-                                            <input id="phone" placeholder="0987654312" style="width:100%" type="text" name="phone" onchange="check_new_drink_form()">
+                                            <input id="phone" placeholder="0987654312" style="width:100%" type="number" name="phone" onchange="check_new_drink_form()">
                                                 <label class="error" style="display: none;"></label>
                                         </div>
                                     </div>
@@ -229,18 +427,20 @@
                                                     <option value="bartender">Pha chế</option>
                                                     <option value="cashier">Thu ngân</option>
                                                     <option value="manager">Quản lý</option>
+                                                    <option value="waiter">Phục vụ</option>
+                                                    <option value="security">Bảo vệ</option>
                                             </select>
                                         </div>
                                     </div>
 
-                                        <!--Vai trò-->
+                                    <!--mức lương-->
 
                                     <div class="input_row">
                                         <div class="input_label">
                                             <label for="salary">Mức Lương</label>
                                         </div>
                                         <div class="input">
-                                            <input id="salary" placeholder="5.000.000" style="width:100%" type="text" name="salary" onchange="check_new_drink_form()">
+                                            <input id="salary" placeholder="5.000.000" style="width:100%" type="number" name="salary" onchange="check_new_drink_form()">
                                                 <label class="error" style="display: none;"></label>
                                         </div>
                                     </div>
@@ -327,5 +527,6 @@
         </div>
 
     </div>
+    <script src="JS/staff.js"></script>
 </body>
 </html>
