@@ -20,10 +20,10 @@ const staffCtrler= require('../controllers/staff_ctrler')
 //middleware kiểm tra đăng nhập
 var checkLogin = require('../middleware/loginCheck');
 //get staff info
-router.get('/', staffCtrler.staff); 
+router.get('/', checkLogin.managerOnly, staffCtrler.staff); 
 //post staff info
-router.post('/create', checkLogin.managerOnly, upload.single('staffImg'),staffCtrler.create);
-router.post('/update', checkLogin.managerOnly,upload.single('new_img'),staffCtrler.update);
+router.post('/create', checkLogin.managerOnly, upload.single('staffImg'), staffCtrler.create);
+router.post('/update', checkLogin.managerOnly, upload.single('new_img'), staffCtrler.update);
 
 
 module.exports = router;

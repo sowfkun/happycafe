@@ -6,15 +6,15 @@ var fs = require('fs');
 module.exports.staff = function (req, res) {
     //query dữ liệu từ database
 
+    var staff_islogin = res.locals.staff;
     Promise.all([
         Staff.find({}, {
             _id: 0
         })
-       
-
-    ]).then(([staff]) => {
+    ]).then(([staffs]) => {
         res.render('staff', {
-            staff: staff
+            staffs: staffs,
+            staff: staff_islogin
         });
     });
     

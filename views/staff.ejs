@@ -24,15 +24,7 @@
         <div class="row" id="body">
             <div id="queue_zone" class="col-lg-8">
                 <div id="queue_layout">
-                    <div id="header">
-                            <input type="date" id="select_date">
-                    </div>
-
-                    <script>
-                        document.getElementById('select_date').valueAsDate = new Date();
-                    </script>
-
-
+                   
                     <div id="table_queue">
                         <div id="table_header">
                             <table>
@@ -50,7 +42,7 @@
                         </div>
                         <div id="table_body">
                             <table>
-                                <% staff.forEach((staffs,index) => { %>
+                                <% staffs.forEach((staffs,index) => { %>
                                     
                                     <tr class="row_queue" id="row_<%-index%>" onclick="showEdit('<%-staffs.staff_id%>')">
                                         <td style="width: 5%"><%-staffs.staff_id%></td>
@@ -304,9 +296,6 @@
                                             $("#btn_" +id).click();
                                         }
                                     </script>
-
-
-
 
                                     <script>
                                         var index = parseInt('<%-index%>');
