@@ -23,7 +23,6 @@ module.exports.selectOrder = function (req, res) {
 
     var date = req.body.date;
     var status = req.body.status;
-
     var selectDate = new Date(date);
 
     var nextDay = new Date(selectDate);

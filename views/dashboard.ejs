@@ -25,21 +25,21 @@
               <div id="overview_layout">
                 <div id="money_overview">
                     <div class="overview">
-                        <h2>18.000.000 đ</h2>
+                        <h2><%-totalIncome.toLocaleString()%> đ</h2>
                         <p>Doanh thu</p>
                     </div>
                     <div class="overview" style="margin: 15px 0 15px 0">
-                        <h2>18.000.000 đ</h2>
+                        <h2>0 đ</h2>
                         <p>Chi tiêu</p>
                     </div>
                     <div class="overview">
-                        <h2>18.000.000 đ</h2>
+                        <h2>0 đ</h2>
                         <p>Lợi nhuận</p>
                     </div >
                 </div>
                 <div id="customer_visit" style="margin: 25px 0 25px 0;">
                     <div class="overview">
-                        <h2>100 lượt</h2>
+                        <h2><%-total_visit%> lượt</h2>
                         <p>Tổng lượt khách</p>
                     </div>
                 </div>
@@ -55,177 +55,91 @@
           <div id="chart" class="col-lg-7">
               <div class="chart_layout">
                     <div class="money_chart_layout col-lg-12">
-                            <div class="select_index">
-                                <select id="money_index" onchange="loadchart()">
+                            <div class="select_index" style="display: flex; flex-direction: row">
+                                <select id="income_sort" class="input select_sort">
                                     <option value="day">Ngày</option>
                                     <option value="week">Tuần</option>
                                     <option value="month">Tháng</option>
                                 </select>
+                                <div class="income_date_zone" id="income_select_date" style="margin-left: 20px;" >
+                                    <input type="date" class="select_date input" style="width: 135px">
+                                </div>
+                                <div class="income_date_zone" id="income_select_week" style="margin-left: 20px; display: none">
+                                    <select id="select_date" class="income_select_week input">
+                                        <% for(i = 1; i<=53; i++){ %>
+                                            <option value=<%-i%>><%-i%></option>
+                                        <% } %>  
+                                    </select>
+                                </div>
+                                <div id="income_select_year" style="margin-left: 20px; display: none">
+                                    <input type="text" class="income_select_year input" style= "text-align: center;" >
+                                </div>
                             </div>
 
-                            <div class="chart" id="money_chart">
+                            <div class="chart" id="income_chart">
 
                             </div>
                     </div>
 
                     <script type="text/javascript">
-                        loadchart();
-                        function loadchart(){
-                            google.charts.load('current', {'packages':['line']});
-                            google.charts.setOnLoadCallback(drawChart);
-                      
-                          function drawChart() {
-                      
-                            var data = new google.visualization.DataTable();
-
-                            var index = $("#money_index").val();
-
-                            data.addColumn('number', 'ngày');
-                            data.addColumn('number', 'Doanh thu');
-                            data.addColumn('number', 'Chi tiêu');
-                            data.addColumn('number', 'Lợi nhuận');
-
-                            if(index == "day"){
-                                var date = "ngày"; 
-                                data.addRows([
-                                  [1,  1,    0.3,   0.7],
-                                  [2,  1.5,  0.3,   1.2],
-                                  [3,  0.5,  0.3,   0.2],
-                                  [4,  2,    0.3,   1.7],
-                                  [5,  3,    0.6,   2.4],
-                                  [6,  0.7,  0.6,   0.1],
-                                  [7,  2.6,  0.3,   2.3]
-                                ]);
-                            } else if(index == "week"){
-                                var date = "Tuần"; 
-                                data.addRows([
-                                  [1,  1,    0.3,   0.7],
-                                  [2,  1.5,  0.3,   1.2],
-                                  [3,  0.5,  0.3,   0.2],
-                                  [4,  2,    0.3,   1.7],
-                                  [5,  3,    0.6,   2.4],
-                                  [6,  0.7,  0.6,   0.1],
-                                  [7,  2.6,  0.3,   2.3],
-                                  [8,  2.6,  0.3,   2.3]
-                                ]);
-                            } else{
-                                var date = "Tháng"; 
-                                data.addRows([
-                                  [1,  1,    0.3,   0.7],
-                                  [2,  1.5,  0.3,   1.2],
-                                  [3,  0.5,  0.3,   0.2],
-                                  [4,  2,    0.3,   1.7],
-                                  [5,  3,    0.6,   2.4],
-                                  [6,  0.7,  0.6,   0.1],
-                                  [7,  2.6,  0.3,   2.3],
-                                  [8,  2.6,  0.3,   2.3],
-                                  [9,  0.7,  0.6,   0.1],
-                                  [10,  2.6,  0.3,   2.3],
-                                  [11,  2.6,  0.3,   2.3],
-                                  [12,  2.6,  0.3,   2.3]
-                                ]);
-                            }
-                            
-                      
-                            var options = {
-                              chart: {
-                                title: 'Biểu đồ thu chi theo ' + date,
-                                subtitle: '(triệu VND)'
-                              }
-                            };
-                      
-                            var chart = new google.charts.Line(document.getElementById('money_chart'));
-                      
-                            chart.draw(data, google.charts.Line.convertOptions(options));
-                          }
-                        }
+                        
                       </script>
 
                     <div class="customer_chart_layout col-lg-12">
-                        <div class="select_index">
-                            <select id="customer_index" onchange="loadcustomerchart()">
+                        <div class="select_index" style="display: flex; flex-direction: row">
+                            <select id="customer_visit_sort" class="input select_sort">
                                 <option value="day">Ngày</option>
                                 <option value="week">Tuần</option>
                                 <option value="month">Tháng</option>
                             </select>
+                            <div class="customer_visit_zone" id="customer_visit_select_date" style="margin-left: 20px;" >
+                                <input type="date" class="select_date input" style="width: 135px">
+                            </div>
+                            <div class="customer_visit_zone" id="customer_visit_select_week" style="margin-left: 20px; display: none">
+                                <select id="select_date" class="customer_visit_select_week input">
+                                    <% for(i = 1; i<=53; i++){ %>
+                                        <option value=<%-i%>><%-i%></option>
+                                    <% } %>  
+                                </select>
+                            </div>
+                            <div id="customer_visit_select_year" style="margin-left: 20px; display: none">
+                                <input type="text" class="customer_visit_select_year input" style= "text-align: center;" >
+                            </div>
                         </div>
-                        <div class="chart" id="customer_chart">
+                        <div class="chart" id="customer_visit_chart">
 
                         </div>
                     </div>
 
-                    <script type="text/javascript">
-                        loadcustomerchart();
-                        function loadcustomerchart(){
-                            google.charts.load('current', {'packages':['line']});
-                            google.charts.setOnLoadCallback(drawChart);
-                      
-                          function drawChart() {
-                      
-                            var data = new google.visualization.DataTable();
-
-                            var index = $("#customer_index").val();
-
-                            data.addColumn('number', 'ngày');
-                            data.addColumn('number', 'lượt khách');
-
-                            if(index == "day"){
-                                var date = "ngày"; 
-                                data.addRows([
-                                  [1,  1],
-                                  [2,  1.5],
-                                  [3,  0.5],
-                                  [4,  2],
-                                  [5,  3],
-                                  [6,  0.7],
-                                  [7,  2.6]
-                                ]);
-                            } else if(index == "week"){
-                                var date = "Tuần"; 
-                                data.addRows([
-                                  [1,  1],
-                                  [2,  1.5],
-                                  [3,  0.5],
-                                  [4,  2],
-                                  [5,  3],
-                                  [6,  0.7],
-                                  [7,  2.6],
-                                  [8,  2.6]
-                                ]);
-                            } else{
-                                var date = "Tháng"; 
-                                data.addRows([
-                                  [1,  1],
-                                  [2,  1.5],
-                                  [3,  0.5],
-                                  [4,  2],
-                                  [5,  3],
-                                  [6,  0.7],
-                                  [7,  2.6],
-                                  [8,  2.6],
-                                  [9,  0.7],
-                                  [10,  2.6],
-                                  [11,  2.6],
-                                  [12,  2.6]
-                                ]);
-                            }
-                            var options = {
-                              chart: {
-                                title: 'Biểu đồ lượt khách theo ' + date,
-                                subtitle: '(lượt khách)'
-                              }
-                            };
-                      
-                            var chart = new google.charts.Line(document.getElementById('customer_chart'));
-                      
-                            chart.draw(data, google.charts.Line.convertOptions(options));
-                          }
-                        }
-                      </script>
-
               </div>
           </div>
+
+          <div id="top-sale" class="col-lg-3">
+              <div id="top-sale-layout" >
+                <h2>Top Sale</h2>
+                <ul>
+                    <% topDrinks.forEach((drink, index) => { %> 
+                        <% if(index == 2){ %>
+                            <li style="margin-bottom: 0;">
+                        <% } else {%>
+                            <li>
+                        <% } %>    
+                            <div class= "img_frame">
+                                <img src="/upload/drink_image/<%-drink.img%>">
+                            </div>
+
+                            <div class="drink_info">
+                                <h3><%-drink.drink_name%></h3>
+                                <p><span>Đã bán:  </span><span style="color: #ed9652;"><%-drink.qty%> ly</span></p>
+                            </div>
+                        </li>
+                    <% }) %> 
+                </ul> 
+              </div>
         </div>
     </div>
 </body>
+<script src="JS/dashboard.js">
+
+</script>
 </html>
