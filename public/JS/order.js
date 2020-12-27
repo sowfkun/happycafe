@@ -1,7 +1,20 @@
+var today = new Date();
+
+if (today.getDate() < 10) {
+    var day = "0" + today.getDate();
+} else {
+    var day = today.getDate();
+}
+if (today.getMonth() < 10) {
+    var month = "0" + (today.getMonth() + 1) ;
+} else {
+    var month = today.getMonth() + 1;
+}
+
 //
 //curent date
 //
-document.getElementById('select_date').valueAsDate = new Date();
+$('#select_date').val(today.getFullYear() + "-" + month + "-" + day);
 
 //
 //mặc định

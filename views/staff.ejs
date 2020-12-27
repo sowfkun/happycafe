@@ -8,11 +8,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
     <link rel="stylesheet" type="text/css" href="CSS/staff.css">
-    <title>Happy Cafe-Staff</title>
+    <title>Happy Cafe</title>
 </head>
 <body>
     <div id="background" class="container-fluid" >
         
+        <!--hiển thị alert-->
+        <div class="alert_box">
+           
+        </div>
         <!--navigation module-->
         <div class="row">
             <div id="module_nav" >
@@ -20,18 +24,22 @@
             </div>
         </div>
            
-        <!--menu module-->
         <div class="row" id="body">
             <div id="queue_zone" class="col-lg-8">
                 <div id="queue_layout">
-                   
+                    <select type="text" id="select_status" style="color:#ed9652; font-size: 18px;">
+                        <option value="working">Đang làm việc</option>
+                        <option value="retire">Đã nghỉ việc</option>
+                    </select>
                     <div id="table_queue">
+                        <!---->
+                        <!--Tiêu đề các cột-->
                         <div id="table_header">
                             <table>
                                 <tr>
-                                    <th style="width: 5%; text-align: center">ID</th>
-                                    <th style="width: 20%; text-align: center">Tên nhân viên</th>
-                                    <th style="width: 10%; text-align: center">Giới tính</th>
+                                    <th style="width: 10%; text-align: center">ID</th>
+                                    <th style="width: 18%; text-align: center">Tên nhân viên</th>
+                                    <th style="width: 7%; text-align: center">Giới tính</th>
                                     <th style="width: 15%; text-align: center">SĐT</th>
                                     <th style="width: 20%; text-align: center">Email</th>
                                     <th style="width: 10%; text-align: center">Ca làm</th>
@@ -40,277 +48,21 @@
                                 </tr>
                             </table>
                         </div>
+                        <!---->
+                        <!--nội dung các cột-->
+                        <!---->
                         <div id="table_body">
                             <table>
-                                <% staffs.forEach((staffs,index) => { %>
-                                    
-                                    <tr class="row_queue" id="row_<%-index%>" onclick="showEdit('<%-staffs.staff_id%>')">
-                                        <td style="width: 5%"><%-staffs.staff_id%></td>
-                                        <td style="width: 20%"><%-staffs.name%></td>
-
-                                        <% if (staffs.sex == "male") {%>
-                                        <td style="width: 10%">Nam</td>
-                                        <%} else {%>
-                                        <td style="width: 10%">Nữ</td>
-                                        <%}%>
-
-                                        <td style="width: 15%"><%-staffs.phone%></td>
-                                        <td style="width: 20%"><%-staffs.email%></td>
-                                        <td style="width: 10%"><%-staffs.period%></td>
-                                        <% if(staffs.position == "cashier") {%>
-                                        <td style="width: 10%">Thu ngân</td>
-                                        <%}else if(staffs.position == "manager") {%>                                            
-                                        <td style="width: 10%">Quản lý</td>
-                                        <%} else if(staffs.position == "bartender") {%>                                                                                   
-                                        <td style="width: 10%">Pha chế</td>
-                                        <%} else if(staffs.position =="waiter") {%>
-                                        <td style="width: 10%">Phục vụ</td>
-                                        <%} else {%>
-                                        <td style="width: 10%">Bảo vệ</td>
-                                        <%}%>
-                                        <td style="width: 20%"><%-staffs.salary.toLocaleString()%> VND</td>
-                                    </tr>
-
-                                    <!-- Button trigger modal -->
-                                    <button style="display: none;" type="button" id="btn_<%-staffs.staff_id%>" class="btn btn-primary" data-toggle="modal" data-target="#staffModal_<%-staffs.staff_id%>">
-                                        Launch demo modal
-                                    </button>
-                                    
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="staffModal_<%-staffs.staff_id%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document" style="max-width:700px">
-                                            <form action="staff/update" method="POST" id="update_form_<%=staffs.staff_id%>" class="update_form" enctype="multipart/form-data">
-                                                <input type="hidden" name="staff_id" value="<%=staffs.staff_id%>">
-                                                <div class="modal-content" >
-                                                    <!--Header của form-->
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title">Chỉnh sửa thông tin</h4>                                                        </h4>
-                                                    </div>
-                                                    <!--Body-->
-                                                    <div class="modal-body" style="display:flex; flex-direction: row; justify-content: center;">
-                                                        <!--Hình ảnh-->
-                                                        <div id="img_layout">
-                                                            <img id="new_img_<%-staffs.staff_id%>"
-                                                            src="upload/staff/<%=staffs.img%>"
-                                                            width="150px" height="150px" style="border: solid 0.5px #ed9652;">
-                                                        <input type="file" class="img_input"
-                                                            id="img_input_<%-staffs.staff_id%>"
-                                                            name="new_img" style="display: none;"
-                                                            onchange="loadImg_<%-staffs.staff_id%>(event), checkform('<%-staffs.staff_id%>')" />
-                                                        <input type="button" id="alter_input" value="Upload"
-                                                            onclick="$(this).siblings('.img_input').click()" />
-                                                        </div>
-                                                        
-                                                        <div id="info_layout">
-                                                            <!--Họ và tên-->
-                                                            <div id="info_edit">
-                                                                <div class="input_row">
-                                                                    <div class="input_label">
-                                                                        <label for="edit_menu">Họ và tên</label>
-                                                                    </div>
-                                                                    <div class="input">
-                                                                        <input type="text" readonly
-                                                                            value="<%-staffs.name%> ">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <!--Giới tính-->
-                                                            <div class="input_row">    
-                                                                <div class="input_label">
-                                                                    <label for="sex">Giới tính</label>
-                                                                </div>
-                                                                <div class="input">
-                                                                    <select style="width:100%" id="sex"
-                                                                        onchange='<%-staffs.staff_id%>' aria-readonly>
-                                                                            <%if(staffs.sex=="male") {%>
-                                                                            <option value="male">Nam</option>
-                                                                            <%} else {%>
-                                                                            <option value="female">Nữ</option>
-                                                                            <%}%>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            
-                                                            <!--Số điện thoại-->
-                                                            <div id="info_edit">
-                                                                <div class="input_row">
-                                                                    <div class="input_label">
-                                                                        <label for="edit_menu">Số điện thoại</label>
-                                                                    </div>
-                                                                    <div class="input">
-                                                                        <input type="text" readonly
-                                                                            value="<%-staffs.phone%> ">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <!--Email-->
-                                                            <div id="info_edit">
-                                                                <div class="input_row">
-                                                                    <div class="input_label">
-                                                                        <label for="edit_menu">Email</label>
-                                                                    </div>
-                                                                    <div class="input">
-                                                                        <input type="text" readonly
-                                                                            value="<%-staffs.email%> ">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <!--Ca làm-->
-                                                            <div class="input_row" style=" 
-                                                                margin: 0; margin-bottom: 15px;">
-                                                                <div class="input_label">
-                                                                    <label for="period">Ca làm</label>
-                                                                </div>
-                                                                <div class="input">
-                                                                    <select style="width:100%" id="period" name="period" 
-                                                                        onchange="checkform('<%-staffs.staff_id%>')">
-                                                                        <%if(staffs.period=="Sáng") {%>
-                                                                            <option value="Sáng">Ca sáng</option>
-                                                                            <option value="Chiều">Ca chiều</option>
-                                                                            <option value="Tối">Ca tối</option>
-                                                                        <%} else if(staffs.period=="Chiều") {%>
-                                                                            <option value="Chiều">Ca chiều</option>
-                                                                            <option value="Sáng">Ca sáng</option>                                                                    
-                                                                            <option value="Tối">Ca tối</option>
-                                                                        <%} else {%>
-                                                                            <option value="Tối">Ca tối</option>
-                                                                            <option value="Chiều">Ca chiều</option>
-                                                                            <option value="Sáng">Ca sáng</option>
-                                                                        <%}%>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <!--Vị trí-->
-                                                            <div class="input_row" 
-                                                                style="margin: 0;margin-bottom: 15px;">
-                                                                <div class="input_label">
-                                                                    <label for="position">Vị trí</label>
-                                                                </div>
-                                                                <div class="input">
-                                                                    <select style="width:100%" id="position" name="position" 
-                                                                        onchange="checkform('<%-staffs.staff_id%>')">
-                                                                        <% if (staffs.position=="bartender"){%>
-                                                                                <option value="bartender">Pha chế</option>
-                                                                                <option value="cashier">Thu ngân</option>
-                                                                                <option value="manager">Quản lý</option>
-                                                                                <option value="waiter">Phục vụ</option>
-                                                                                <option value="security">Bảo vệ</option>
-                                                                            <%} else if(staffs.position=="cashier") { %>
-                                                                                <option value="cashier">Thu ngân</option>
-                                                                                <option value="bartender">Pha chế</option>
-                                                                                <option value="manager">Quản lý</option>
-                                                                                <option value="waiter">Phục vụ</option>
-                                                                                <option value="security">Bảo vệ</option>
-                                                                            <%} else if(staffs.position=="manager"){ %> 
-                                                                                <option value="manager">Quản lý</option>
-                                                                                <option value="bartender">Pha chế</option>
-                                                                                <option value="cashier">Thu ngân</option>
-                                                                                <option value="waiter">Phục vụ</option>
-                                                                                <option value="security">Bảo vệ</option>
-                                                                            <% } else if(staffs.position=="waiter"){ %>
-                                                                                <option value="waiter">Phục vụ</option> 
-                                                                                <option value="bartender">Pha chế</option>
-                                                                                <option value="cashier">Thu ngân</option>
-                                                                                <option value="manager">Quản lý</option>
-                                                                                <option value="security">Bảo vệ</option>
-                                                                            <% } else if(staffs.position=="security") { %>                                                                    
-                                                                                <option value="security">Bảo vệ</option> 
-                                                                                <option value="bartender">Pha chế</option>
-                                                                                <option value="cashier">Thu ngân</option>
-                                                                                <option value="manager">Quản lý</option>
-                                                                                <option value="waiter">Phục vụ</option>
-                                                                            <% } else{ %>                                                                        
-                                                                                <option value="bartender">Pha chế</option>
-                                                                                <option value="cashier">Thu ngân</option>
-                                                                                <option value="manager">Quản lý</option>
-                                                                                <option value="waiter">Phục vụ</option>
-                                                                                <option value="security">Bảo vệ</option>
-                                                                            <%}%>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <!--Mức lương-->
-                                                            <div class="input_row"
-                                                                style="margin: 0;margin-bottom: 15px;">
-                                                                <div class="input_label">
-                                                                    <label for="salary">Mức Lương</label>
-                                                                </div>
-                                                                <div class="input">
-                                                                    <input id="edit_salary_<%-staffs.staff_id%>" value="<%=staffs.salary%>" style="width:100%" type="number" name="salary" onchange="checkform('<%-staffs.staff_id%>')">
-                                                                        <label class="error" style="display: none;"></label>
-                                                                </div>
-                                                            </div>
-                                                            <!--Địa chỉ-->
-                                                            <div class="input_row"
-                                                                style="margin: 0;margin-bottom: 15px;">
-                                                                <div class="input_label">
-                                                                    <label for="salary">Địa chỉ</label>
-                                                                </div>
-                                                                <div class="input">
-                                                                    <input id="address" value="<%=staffs.address%>" style="width:100%" type="text" name="address" onchange="checkform('<%-staffs.staff_id%>')">
-                                                                        <label class="error" style="display: none;"></label>
-                                                                </div>
-                                                            </div></div>
-                                                    </div>
-                                                    <script>
-                                                        //Function load ảnh mới
-                                                        function loadImg_<%-staffs.staff_id%> (event) {
-                                                            var reader = new FileReader();
-                                                            reader.onload = function () {
-                                                                var id = "new_img_" +
-                                                                    '<%-staffs.staff_id%>';
-                                                                console.log(id);
-                                                                var img = document.getElementById(id);
-                                                                img.src = reader.result;
-                                                            };
-                                                            reader.readAsDataURL(event.target.files[0]);
-                                                        };
-                                                    </script>
-                                                    
-                                                    <!--button submit edit-->
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default btn-cancel"
-                                                            data-dismiss="modal"
-                                                            onclick="cancelUpdate('<%-staffs.staff_id%>')"
-                                                            style="background-color: red;">Hủy</button>
-                                                        <button id="btn_edit_<%-staffs.staff_id%>" 
-                                                            disabled class="btn btn-default" type="submit"
-                                                            onclick="updateStaff('<%-staffs.staff_id%>')">Cập nhật</button>
-                                                    </div>
-                                                    <script>
-                                                        function cancelUpdate(id) {
-                                                            //hủy dữ liệu đã nhập nếu nhấn nút hủy
-                                                            var reload_id = "#update_form_" + id;
-                                                            $(reload_id).load(location.href + " #update_form_" + id + ">*", "");
-                                                        };
-                                                    </script>
-
-
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-
-                                    <script>
-                                        function showEdit(id){
-                                            $("#btn_" +id).click();
-                                        }
-                                    </script>
-
-                                    <script>
-                                        var index = parseInt('<%-index%>');
-                                        if(index == 0){
-                                            $("#row_0").css("background-color","#aedeec");
-                                            $("#row_0 span").css("color","#ed9652");
-                                        } else if(index % 2 == 0 ){
-                                            var id = "#row_" + index;
-                                            $(id).css("background-color","#ffeadb");
-                                        }
-                                        </script>
-                                <%}); %>
                             </table>
                         </div>
-                        
+
+                        <!---->
+                        <!--Form cập nhật-->
+                        <!---->
+                        <div class="modal_zone">
+
+                        </div>
+
                         <script>
                             var height=  $("#table_body").height();
                             if(height > 520){
@@ -319,198 +71,195 @@
                         </script>
                     </div>
                 </div>
-
             </div>
-<!--thêm nhân viên mới-->
+            <!---->
+            <!--thêm nhân viên mới-->
+            <!---->
             <div id="is_making_zone" class="col-lg-4">
                 <div id="create_layout">
+                    <form action=""></form>
                     <h2>Thêm nhân viên mới</h2>
-                            <form  action="/staff/create" id="create_form" method="POST" enctype="multipart/form-data">
-
-
-                                <div class="modal_img">
-                                    <input type="file" id="staffImg" name="staffImg" style="display: none;"
-                                        onchange="load_staff_img(event)" />
-                                    <input type="button" id="alter_input" value="Chọn ảnh"
-                                        onclick="document.getElementById('staffImg').click();" />
-                                    <div class="img_border">
-                                        <img id="staff_img" src="" width="150px" height="150px">
-                                    </div>
+                    <form action="/staff/create" id="create_form" method="POST" enctype="multipart/form-data">
+                        <div class="modal_img">
+                            <input type="file" id="staffImg" name="staffImg" style="display: none;" onchange="load_staff_img(event)" />
+                            <input type="button" class="alter_input" value="Chọn ảnh" onclick="document.getElementById('staffImg').click();" />
+                            <div class="img_border">
+                                <img id="staff_img" src="" width="150px" height="150px">
+                            </div>
+                        </div>
+                        <div id="staff_info">
+                            <!---->
+                            <!--Họ tên-->
+                            <!---->
+                            <div class="input_row">
+                                <div class="input_label">
+                                    <label for="name">Họ tên</label>
                                 </div>
-                                <div id="staff_info">
-
-                                    <!--Họ tên-->
-                                    <div class="input_row">
-                                        <div class="input_label">
-                                            <label for="name">Họ tên</label>
-                                        </div>
-                                        <div class="input">
-                                            <input id ="name" placeholder="Hoàng Gia Vương" style="width:100%" type="text" name="name" onchange="check_new_drink_form()">
-                                                <label class="error" style="display: none;"></label>
-                                        </div>
-                                    </div>
-
-                                        <!--Giới tính-->
-
-                                    <div class="input_row">    
-                                        <div class="input_label">
-                                            <label for="sex">Giới tính</label>
-                                        </div>
-                                        <div class="input">
-                                            <select style="width:100%" id="sex" name="sex" 
-                                                onchange="check_new_drink_form()">
-                                                    <option value="male">Nam</option>
-                                                    <option value="female">Nữ</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                        <!--Số điện thoại-->
-
-                                    <div class="input_row">
-                                        <div class="input_label">
-                                            <label for="phone">Số điện thoại</label>
-                                        </div>
-                                        <div class="input">
-                                            <input id="phone" placeholder="0987654312" style="width:100%" type="number" name="phone" onchange="check_new_drink_form()">
-                                                <label class="error" style="display: none;"></label>
-                                        </div>
-                                    </div>
-
-                                        <!--Email-->
-
-                                    <div class="input_row">        
-                                        <div class="input_label">
-                                            <label for="email">Email</label>
-                                        </div>
-                                        <div class="input">
-                                            <input id="email" placeholder="happycafe@gmail.com" style="width:100%" type="text" name="email" onchange="check_new_drink_form()">
-                                                <label class="error" style="display: none;"></label>
-                                        </div>
-                                    </div>
-
-                                        <!--Ca làm-->
-                                    
-                                    <div class="input_row">
-                                        <div class="input_label">
-                                            <label for="period">Ca làm</label>
-                                        </div>
-                                        <div class="input">
-                                            <select style="width:100%" id="period" name="period" 
-                                                onchange="check_new_drink_form()">
-                                                    <option value="Sáng">Ca sáng</option>
-                                                    <option value="Chiều">Ca chiều</option>
-                                                    <option value="Tối">Ca tối</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                        <!--Vị trí-->
-                                    <div class="input_row">
-                                        <div class="input_label">
-                                            <label for="position">Vị trí</label>
-                                        </div>
-                                        <div class="input">
-                                            <select style="width:100%" id="position" name="position" 
-                                                onchange="check_new_drink_form()">
-                                                    <option value="bartender">Pha chế</option>
-                                                    <option value="cashier">Thu ngân</option>
-                                                    <option value="manager">Quản lý</option>
-                                                    <option value="waiter">Phục vụ</option>
-                                                    <option value="security">Bảo vệ</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <!--mức lương-->
-
-                                    <div class="input_row">
-                                        <div class="input_label">
-                                            <label for="salary">Mức Lương</label>
-                                        </div>
-                                        <div class="input">
-                                            <input id="salary" placeholder="5.000.000" style="width:100%" type="number" name="salary" onchange="check_new_drink_form()">
-                                                <label class="error" style="display: none;"></label>
-                                        </div>
-                                    </div>
-                                        
-                                        <!--Địa chỉ-->
-
-                                    <div class="input_row">    
-                                        <div class="input_label">
-                                            <label for="address">Địa chỉ</label>
-                                        </div>
-                                        <div class="input">
-                                            <input id="address" placeholder="Tô Ngọc Vân, Phường Tam Bình, Quận Thủ Đức, TP HCM" style="width:100%" type="text" name="address" onchange="check_new_drink_form()">
-                                                <label class="error" style="display: none;"></label>
-                                        </div>
-                                    </div>
+                                <div class="input">
+                                    <input id ="name" placeholder="Nhập họ và tên" style="width:100%" type="text" name="name" >
+                                        <label class="error" style="display: none;"></label>
                                 </div>
-
-                                <div style="width: fit-content; margin : auto; margin-top:15px;">
-                                    <button id="btn_create" type="submit" class="btn btn-default">Tạo</button>
+                            </div>
+                            <!---->
+                            <!--Giới tính-->
+                            <!---->
+                            <div class="input_row">    
+                                <div class="input_label">
+                                    <label for="sex">Giới tính</label>
                                 </div>
-                            </form>
-                            <script>
-                                //load ảnh
-                                function load_staff_img(event) {
-                                    var reader = new FileReader();
-                                    reader.onload = function () {
-                                        var img = document.getElementById('staff_img');
-                                        img.src = reader.result;
-                                    };
-                                    reader.readAsDataURL(event.target.files[0]);
-                                };
-                            </script>
+                                <div class="input">
+                                    <select style="width:100%" id="sex" name="sex">
+                                            <option value="male">Nam</option>
+                                            <option value="female">Nữ</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!---->
+                            <!--Số điện thoại-->
+                            <!---->
+                            <div class="input_row">
+                                <div class="input_label">
+                                    <label for="phone">Số điện thoại</label>
+                                </div>
+                                <div class="input">
+                                    <input id="phone" placeholder="Nhập số điện thoại" style="width:100%" type="number" name="phone" >
+                                    <label class="error" style="display: none;"></label>
+                                </div>
+                            </div>
+                            <!---->
+                            <!--Email-->
+                            <!---->
+                            <div class="input_row">        
+                                <div class="input_label">
+                                    <label for="email">Email</label>
+                                </div>
+                                <div class="input">
+                                    <input id="email" placeholder="Nhập email" style="width:100%" type="text" name="email" >
+                                    <label class="error" style="display: none;"></label>
+                                </div>
+                            </div>
+                            <!---->
+                            <!--Ca làm-->
+                            <!---->
+                            <div class="input_row">
+                                <div class="input_label">
+                                    <label for="period">Ca làm</label>
+                                </div>
+                                <div class="input">
+                                    <select style="width:100%" id="period" name="period">
+                                        <option value="Sáng">Ca sáng</option>
+                                        <option value="Chiều">Ca chiều</option>
+                                        <option value="Tối">Ca tối</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!---->
+                            <!--Vị trí-->
+                            <!---->
+                            <div class="input_row">
+                                <div class="input_label">
+                                    <label for="position">Vị trí</label>
+                                </div>
+                                <div class="input">
+                                    <select style="width:100%" id="position" name="position">
+                                        <option value="bartender">Pha chế</option>
+                                        <option value="cashier">Thu ngân</option>
+                                        <option value="manager">Quản lý</option>
+                                        <option value="waiter">Phục vụ</option>
+                                        <option value="security">Bảo vệ</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!---->
+                            <!--mức lương-->
+                            <!---->
+                            <div class="input_row">
+                                <div class="input_label">
+                                    <label for="salary">Mức Lương</label>
+                                </div>
+                                <div class="input">
+                                    <input id="salary" placeholder="5.000.000" style="width:100%" type="number" name="salary" >
+                                    <label class="error" style="display: none;"></label>
+                                </div>
+                            </div>
+                            <!---->
+                            <!--Địa chỉ-->
+                            <!---->
+                            <div class="input_row">    
+                                <div class="input_label">
+                                    <label for="address">Địa chỉ</label>
+                                </div>
+                                <div class="input">
+                                    <input id="address" placeholder="Nhập địa chỉ" style="width:100%" type="text" name="address" >
+                                    <label class="error" style="display: none;"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="width: fit-content; margin : auto; margin-top:15px;">
+                            <button id="btn_create" type="button" style="background-color: #ed9652; font-size: 16px; color: white;" class="btn btn-default">Tạo</button>
+                        </div>
+                    </form>
+                    <script>
+                        //load ảnh
+                        function load_staff_img(event) {
+                            var reader = new FileReader();
+                            reader.onload = function () {
+                                var img = document.getElementById('staff_img');
+                                img.src = reader.result;
+                            };
+                            reader.readAsDataURL(event.target.files[0]);
+                        };
+                    </script>
                             
-                            <script>
-                                $(document).ready(function(){
-                                    $("#create_form").validate({
-                                        rules:{
-                                            name:{
-                                                required: true,
-                                                minlength: 4
-                                            },
-                                            phone:{
-                                                required: true,
+                    <script>
+                        $(document).ready(function(){
+                            $("#create_form").validate({
+                                rules:{
+                                    name:{
+                                        required: true,
+                                        minlength: 4
+                                    },
+                                    phone:{
+                                        required: true,
 
-                                            },
-                                            email:{
-                                                required:true,
-                                                email:true
-                                            },
-                                            salary:{
-                                                required:true,
-                                                number:true
-                                            },
-                                            address:{
-                                                required: true
-                                            }
-        
-                                        },
-                                        messages:{
-                                            name:{
-                                            required:"Vui lòng nhập họ tên đầy đủ",
-                                            minlength:"Họ tên quá ngắn"
-                                            },                                            
-                                            phone:{
-                                                required:"Vui lòng nhập số điện thoại"
-                                            },
-                                            email:{
-                                                required:"Vui lòng nhập Email",
-                                                email:"Email không hợp lệ"
-                                            },
-                                            salary:{
-                                                required:"Vui lòng nhập lương cho nhân viên",
-                                                number:"phải là kiểu số"
-                                            },
-                                            address:{
-                                                required:"Vui lòng nhập địa chỉ"
-                                            }
-                                        },
-                                    });
-                                });
-                            </script>
+                                    },
+                                    email:{
+                                        required:true,
+                                        email:true
+                                    },
+                                    salary:{
+                                        required:true,
+                                        number:true
+                                    },
+                                    address:{
+                                        required: true
+                                    }
+
+                                },
+                                messages:{
+                                    name:{
+                                    required:"Vui lòng nhập họ tên đầy đủ",
+                                    minlength:"Họ tên quá ngắn"
+                                    },                                            
+                                    phone:{
+                                        required:"Vui lòng nhập số điện thoại"
+                                    },
+                                    email:{
+                                        required:"Vui lòng nhập Email",
+                                        email:"Email không hợp lệ"
+                                    },
+                                    salary:{
+                                        required:"Vui lòng nhập lương cho nhân viên",
+                                        number:"phải là kiểu số"
+                                    },
+                                    address:{
+                                        required:"Vui lòng nhập địa chỉ"
+                                    }
+                                },
+                            });
+                        });
+                    </script>
+
                 </div>
             </div>
         </div>

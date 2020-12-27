@@ -35,6 +35,20 @@ html, body{
     font-family: main_font;
 }
 
+
+/*Vùng hiển thị các thông báo*/
+.alert_box{
+    width: 250px;
+    float: right;
+    height: fit-content;
+    padding: 5px;
+}
+.alert{
+    z-index: 10000;
+    margin-bottom: 10px !important;
+    box-shadow: 0 0 5px cadetblue;
+}
+
 /**/
 /**/
 /**/
@@ -108,12 +122,22 @@ html, body{
 }
 #img_layout{
     display: flex;
-    justify-content: center;
     flex-direction: column;
     height: fit-content;
-    width: 30%;
+    align-items: center;
+    width: fit-content;
 }
 
+/*nút cập nhật*/
+.btn{
+    width: 65px;
+    font-size: 18px !important;
+    padding: 5px 0 !important;
+    color: white !important;
+}
+.btn_update{
+    background-color: #ed9652 !important;
+}
 /**/
 /**/
 /**/
@@ -269,7 +293,8 @@ html, body{
 }
 #create_layout{
     background-color: white;
-    height: 100%;
+    max-height: 650px;
+    overflow: auto;
     padding: 15px;
     display: flex;
     flex-direction: column;
@@ -289,4 +314,7 @@ html, body{
 .staff_info h3{
     margin: 0;
     font-size: 25px;
+}
+label.error{
+    color: tomato;
 }
