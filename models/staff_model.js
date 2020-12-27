@@ -19,7 +19,7 @@ var staffSchema = new mongoose.Schema({
   },
   position: {
     type: String,
-    enum: ["manager", "bartender", "cashier"],
+    enum: ["manager", "bartender", "cashier", "waiter", "security"],
     required: [true, 'position is required']
   },
   salary: {
@@ -47,12 +47,18 @@ var staffSchema = new mongoose.Schema({
     enum: ["working", "resign"],
     required: [true, 'status is required']
   },
-  period:{
+  period: {
     type: String,
-    enum: ["Sáng", "Chiều"],
-    required: [true, 'period is required']
+    enum: ["Sáng", "Chiều", "Tối"],
+    required: [true, 'status is required']
+  },
+  img: {
+    type: String,
+    require:  [true, 'img is required']
   }
 });
 var Staff = mongoose.model("Staff", staffSchema, "staff");
 
 module.exports = Staff;
+
+

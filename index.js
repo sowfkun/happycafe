@@ -2,6 +2,7 @@ var express = require("express");
 var app = express();
 require('dotenv').config();
 
+
 //import mongoose
 var mongoose = require('mongoose');
 mongoose.connect(process.env.MONGOOSE_URL, {
@@ -46,12 +47,14 @@ io.on("connection", ()=>{
     console.log("New connection...")
 });
 
+
 //import router
 const homeRouter = require('./routers/home_router')
 const drinkRouter = require('./routers/drink_router')
 const orderRouter = require('./routers/order_router')
 const dashboardRouter = require('./routers/dashboard_router')
 const loginRouter = require('./routers/login_router')
+const staffRouter = require('./routers/staff_router')
 
 //router
 app.use('/', homeRouter);
@@ -59,6 +62,7 @@ app.use('/drink', drinkRouter);
 app.use('/order', orderRouter);
 app.use('/dashboard', dashboardRouter);
 app.use('/login', loginRouter);
+app.use('/staff',staffRouter);
 
 const port = process.env.PORT || 3001;
 server.listen(port, ()=>{

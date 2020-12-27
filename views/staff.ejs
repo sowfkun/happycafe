@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="CSS/staff.css">
+    <title>Happy Cafe</title>
+</head>
+<body>
+    <div id="background" class="container-fluid" >
+        
+        <!--hiển thị alert-->
+        <div class="alert_box">
+           
+        </div>
+        <!--navigation module-->
+        <div class="row">
+            <div id="module_nav" >
+                <%-include('./modules/navigation')%>
+            </div>
+        </div>
+           
+        <div class="row" id="body">
+            <div id="queue_zone" class="col-lg-8">
+                <div id="queue_layout">
+                    <select type="text" id="select_status" style="color:#ed9652; font-size: 18px;">
+                        <option value="working">Đang làm việc</option>
+                        <option value="retire">Đã nghỉ việc</option>
+                    </select>
+                    <div id="table_queue">
+                        <!---->
+                        <!--Tiêu đề các cột-->
+                        <div id="table_header">
+                            <table>
+                                <tr>
+                                    <th style="width: 10%; text-align: center">ID</th>
+                                    <th style="width: 18%; text-align: center">Tên nhân viên</th>
+                                    <th style="width: 7%; text-align: center">Giới tính</th>
+                                    <th style="width: 15%; text-align: center">SĐT</th>
+                                    <th style="width: 20%; text-align: center">Email</th>
+                                    <th style="width: 10%; text-align: center">Ca làm</th>
+                                    <th style="width: 10%; text-align: center">Vị trí</th>
+                                    <th style="width: 20%;; text-align: center">Mức lương</th>
+                                </tr>
+                            </table>
+                        </div>
+                        <!---->
+                        <!--nội dung các cột-->
+                        <!---->
+                        <div id="table_body">
+                            <table>
+                            </table>
+                        </div>
+
+                        <!---->
+                        <!--Form cập nhật-->
+                        <!---->
+                        <div class="modal_zone">
+
+                        </div>
+
+                        <script>
+                            var height=  $("#table_body").height();
+                            if(height > 520){
+                                $("#table_header").css("padding-right","18px")
+                            }
+                        </script>
+                    </div>
+                </div>
+            </div>
+            <!---->
+            <!--thêm nhân viên mới-->
+            <!---->
+            <div id="is_making_zone" class="col-lg-4">
+                <div id="create_layout">
+                    <form action=""></form>
+                    <h2>Thêm nhân viên mới</h2>
+                    <form action="/staff/create" id="create_form" method="POST" enctype="multipart/form-data">
+                        <div class="modal_img">
+                            <input type="file" id="staffImg" name="staffImg" style="display: none;" onchange="load_staff_img(event)" />
+                            <input type="button" class="alter_input" value="Chọn ảnh" onclick="document.getElementById('staffImg').click();" />
+                            <div class="img_border">
+                                <img id="staff_img" src="" width="150px" height="150px">
+                            </div>
+                        </div>
+                        <div id="staff_info">
+                            <!---->
+                            <!--Họ tên-->
+                            <!---->
+                            <div class="input_row">
+                                <div class="input_label">
+                                    <label for="name">Họ tên</label>
+                                </div>
+                                <div class="input">
+                                    <input id ="name" placeholder="Nhập họ và tên" style="width:100%" type="text" name="name" >
+                                        <label class="error" style="display: none;"></label>
+                                </div>
+                            </div>
+                            <!---->
+                            <!--Giới tính-->
+                            <!---->
+                            <div class="input_row">    
+                                <div class="input_label">
+                                    <label for="sex">Giới tính</label>
+                                </div>
+                                <div class="input">
+                                    <select style="width:100%" id="sex" name="sex">
+                                            <option value="male">Nam</option>
+                                            <option value="female">Nữ</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!---->
+                            <!--Số điện thoại-->
+                            <!---->
+                            <div class="input_row">
+                                <div class="input_label">
+                                    <label for="phone">Số điện thoại</label>
+                                </div>
+                                <div class="input">
+                                    <input id="phone" placeholder="Nhập số điện thoại" style="width:100%" type="number" name="phone" >
+                                    <label class="error" style="display: none;"></label>
+                                </div>
+                            </div>
+                            <!---->
+                            <!--Email-->
+                            <!---->
+                            <div class="input_row">        
+                                <div class="input_label">
+                                    <label for="email">Email</label>
+                                </div>
+                                <div class="input">
+                                    <input id="email" placeholder="Nhập email" style="width:100%" type="text" name="email" >
+                                    <label class="error" style="display: none;"></label>
+                                </div>
+                            </div>
+                            <!---->
+                            <!--Ca làm-->
+                            <!---->
+                            <div class="input_row">
+                                <div class="input_label">
+                                    <label for="period">Ca làm</label>
+                                </div>
+                                <div class="input">
+                                    <select style="width:100%" id="period" name="period">
+                                        <option value="Sáng">Ca sáng</option>
+                                        <option value="Chiều">Ca chiều</option>
+                                        <option value="Tối">Ca tối</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!---->
+                            <!--Vị trí-->
+                            <!---->
+                            <div class="input_row">
+                                <div class="input_label">
+                                    <label for="position">Vị trí</label>
+                                </div>
+                                <div class="input">
+                                    <select style="width:100%" id="position" name="position">
+                                        <option value="bartender">Pha chế</option>
+                                        <option value="cashier">Thu ngân</option>
+                                        <option value="manager">Quản lý</option>
+                                        <option value="waiter">Phục vụ</option>
+                                        <option value="security">Bảo vệ</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!---->
+                            <!--mức lương-->
+                            <!---->
+                            <div class="input_row">
+                                <div class="input_label">
+                                    <label for="salary">Mức Lương</label>
+                                </div>
+                                <div class="input">
+                                    <input id="salary" placeholder="5.000.000" style="width:100%" type="number" name="salary" >
+                                    <label class="error" style="display: none;"></label>
+                                </div>
+                            </div>
+                            <!---->
+                            <!--Địa chỉ-->
+                            <!---->
+                            <div class="input_row">    
+                                <div class="input_label">
+                                    <label for="address">Địa chỉ</label>
+                                </div>
+                                <div class="input">
+                                    <input id="address" placeholder="Nhập địa chỉ" style="width:100%" type="text" name="address" >
+                                    <label class="error" style="display: none;"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="width: fit-content; margin : auto; margin-top:15px;">
+                            <button id="btn_create" type="button" style="background-color: #ed9652; font-size: 16px; color: white;" class="btn btn-default">Tạo</button>
+                        </div>
+                    </form>
+                    <script>
+                        //load ảnh
+                        function load_staff_img(event) {
+                            var reader = new FileReader();
+                            reader.onload = function () {
+                                var img = document.getElementById('staff_img');
+                                img.src = reader.result;
+                            };
+                            reader.readAsDataURL(event.target.files[0]);
+                        };
+                    </script>
+                            
+                    <script>
+                        $(document).ready(function(){
+                            $("#create_form").validate({
+                                rules:{
+                                    name:{
+                                        required: true,
+                                        minlength: 4
+                                    },
+                                    phone:{
+                                        required: true,
+
+                                    },
+                                    email:{
+                                        required:true,
+                                        email:true
+                                    },
+                                    salary:{
+                                        required:true,
+                                        number:true
+                                    },
+                                    address:{
+                                        required: true
+                                    }
+
+                                },
+                                messages:{
+                                    name:{
+                                    required:"Vui lòng nhập họ tên đầy đủ",
+                                    minlength:"Họ tên quá ngắn"
+                                    },                                            
+                                    phone:{
+                                        required:"Vui lòng nhập số điện thoại"
+                                    },
+                                    email:{
+                                        required:"Vui lòng nhập Email",
+                                        email:"Email không hợp lệ"
+                                    },
+                                    salary:{
+                                        required:"Vui lòng nhập lương cho nhân viên",
+                                        number:"phải là kiểu số"
+                                    },
+                                    address:{
+                                        required:"Vui lòng nhập địa chỉ"
+                                    }
+                                },
+                            });
+                        });
+                    </script>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script src="JS/staff.js"></script>
+</body>
+</html>

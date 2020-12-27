@@ -53,6 +53,7 @@ module.exports.login = function (req, res) {
                 res.writeHead(200, {'Content-Type': 'application/json'});
                 res.end(JSON.stringify({'msg': "success", 'id': "success"}));
             }
+            console.log(docs[0].password);
         });
     });
 }

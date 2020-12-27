@@ -1,0 +1,320 @@
+@charset "utf-8";
+
+@font-face {
+    font-family: 'main_font';
+    src: url('../../Resources/font/Yanone/Yanone-Regular.eot?#iefix') format('embedded-opentype'),  
+        url('../../Resources/font/Yanone/Yanone-Regular.woff') format('woff'), 
+        url('../../Resources/font/Yanone/Yanone-Regular.ttf')  format('truetype'), 
+        url('../../Resources/font/Yanone/Yanone-Regular.svg#Yanone/Yanone-Regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+html, body{
+    height: 100%;
+}
+
+/*background*/
+#background{
+    background-color: #ececec;
+    height: 100%;
+}
+
+/*navigation bar*/
+#module_nav{
+    width: 100%;
+    height: 50px;
+}
+
+/*main part*/
+#body{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    padding-top: 75px;
+    font-family: main_font;
+}
+
+
+/*Vùng hiển thị các thông báo*/
+.alert_box{
+    width: 250px;
+    float: right;
+    height: fit-content;
+    padding: 5px;
+}
+.alert{
+    z-index: 10000;
+    margin-bottom: 10px !important;
+    box-shadow: 0 0 5px cadetblue;
+}
+
+/**/
+/**/
+/**/
+/**/
+/*Bảng danh sách đơn*/
+#queue_zone{
+    padding: 15px 0 0 15px;
+
+}
+
+#queue_layout{
+    background-color: white;
+}
+
+/*header*/
+#header{
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    background-color: #ececec;
+}
+
+#header input, select{
+    height: 30px;
+    width: 150px;
+    font-size: 18px;
+    border: solid 2px #ed9652;
+}
+
+/*bảng đơn hàng*/
+
+#table_queue{
+    border: solid 3px #ed9652;
+}
+#table_queue table{
+    width: 100%;
+}
+
+/*table header*/
+#table_header{
+    border-bottom: solid 3px #ed9652; 
+    height: 30px; 
+    font-size: 18px; 
+    font-weight:bold; 
+}
+#table_body{
+    overflow-y: auto;
+    max-height: 530px;
+}
+
+#table_queue th{
+    text-align: center;
+}
+#table_queue td{
+    text-align: center;
+    border: solid 1px #ed9652;
+    font-size: 18px;
+    height: 40px ;
+
+}
+#table_queue p{
+    margin: 10px 0 10px 0px
+}
+#table_queue span{
+    color: #ed9652;
+    font-weight: bold;
+}
+#info_layout{
+    margin:0 0 20px 20px;
+    width: 70%;
+}
+#img_layout{
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    align-items: center;
+    width: fit-content;
+}
+
+/*nút cập nhật*/
+.btn{
+    width: 65px;
+    font-size: 18px !important;
+    padding: 5px 0 !important;
+    color: white !important;
+}
+.btn_update{
+    background-color: #ed9652 !important;
+}
+/**/
+/**/
+/**/
+/**/
+/*đơn đang pha chế*/
+
+#is_making_zone{
+    padding: 15px 15px 0 15px;
+
+}
+
+#is_making_layout{
+    height: 100%;
+    padding: 15px;
+    background-color: white;
+}
+
+#is_making_layout h2{
+    margin: 0;
+    color: #ed9652;
+}
+/*tên khách, ghi chú*/
+.info_row{
+    display: flex;
+    flex-direction: row;
+    margin: 15px 0 15px 0;
+}
+.key{
+    width: 30%;
+    font-size: 22px;
+    font-weight: bold;
+}
+.value{
+    width: 70%;
+    font-size: 20px;
+    font-weight: bold;
+    color: #ed9652;
+}
+
+/*món đang làm*/
+
+#drinks{
+    min-height: 250px;
+    max-height: 350px;
+    overflow: auto;
+    max-height: 350px;
+    border-top: solid 2px #ed9652;
+    border-bottom: solid 2px #ed9652;
+}
+#drinks ul {
+    margin: 0;
+    padding: 0 25px 0 25px;
+}
+
+#drinks ul li{
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 0 10px 0 10px; 
+    margin: 15px 0 20px 0;
+    box-shadow: 0 5px rgb(231, 225, 225);
+}
+.drink{
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+}
+
+.drink span{
+    color: #ed9652;
+}
+.check{
+    width: 20%;
+}
+.check input{
+    height: 20px;
+    width: 20px;
+}
+
+#submit{
+    background-color: #ed9652; 
+    font-size: 18px; 
+    color:white;
+    border: none;
+    padding: 5px 15px 5px 15px;
+}
+/*upload hình*/
+.modal_img{
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+    align-items: center;
+}
+#alter_input{
+    margin-top: 15px;
+    background: green;
+    color: white;
+    float: left;
+    font-size: 16px;
+    border: none;
+    margin-right: 20px;
+}
+#new_drink .modal_img{
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+#new_drink .modal_img input{
+    margin-right: 15px;
+    height: 30px;
+    width: 70px;
+}
+.img_border{
+    width: 150px;
+    height: 150px;
+    border:solid 1px #ed9652;
+}
+/*thêm thông tin nhân viên*/
+.input_row{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 15px;
+}
+.input_label{
+    width: 35%;
+    font-size: 18px;
+}
+.input{
+    width: 65%;
+}
+.input input{
+    width: 100%;
+    font-size: 18px;
+    border: solid 2px #ed9652;
+}
+#is_making_zone .modal_img{
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+#is_making_zone .modal_img input{
+    margin-right: 15px;
+    height: 30px;
+    width: 70px;
+}
+#create_layout{
+    background-color: white;
+    max-height: 650px;
+    overflow: auto;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+}
+#create_layout h2{
+    color: #ed9652;
+    font-size: 30px;
+    margin: 0;
+}
+
+.staff_info{
+    width: 70%;
+    margin-left: 25px;
+    display: flex;
+    flex-direction: column;
+}
+.staff_info h3{
+    margin: 0;
+    font-size: 25px;
+}
+label.error{
+    color: tomato;
+}

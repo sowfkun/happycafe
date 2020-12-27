@@ -3,20 +3,12 @@ var Order = require("../models/order_model");
 module.exports.orderShow = function (req, res) {
 
     var staff = res.locals.staff;
-
-    Order.find({
-        status: "waiting"
-    }, {
-        _id: 0,
-        __v: 0
-    }).sort({
-        'time_begin': 1
-    }).then((orders) => {
-        res.render("order", {
-            staff: staff,
-            orders: orders
-        });
+    var orders = {};
+    res.render("order", {
+        staff: staff,
+        orders: orders
     });
+    
 }
 
 module.exports.selectOrder = function (req, res) {
@@ -43,6 +35,18 @@ module.exports.selectOrder = function (req, res) {
         res.writeHead(200, {'Content-Type': 'application/json'});
         res.end(JSON.stringify({"data": orders}));
     });
+
+    // {
+    //     $project: {
+    //         _id: 0,
+    //         date: { $dateToString: {
+    //                 date: "$time_begin",
+    //                 timezone: "Asia/Ho_Chi_Minh"
+    //                 } },
+    //         status: 1
+            
+    //     }
+    // }
 }
 
 module.exports.confirmOrder = async function (req, res) {
