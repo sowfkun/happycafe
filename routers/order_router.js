@@ -5,9 +5,11 @@ const router = express.Router();
 var checkLogin = require('../middleware/loginCheck');
 
 const orderManageCtrler= require('../controllers/order_manage_ctrler')
-
-router.get('/', checkLogin.allowAll, orderManageCtrler.orderShow); 
+//Render trang quản lí order
+router.get('/', checkLogin.allowAll, orderManageCtrler.orderShow);
+//Xem order theo ngày
 router.post('/selectOrder', checkLogin.allowAll, orderManageCtrler.selectOrder); 
+//Xác nhận hoàn tất order
 router.post('/confirmOrder', checkLogin.allowAll, orderManageCtrler.confirmOrder); 
 
 module.exports = router;

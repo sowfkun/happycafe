@@ -317,4 +317,5 @@ html, body{
 }
 label.error{
     color: tomato;
+    margin: 0!important;
 }
