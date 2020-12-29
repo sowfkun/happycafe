@@ -19,7 +19,7 @@ var staffSchema = new mongoose.Schema({
   },
   position: {
     type: String,
-    enum: ["manager", "bartender", "cashier", "waiter", "security"],
+    enum: ["manager", "bartender", "cashier", "waiter", "security", "admin"],
     required: [true, 'position is required']
   },
   salary: {

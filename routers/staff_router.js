@@ -18,15 +18,14 @@ const staffCtrler= require('../controllers/staff_ctrler');
 
 //middleware kiểm tra đăng nhập
 var checkLogin = require('../middleware/loginCheck');
-
 //render trang staff
-router.get('/', checkLogin.managerOnly, staffCtrler.staff); 
+router.get('/', checkLogin.adminOnly, staffCtrler.staff); 
 //get staff data
-router.post('/getstaff', checkLogin.managerOnly, staffCtrler.getStaff);
+router.post('/getstaff', checkLogin.adminOnly, staffCtrler.getStaff);
 //create staff
-router.post('/create', checkLogin.managerOnly, upload.single('staffImg'), staffCtrler.create);
+router.post('/create', checkLogin.adminOnly, upload.single('staffImg'), staffCtrler.create);
 //edit staff
-router.post('/update', checkLogin.managerOnly, upload.single('new_img'), staffCtrler.update);
+router.post('/update', checkLogin.adminOnly, upload.single('new_img'), staffCtrler.update);
 
 
 module.exports = router;

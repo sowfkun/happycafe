@@ -29,7 +29,7 @@ var upload = multer({
 router.get('/', checkLogin.managerOnly, drinkCtrler.manage);
 //update
 router.post('/update', checkLogin.managerOnly, upload.single('new_img'), drinkCtrler.update);
-//tạo mới
+//create
 router.post('/create', checkLogin.managerOnly, upload.single('drinkImg'), drinkCtrler.create);
 //create category
 router.post('/categoryCreate', checkLogin.managerOnly, drinkCtrler.categoryCreate);
