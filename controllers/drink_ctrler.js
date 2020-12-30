@@ -254,12 +254,6 @@ module.exports.categoryCreate = function (req, res) {
 //update category
 //
 module.exports.categoryUpdate = async function (req, res) {
-    //kiểm tra đăng nhập
-    var staff = res.locals.staff;
-    if(res.locals.isLogin == false || staff.position !== "manager"){
-        res.end(JSON.stringify({"msg":'require login'}));
-        return;
-    } 
 
     var data = req.body;
     console.log(data);

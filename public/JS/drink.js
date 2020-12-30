@@ -216,9 +216,9 @@ function update_category(id) {
             alertFail(data.id, msg);
             var check = $("#input_" + id).prop("checked");
             if (check == true){
-                $("#input_" + data.id).prop("checked",false)
+                $("#input_" + id).prop("checked",false)
             } else {
-                $("#input_" + data.id).prop("checked",true)
+                $("#input_" + id).prop("checked",true)
             }
         }
     }).fail(function() {
