@@ -85,6 +85,10 @@ function render(data) {
     $("#table_body table tr").remove();
     if (data.length == 0) {
         $("#table_body table").append(`<tr class="no-data"><td>Không có dữ liệu</td></tr>`);
+        $("#customer_name").text("");
+        $("#note").text("");
+        $("#drinks ul").text("");
+        $("#orderDone").val("")
         return;
     }
 

@@ -47,7 +47,6 @@ module.exports.managerOnly = async (req, res, next) => {
     //nếu có, kiểm tra id có trong database hay không (tránh trường hợp thay đổi bừa cookies)
     //kiểm tra có phải manager hay không
     var staff = await Staff.find({staff_id: id}, {_id: 0});
-    console.log(staff);
     if(staff.length == 0 || (staff[0].position !== "manager" && staff[0].position !== "admin")) {
         console.log("fail")
         res.redirect('back');

@@ -27,9 +27,11 @@ function getStaff(status){
         var staffs = data.data;
         $("#table_body table").text("");    
         $(".modal_zone").text("");              
-        staffs.forEach((staff) => {
-            renderUser(staff);
+        staffs.forEach((staff, index) => {
+            renderUser(staff, index);
         });
+        $(".staff_admin").text("");
+        $(".staff_admin").append('<option value="admin">Admin</option>')
     }).fail(function () {
         alertFail("abc", "Yêu cầu không thể thực hiện");
     });
@@ -38,7 +40,7 @@ function getStaff(status){
 //
 //function render new user
 //
-function renderUser(data){
+function renderUser(data, index){
     //
     //Giới tính
     //
@@ -67,8 +69,7 @@ function renderUser(data){
     //
     //Đổi màu background xen kẽ
     //
-    var index = data.staff_id.match(/[\p{L}-]+[a-zA-Z]+|[0-9]+/ug);
-    var index = parseInt(index[1].slice(4));
+    
     if(index % 2 !== 0){
         var color = `
             <tr style="background-color: #ffeadb" class="row_queue info_${data.staff_id}" id="row_${index}" onclick="showEdit('${data.staff_id}')">
@@ -234,6 +235,7 @@ function renderUser(data){
                                 <label id="position_err_${data.staff_id}" class="error" style="display: none;"></label>
                                 <script>
                                     $("#position_${data.staff_id}").val('${data.position}');
+                                   
                                 </script>
                             </div>
                         </div>
@@ -261,13 +263,31 @@ function renderUser(data){
                                 <label id="address_err_${data.staff_id}" class="error" style="display: none;"></label>
                             </div>
                         </div>
+                        <!---->
+                        <!--Tình trạng làm việc-->
+                        <!---->
+                        <div class="input_row" style="margin: 0;margin-bottom: 15px;">
+                            <div class="input_label">
+                                <label for="position">Tình trạng</label>
+                            </div>
+                            <div class="input">
+                                <select style="width: 100%" id="status_${data.staff_id}" name="status" onchange="enableBtn('${data.staff_id}')">
+                                    <option value="resign">Đã nghỉ</option>
+                                    <option value="working">Đang làm việc</option>
+                                </select>
+                                <script>
+                                    $("#status_${data.staff_id}").val('${data.status}');
+                                </script>
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
                 <!--button submit edit-->
                 <div class="modal-footer">
-                    <button type="button" id= "btn_${data.staff_id}"  class="btn btn-default btn-cancel" data-dismiss="modal"
+                    <button type="button" id= "btn_${data.staff_id}"  class="btn btn_modal btn-default btn-cancel" data-dismiss="modal"
                         onclick="cancelUpdate('${data.staff_id}')" style="background-color: red;">Hủy</button>
-                    <button id="btn_update_${data.staff_id}" class="btn btn-default btn_update" disabled type=""
+                    <button id="btn_update_${data.staff_id}" class="btn btn-default btn_modal btn_update" disabled type=""
                         onclick="updateStaff('${data.staff_id}')">Cập nhật</button>
                 </div>
             </div>
@@ -281,7 +301,7 @@ function renderUser(data){
     $(".modal_zone").append(modal_element);
 
 }
-
+ 
 //
 //function show form edit
 //
@@ -303,7 +323,21 @@ $("#btn_create").on("click", function (){
     //kiểm tra xem có ảnh chưa
     var img = $("#staffImg").val();
     if(img == ""){
-        alertFail("img","Bạn chưa chọn ảnh")
+        alertFail("img","Bạn chưa chọn ảnh");
+        return;
+    }
+
+    var phone = $("#create_phone").val();
+    var phone_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
+    if (phone_regex.test(phone) == false) {
+        alertFail("img","Số điện thoại không hợp lệ");
+        return;
+    }   
+
+    var email = $("#create_email").val();
+    var mail_regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if(mail_regex.test(email) == false){
+        alertFail("img","email không hợp lệ");
         return;
     }
     //lấy dữ liệu từ form
@@ -328,7 +362,9 @@ $("#btn_create").on("click", function (){
 
         if(data.msg == "success"){
             alertSuccess("success","Tạo user thành công")
-            renderUser(data.data);
+            var index = $("#table_body .row_queue").length;
+            renderUser(data.data, index);
+            document.getElementById("create_form").reset();
         }
     }).fail(function() {
         alertFail("fail", "Yêu cầu không thể thực hiện")

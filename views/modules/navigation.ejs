@@ -65,9 +65,15 @@
                           <i class="glyphicon glyphicon-briefcase"></i>&ensp;Quản lí<br/>
                         <% } else if(staff.position == "cashier") { %>
                           <i class="glyphicon glyphicon-briefcase"></i>&ensp;Thu ngân<br/>
-                        <% } else { %>
+                        <% } else if(staff.position == "security") { %>
+                          <i class="glyphicon glyphicon-briefcase"></i>&ensp;Bảo vệ<br/>
+                        <% } else if(staff.position == "waiter") { %>
+                          <i class="glyphicon glyphicon-briefcase"></i>&ensp;Phục vụ<br/>
+                        <% } else if(staff.position == "bartender") { %>
                           <i class="glyphicon glyphicon-briefcase"></i>&ensp;Pha chế<br/>
-                        <% } %> 
+                        <% } else if(staff.position == "admin") { %>
+                          <i class="glyphicon glyphicon-briefcase"></i>&ensp;Admin<br/>
+                        <% } %>
                         <span style="display: inline-block; width: 100px;"><i class="glyphicon glyphicon-time"></i>&ensp;Ca <%-staff.period %> &emsp;</span>
                         <i class="glyphicon glyphicon-euro" style="font-size: 15px;">&ensp;<%=staff.salary.toLocaleString() %>đ</i> 
                       </p>

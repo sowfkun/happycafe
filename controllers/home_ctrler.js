@@ -83,9 +83,8 @@ module.exports.createOrder = function (req, res) {
 
         finalItems.push(newItem);
     });
-
+    console.log(finalItems);
     var now = Date.now();
-    console.log(now)
     //lấy thời gian kiểu sô làm id
     var id = "order_" + now;
 
