@@ -25,6 +25,7 @@ jobs:
           fingerprints:
             - "0d:e7:65:fb:eb:db:14:66:c0:eb:21:22:39:31:d3:38"
       - run: ssh-keyscan 52.139.201.17 >> ~/.ssh/known_hosts
+      
       - run:
           name: Deploy over SSH
           command: ssh happycafe@52.139.201.17 "cd /home/happycafe/source/happycafe/webapp_frontend; git pull; docker restart nodejs;";
