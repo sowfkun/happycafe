@@ -177,6 +177,7 @@ module.exports.create = async function(req,res){
 //Update user
 //
 module.exports.update = async function(req, res){
+    
     //lấy tên hình ảnh
     var img = typeof(req.file) !== "undefined" ? req.file.filename : "";
     //các trường dữ liệu khác
@@ -199,7 +200,7 @@ module.exports.update = async function(req, res){
         return;
     }
     //Vị trí công việc chỉ bao gồm các giá trị sau
-    var arrPosition = ["bartender", "manager", "cashier", "waiter", "security"];
+    var arrPosition = ["bartender", "manager", "cashier", "waiter", "security", "admin"];
     var position = arrPosition.includes(data.position) == true ? data.position : "err";
     console.log(position);
     //Mức lương phải từ 3 triệu trở lên
@@ -207,9 +208,10 @@ module.exports.update = async function(req, res){
     //Địa chỉ
     var address = data.address.replace(/[\r\n]+/g," ").replace( /  +/g, ' ' ).trim();
     var address = address !== ""? address : "err";
+    var status = data.status == "resign" || data.status == "working" ? data.status : "err";
     console.log(address);
     //Kiểm tra các giá trị, không hợp lệ thì hủy cập nhật
-    var testArr = [id, period, position, salary, address];
+    var testArr = [id, period, position, salary, address, status];
     if (testArr.includes("err") == true) {
         //nếu có chọn ảnh mà các giá trị khác sai thì xóa ảnh
         if (img !== "") {
@@ -223,16 +225,13 @@ module.exports.update = async function(req, res){
     }
 
     //
-    //Kiểm tra email và phone có tồn tại chưa
-    //
-    //
     //kiểm tra số điện thoại, email đã tồn tại hay chưa
     // 
     var msg1 = "";
     var msg2 = "";
     var flag = await Promise.all([
        Staff.find({phone: parseInt(phone)},{_id: 0, staff_id:1, phone: 1}),
-       Staff.find({email: email},{_id: 0, staff_id:1, email: 1})
+       Staff.find({email: email},{_id: 0, staff_id: 1, email: 1})
     ]).then(([phone, email]) => {
         var flag = 0;
         console.log(phone)
@@ -274,6 +273,7 @@ module.exports.update = async function(req, res){
                 email: email,
                 period: period,
                 address: address,
+                status: status,
                 img: img
             }
         }
@@ -285,7 +285,8 @@ module.exports.update = async function(req, res){
                 phone: parseInt(phone),
                 email: email,
                 period: period,
-                address: address
+                address: address,
+                status: status
             }
         }
     }

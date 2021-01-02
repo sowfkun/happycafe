@@ -1,5 +1,15 @@
 var date = new Date();
-currentDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+if (date.getDate() < 10) {
+    var day = "0" + date.getDate();
+} else {
+    var day = date.getDate();
+}
+if (date.getMonth() < 10) {
+    var month = "0" + (date.getMonth() + 1) ;
+} else {
+    var month = date.getMonth() + 1;
+}
+currentDate = date.getFullYear() + "-" + month + "-" + day;
 $(".select_date").val(currentDate);
 
 var curentWeek = getWeek(date);

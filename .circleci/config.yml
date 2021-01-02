@@ -23,11 +23,11 @@ jobs:
     steps:
       - add_ssh_keys:
           fingerprints:
-            - "9f:09:89:34:dd:89:53:33:57:3d:90:55:80:a8:36:e3"
-      - run: ssh-keyscan 104.215.156.233 >> ~/.ssh/known_hosts
+            - "0d:e7:65:fb:eb:db:14:66:c0:eb:21:22:39:31:d3:38"
+      - run: ssh-keyscan 52.139.201.17 >> ~/.ssh/known_hosts
       - run:
           name: Deploy over SSH
-          command: ssh vuong_truong@104.215.156.233 "cd /home/vuong_truong/app/cloud_computing/webapp_frontend; git pull; sudo docker restart nodejs;";
+          command: ssh happycafe@52.139.201.17 "cd /home/happycafe/source/happycafe/webapp_frontend; git pull; docker restart nodejs;";
 
 workflows:
   demo:

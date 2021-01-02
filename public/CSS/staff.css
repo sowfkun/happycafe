@@ -129,7 +129,7 @@ html, body{
 }
 
 /*nút cập nhật*/
-.btn{
+.btn_modal{
     width: 65px;
     font-size: 18px !important;
     padding: 5px 0 !important;

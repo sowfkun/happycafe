@@ -72,6 +72,11 @@ module.exports.dashboard = async function (req, res) {
             $unset: ["status", "month", "year"]
         }
     ]).then( async results => {
+
+        //Đầu tháng chưa có đơn hàng
+        if(results.length == 0){
+            return [];
+        }
         var item = {};
         results.forEach(result=>{
             result.drink_id.forEach((drink_id, index) => {
@@ -82,11 +87,23 @@ module.exports.dashboard = async function (req, res) {
                 }
             });
         });
+
         let Sorted = Object.entries(item).sort((prev, next) => prev[1] - next[1]);
-        console.log(Sorted);
-        var first = Sorted[Sorted.length - 1];
-        var second = Sorted[Sorted.length - 2];
-        var third = Sorted[Sorted.length - 3];
+        if (Sorted.length == 1){
+            var first = Sorted[Sorted.length - 1];
+            var match = {drink_id : first[0]}
+        } else if(Sorted.length == 2){
+            var first = Sorted[Sorted.length - 1];
+            var second = Sorted[Sorted.length - 2];
+            var match = {$or: [{drink_id : first[0]}, {drink_id : second[0]}]}
+        } else {
+            var first = Sorted[Sorted.length - 1];
+            var second = Sorted[Sorted.length - 2];
+            var third = Sorted[Sorted.length - 3];
+
+            var  match = {$or: [{drink_id : first[0]}, {drink_id : second[0]}, {drink_id : third[0]}]}
+        }
+       
 
         var drinkTMP = await Drink.aggregate([
             {
@@ -98,9 +115,12 @@ module.exports.dashboard = async function (req, res) {
                 }
             },
             { 
-                $match: {$or: [{drink_id : first[0]}, {drink_id : second[0]}, {drink_id : third[0]}]}
+                $match: match
             }
         ]).then(results => {
+            if( results.length == 0){
+                return {};
+            }
             var arr = [];
             results.forEach(result => {
                 if(result.drink_id == first[0]){
